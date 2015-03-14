@@ -1,2 +1,2 @@
-# ketai
-Ketai Library Source for Processing Android
+# ketai library source
+The ketai library for Processing Android source
