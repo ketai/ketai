@@ -86,7 +86,6 @@ public class KetaiSensor implements SensorEventListener {
 			onAccelerometerEventMethodSimple, onOrientationSensorEventMethod,
 			onOrientationSensorEventMethodSimple, onGyroscopeSensorEventMethod,
 			onGyroscopeSensorEventMethodSimple,
-
 			onMagneticFieldSensorEventMethod,
 			onMagneticFieldSensorEventMethodSimple, onLightSensorEventMethod,
 			onLightSensorEventMethodSimple, onProximitySensorEventMethod,
@@ -98,7 +97,10 @@ public class KetaiSensor implements SensorEventListener {
 			onGravitySensorEventMethod, onGravitySensorEventMethodSimple,
 			onLinearAccelerationSensorEventMethod,
 			onLinearAccelerationSensorEventMethodSimple,
-			onAmbientTemperatureEventMethod, onRelativeHumidityEventMethod;
+			onAmbientTemperatureEventMethod, onRelativeHumidityEventMethod,
+			onGameRotationEventMethod, onGeomagneticRotationVectorEventMethod,
+			onHeartRateEventMethod, onSignificantMotionEventMethod,
+			onStepCounterEventMethod, onStepDetectorEventMethod;
 
 	/** The relative humidity sensor enabled. */
 	private boolean accelerometerSensorEnabled, magneticFieldSensorEnabled,
@@ -107,7 +109,10 @@ public class KetaiSensor implements SensorEventListener {
 			temperatureSensorEnabled, gyroscopeSensorEnabled,
 			rotationVectorSensorEnabled, linearAccelerationSensorEnabled,
 			gravitySensorEnabled, ambientTemperatureSensorEnabled,
-			relativeHumiditySensorEnabled;
+			relativeHumiditySensorEnabled, gameRotationSensorEnabled,
+			geomagneticRotationVectorSensorEnabled, heartRateSensorEnabled,
+			significantMotionSensorEnabled, stepCounterSensorEnabled,
+			stepDetectorSensorEnabled;
 
 	/** The time of last update. */
 	private long delayInterval, timeOfLastUpdate;
@@ -235,7 +240,7 @@ public class KetaiSensor implements SensorEventListener {
 	}
 
 	/**
-	 * Disablelinear acceleration.
+	 * Disable linear acceleration.
 	 */
 	public void disablelinearAcceleration() {
 		linearAccelerationSensorEnabled = false;
@@ -305,7 +310,7 @@ public class KetaiSensor implements SensorEventListener {
 	}
 
 	/**
-	 * Disable amibent temperature.
+	 * Disable ambient temperature.
 	 */
 	public void disableAmibentTemperature() {
 		ambientTemperatureSensorEnabled = false;
@@ -319,7 +324,7 @@ public class KetaiSensor implements SensorEventListener {
 	}
 
 	/**
-	 * Enable amibent temperature.
+	 * Enable ambient temperature.
 	 */
 	public void enableAmibentTemperature() {
 		ambientTemperatureSensorEnabled = true;
@@ -333,10 +338,95 @@ public class KetaiSensor implements SensorEventListener {
 	}
 
 	/**
+	 * Enable Step counter sensor.
+	 */
+	public void enableStepDetectorSensor() {
+		stepDetectorSensorEnabled = true;
+	}
+
+	/**
+	 * Disable Step counter sensor.
+	 */
+	public void disableStepDetectorSensor() {
+		stepDetectorSensorEnabled = false;
+	}
+
+	/**
+	 * Enable Step counter sensor.
+	 */
+	public void enableStepCounterSensor() {
+		stepCounterSensorEnabled = true;
+	}
+
+	/**
+	 * Disable Step counter sensor.
+	 */
+	public void disableStepCounterSensor() {
+		stepCounterSensorEnabled = false;
+	}
+
+	/**
+	 * Enable Significant Motion sensor.
+	 */
+	public void enableSignificantMotionSensor() {
+		significantMotionSensorEnabled = true;
+	}
+
+	/**
+	 * Disable Significant Motion sensor.
+	 */
+	public void disableSignificantMotionSensor() {
+		significantMotionSensorEnabled = false;
+	}
+
+	/**
+	 * Enable heart rate sensor.
+	 */
+	public void enableHeartRateSensor() {
+		heartRateSensorEnabled = true;
+	}
+
+	/**
+	 * Disable heart rate sensor.
+	 */
+	public void disableHeartRateSensor() {
+		heartRateSensorEnabled = false;
+	}
+
+	/**
+	 * Enable geomagnetic rotation sensor.
+	 */
+	public void enableGeomagneticRotationVectorSensor() {
+		geomagneticRotationVectorSensorEnabled = true;
+	}
+
+	/**
+	 * Disable geomagnetic rotation sensor.
+	 */
+	public void disableGeomagneticRotationVectorSensor() {
+		geomagneticRotationVectorSensorEnabled = false;
+	}
+
+	/**
+	 * Enable ambient game rotation sensor.
+	 */
+	public void enableGameRotationSensor() {
+		gameRotationSensorEnabled = true;
+	}
+
+	/**
+	 * Disable game rotation sensor.
+	 */
+	public void disableGameRotationSensor() {
+		gameRotationSensorEnabled = false;
+	}
+
+	/**
 	 * Enable all sensors.
 	 */
+
 	public void enableAllSensors() {
-		accelerometerSensorEnabled = magneticFieldSensorEnabled = orientationSensorEnabled = proximitySensorEnabled = lightSensorEnabled = pressureSensorEnabled = temperatureSensorEnabled = gyroscopeSensorEnabled = linearAccelerationSensorEnabled = rotationVectorSensorEnabled = ambientTemperatureSensorEnabled = relativeHumiditySensorEnabled = true;
+		accelerometerSensorEnabled = magneticFieldSensorEnabled = orientationSensorEnabled = proximitySensorEnabled = lightSensorEnabled = pressureSensorEnabled = temperatureSensorEnabled = gyroscopeSensorEnabled = linearAccelerationSensorEnabled = rotationVectorSensorEnabled = ambientTemperatureSensorEnabled = relativeHumiditySensorEnabled = gameRotationSensorEnabled = geomagneticRotationVectorSensorEnabled = heartRateSensorEnabled = significantMotionSensorEnabled = stepCounterSensorEnabled = stepDetectorSensorEnabled = true;
 	}
 
 	/**
@@ -445,6 +535,63 @@ public class KetaiSensor implements SensorEventListener {
 	 */
 	public boolean isRelativeHumidityAvailable() {
 		return isSensorSupported(Sensor.TYPE_RELATIVE_HUMIDITY);
+	}
+
+	/**
+	 * Checks if is step detector sensor is available.
+	 * 
+	 * @return true, if heart rate sensor is available
+	 */
+	public boolean isStepDetectorAvailable() {
+		return isSensorSupported(Sensor.TYPE_STEP_DETECTOR);
+	}
+
+	/**
+	 * Checks if is step counter sensor is available.
+	 * 
+	 * @return true, if step counter sensor is available
+	 */
+	public boolean isStepCounterAvailable() {
+		return isSensorSupported(Sensor.TYPE_STEP_COUNTER);
+	}
+
+	/**
+	 * Checks if is significant motion sensor is available.
+	 * 
+	 * @return true, if significant motion sensor is available
+	 */
+	public boolean isSignificantMotionAvailable() {
+		return isSensorSupported(Sensor.TYPE_SIGNIFICANT_MOTION);
+	}
+
+	/**
+	 * Checks if is heart rate sensor is available.
+	 * 
+	 * @return true, if heart rate sensor is available
+	 */
+
+	// Android 5.0-specific....
+	//
+	// public boolean isHeartRateAvailable() {
+	// return isSensorSupported(Sensor.TYPE_HEART_RATE);
+	// }
+
+	/**
+	 * Checks if is geomagnetic rotation vector sensor is available.
+	 * 
+	 * @return true, if geomagnetic rotation vector sensor is available
+	 */
+	public boolean isGeomagneticRotationVectorAvailable() {
+		return isSensorSupported(Sensor.TYPE_GEOMAGNETIC_ROTATION_VECTOR);
+	}
+
+	/**
+	 * Checks if is game rotation sensor is available.
+	 * 
+	 * @return true, if game rotation sensor is available
+	 */
+	public boolean isGameRotationAvailable() {
+		return isSensorSupported(Sensor.TYPE_GAME_ROTATION_VECTOR);
 	}
 
 	/**
@@ -566,6 +713,55 @@ public class KetaiSensor implements SensorEventListener {
 				sensorManager.registerListener(this, s,
 						SensorManager.SENSOR_DELAY_UI);
 		}
+
+		if (stepDetectorSensorEnabled) {
+			Sensor s = sensorManager
+					.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR);
+			if (s != null)
+				sensorManager.registerListener(this, s,
+						SensorManager.SENSOR_DELAY_UI);
+		}
+
+		if (stepCounterSensorEnabled) {
+			Sensor s = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
+			if (s != null)
+				sensorManager.registerListener(this, s,
+						SensorManager.SENSOR_DELAY_UI);
+		}
+
+		if (significantMotionSensorEnabled) {
+			Sensor s = sensorManager
+					.getDefaultSensor(Sensor.TYPE_SIGNIFICANT_MOTION);
+			if (s != null)
+				sensorManager.registerListener(this, s,
+						SensorManager.SENSOR_DELAY_UI);
+		}
+
+		// Android 5.0-specific....
+		//
+		// if (heartRateSensorEnabled) {
+		// Sensor s = sensorManager.getDefaultSensor(Sensor.TYPE_HEART_RATE);
+		// if (s != null)
+		// sensorManager.registerListener(this, s,
+		// SensorManager.SENSOR_DELAY_UI);
+		// }
+
+		if (geomagneticRotationVectorSensorEnabled) {
+			Sensor s = sensorManager
+					.getDefaultSensor(Sensor.TYPE_GEOMAGNETIC_ROTATION_VECTOR);
+			if (s != null)
+				sensorManager.registerListener(this, s,
+						SensorManager.SENSOR_DELAY_UI);
+		}
+
+		if (gameRotationSensorEnabled) {
+			Sensor s = sensorManager
+					.getDefaultSensor(Sensor.TYPE_GAME_ROTATION_VECTOR);
+			if (s != null)
+				sensorManager.registerListener(this, s,
+						SensorManager.SENSOR_DELAY_UI);
+		}
+
 		isRegistered = true;
 	}
 
@@ -981,6 +1177,108 @@ public class KetaiSensor implements SensorEventListener {
 				}
 			}
 		}
+
+		if (arg0.sensor.getType() == Sensor.TYPE_STEP_DETECTOR
+				&& stepDetectorSensorEnabled) {
+			if (onStepDetectorEventMethod != null) {
+				try {
+					onStepDetectorEventMethod.invoke(callbackdelegate,
+							new Object[] {});
+					timeOfLastUpdate = now;
+					return;
+				} catch (Exception e) {
+					PApplet.println("Error onStepDetectorEventMethod():"
+							+ e.getMessage());
+					e.printStackTrace();
+				}
+			}
+		}
+
+		if (arg0.sensor.getType() == Sensor.TYPE_STEP_COUNTER
+				&& stepCounterSensorEnabled) {
+			if (onStepCounterEventMethod != null) {
+				try {
+					onStepCounterEventMethod.invoke(callbackdelegate,
+							new Object[] { arg0.values[0] });
+					timeOfLastUpdate = now;
+					return;
+				} catch (Exception e) {
+					PApplet.println("Error onStepCounterEventMethod():"
+							+ e.getMessage());
+					e.printStackTrace();
+				}
+			}
+		}
+
+		if (arg0.sensor.getType() == Sensor.TYPE_SIGNIFICANT_MOTION
+				&& significantMotionSensorEnabled) {
+			if (onSignificantMotionEventMethod != null) {
+				try {
+					PApplet.println("significant motion data: ");
+					PApplet.println(arg0);
+					onSignificantMotionEventMethod.invoke(callbackdelegate,
+							new Object[] {});
+					timeOfLastUpdate = now;
+					return;
+				} catch (Exception e) {
+					PApplet.println("Error onSignificantMotionEventMethod():"
+							+ e.getMessage());
+					e.printStackTrace();
+				}
+			}
+		}
+
+		// Android 5.0-specific (it's coming!)
+		//
+		// if (arg0.sensor.getType() == Sensor.TYPE_HEART_RATE
+		// && heartRateSensorEnabled) {
+		// if (onHeartRateEventMethod != null) {
+		// try {
+		// onHeartRateEventMethod.invoke(callbackdelegate,
+		// new Object[] { arg0.values[0] });
+		// timeOfLastUpdate = now;
+		// return;
+		// } catch (Exception e) {
+		// PApplet.println("Error onHeartRateEventMethod():"
+		// + e.getMessage());
+		// e.printStackTrace();
+		// }
+		// }
+		// }
+
+		if (arg0.sensor.getType() == Sensor.TYPE_GEOMAGNETIC_ROTATION_VECTOR
+				&& geomagneticRotationVectorSensorEnabled) {
+			if (onGeomagneticRotationVectorEventMethod != null) {
+				try {
+					onGeomagneticRotationVectorEventMethod.invoke(
+							callbackdelegate, new Object[] { arg0.values[0],
+									arg0.values[1], arg0.values[2] });
+					timeOfLastUpdate = now;
+					return;
+				} catch (Exception e) {
+					PApplet.println("Error onGeomagneticRotationVectorEventMethod():"
+							+ e.getMessage());
+					e.printStackTrace();
+				}
+			}
+		}
+
+		if (arg0.sensor.getType() == Sensor.TYPE_GAME_ROTATION_VECTOR
+				&& gameRotationSensorEnabled) {
+			if (onGameRotationEventMethod != null) {
+				try {
+					onGameRotationEventMethod.invoke(callbackdelegate,
+							new Object[] { arg0.values[0], arg0.values[1],
+									arg0.values[2] });
+					timeOfLastUpdate = now;
+					return;
+				} catch (Exception e) {
+					PApplet.println("Error onGameRotationEventMethod():"
+							+ e.getMessage());
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 
 	/*
@@ -1250,6 +1548,56 @@ public class KetaiSensor implements SensorEventListener {
 		} catch (NoSuchMethodException e) {
 		}
 
+		try {
+			onStepDetectorEventMethod = o.getClass().getMethod(
+					"onStepDetectorEvent", new Class[] {});
+			stepDetectorSensorEnabled = true;
+			PApplet.println("Found onStepDetectorEvent...");
+		} catch (NoSuchMethodException e) {
+		}
+
+		try {
+			onStepCounterEventMethod = o.getClass().getMethod(
+					"onStepCounterEvent", new Class[] { float.class });
+			stepCounterSensorEnabled = true;
+			PApplet.println("Found onStepCounterEvent...");
+		} catch (NoSuchMethodException e) {
+		}
+
+		try {
+			onSignificantMotionEventMethod = o.getClass().getMethod(
+					"onSignificantMotionEvent", new Class[] {});
+			significantMotionSensorEnabled = true;
+			PApplet.println("Found onSignificantMotionEvent...");
+		} catch (NoSuchMethodException e) {
+		}
+
+		try {
+			onHeartRateEventMethod = o.getClass().getMethod("onHeartRateEvent",
+					new Class[] { float.class });
+			heartRateSensorEnabled = true;
+			PApplet.println("Found onHeartRateEvent...");
+		} catch (NoSuchMethodException e) {
+		}
+
+		try {
+			onGeomagneticRotationVectorEventMethod = o.getClass().getMethod(
+					"onGeomagneticRotationVectorEvent",
+					new Class[] { float.class, float.class, float.class });
+			geomagneticRotationVectorSensorEnabled = true;
+			PApplet.println("Found onGeomagneticRotationVectorEvent...");
+		} catch (NoSuchMethodException e) {
+		}
+
+		try {
+			onGameRotationEventMethod = o.getClass().getMethod(
+					"onGameRotationEvent",
+					new Class[] { float.class, float.class, float.class });
+			gameRotationSensorEnabled = true;
+			PApplet.println("Found onGameRotationEvent...");
+		} catch (NoSuchMethodException e) {
+		}
+
 	}
 
 	/**
@@ -1293,7 +1641,8 @@ public class KetaiSensor implements SensorEventListener {
 	 *            the rotation vector
 	 * @return the rotation matrix from vector
 	 */
-	public static void getRotationMatrixFromVector(float[] R, float[] rotationVector) {
+	public static void getRotationMatrixFromVector(float[] R,
+			float[] rotationVector) {
 		SensorManager.getRotationMatrixFromVector(R, rotationVector);
 	}
 

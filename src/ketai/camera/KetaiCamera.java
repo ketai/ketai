@@ -67,7 +67,7 @@ public class KetaiCamera extends PImage {
 
 	/** The save photo path. */
 	private String savePhotoPath = "";
-	
+
 	private Vector<Method> listeners = new Vector<Method>();
 
 	/** The self. */
@@ -86,6 +86,7 @@ public class KetaiCamera extends PImage {
 	SurfaceTexture mTexture;
 
 	public Object callbackdelegate;
+
 	// private ketaiFaceDetectionListener facelistener;
 
 	/**
@@ -120,8 +121,8 @@ public class KetaiCamera extends PImage {
 		callbackdelegate = parent;
 		// facelistener = new ketaiFaceDetectionListener(this);
 
-		determineObjectIntentions(this);
-		
+		determineObjectIntentions(pParent);
+
 		// we'll store our photos in a folder named after our application!
 		PackageManager pm = parent.getApplicationContext().getPackageManager();
 		ApplicationInfo ai;
@@ -140,15 +141,15 @@ public class KetaiCamera extends PImage {
 		parent.registerMethod("dispose", this);
 		read();
 	}
-	
-	private void determineObjectIntentions(Object o)
-	{
+
+	private void determineObjectIntentions(Object o) {
 		try {
 			// the following uses reflection to see if the parent
 			// exposes the callback method. The first argument is the method
 			// name followed by what should match the method argument(s)
 			onPreviewEventMethod = o.getClass().getMethod(
 					"onCameraPreviewEvent");
+			PApplet.println("Found onCameraPreviewEvent ");
 		} catch (NoSuchMethodException e) {
 			// no such method, or an error.. which is fine, just ignore
 			onPreviewEventMethod = null;
@@ -170,8 +171,8 @@ public class KetaiCamera extends PImage {
 		}
 
 		try {
-			onSavePhotoEventMethod = o.getClass().getMethod(
-					"onSavePhotoEvent", new Class[] { String.class });
+			onSavePhotoEventMethod = o.getClass().getMethod("onSavePhotoEvent",
+					new Class[] { String.class });
 		} catch (NoSuchMethodException e) {
 			// no such method, or an error.. which is fine, just ignore
 			onSavePhotoEventMethod = null;
@@ -427,6 +428,15 @@ public class KetaiCamera extends PImage {
 	public void setCameraID(int _id) {
 		if (_id < Camera.getNumberOfCameras())
 			cameraID = _id;
+		
+		if(cameraID == 1)
+		{
+			int _temp = width;
+			width = height;
+			height = _temp;
+			resize(width, height);
+			bitmap = Bitmap.createBitmap(pixels, width, height, Config.ARGB_8888);
+		}
 	}
 
 	/**
@@ -500,40 +510,59 @@ public class KetaiCamera extends PImage {
 
 			int rotation = parent.getWindowManager().getDefaultDisplay()
 					.getRotation();
+			
+			PApplet.println("Window reported rotation: " + rotation);
 			int degrees = 0;
-			switch (rotation) {
-			case Surface.ROTATION_0:
-				degrees = 0;
-				break;
-			case Surface.ROTATION_90:
-				degrees = 90;
-				break;
-			case Surface.ROTATION_180:
-				degrees = 180;
-				break;
-			case Surface.ROTATION_270:
-				degrees = 270;
-				break;
-
+			
+			if (cameraID == 0) {
+				switch (rotation) {
+				case Surface.ROTATION_0:
+					degrees = 0;
+					break;
+				case Surface.ROTATION_90:
+					degrees = 90;
+					break;
+				case Surface.ROTATION_180:
+					degrees = 180;
+					break;
+				case Surface.ROTATION_270:
+					degrees = 270;
+					break;
+				}
+			}else
+			{
+				switch (rotation) {
+				case Surface.ROTATION_0:
+					degrees = 0;
+					break;
+				case Surface.ROTATION_90:
+					degrees = 90;
+					break;
+				case Surface.ROTATION_180:
+					degrees = 180;
+					break;
+				case Surface.ROTATION_270:
+					degrees = 270;
+					break;
+				}
 			}
 			Camera.CameraInfo info = new CameraInfo();
 			Camera.getCameraInfo(cameraID, info);
 
 			int result;
 			PApplet.println("Default Display Rotation: " + degrees);
-			PApplet.println("info rotation: " + info.orientation);
+			PApplet.println("info orientation: " + info.orientation);
 			if (info.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
 				PApplet.println("Front facing camera detected...");
-//				result = (info.orientation + degrees) % 360;
-//				result = (180 - result) % 360; // compensate the mirror
-		         result = (info.orientation + degrees) % 360;
-		         result = (360 - result) % 360;  // compensate the mirror
-		         result = 0;
+				 result = (info.orientation + degrees) % 360;
+				 result = (180 - result) % 360; // compensate the mirror
+				result = 0;
 			} else { // back-facing
 				PApplet.println("Rear Facing Camera Detected...");
 				result = (info.orientation - degrees + 360) % 360;
 			}
-			PApplet.println("camera: setting display orientation to: " + result + " degrees");
+			PApplet.println("camera: setting display orientation to: " + result
+					+ " degrees");
 			camera.setDisplayOrientation(result);
 
 			camera.setParameters(cameraParameters);
@@ -558,12 +587,16 @@ public class KetaiCamera extends PImage {
 						try {
 							camera.setPreviewTexture(mTexture);
 						} catch (IOException iox) {
+							PApplet.println("Something bad happened trying set the texture when trying to open the preview: "
+									+ iox.getMessage());
 						}
 					}
 				});
 				camera.startPreview();
 			} catch (NoClassDefFoundError x) {
 				camera.startPreview();
+				PApplet.println("Something bad happened trying to open the preview: "
+						+ x.getMessage());
 			}
 			isStarted = true;
 
@@ -683,7 +716,7 @@ public class KetaiCamera extends PImage {
 	 * Resume.
 	 */
 	public void resume() {
-		if(camera == null)
+		if (camera == null)
 			return;
 		camera = Camera.open(cameraID);
 		if (!isStarted && requestedStart)
@@ -720,7 +753,6 @@ public class KetaiCamera extends PImage {
 	PreviewCallback previewcallback = new PreviewCallback() {
 		public void onPreviewFrame(byte[] data, Camera camera) {
 
-
 			if (camera == null || !isStarted)
 				return;
 
@@ -735,14 +767,14 @@ public class KetaiCamera extends PImage {
 			// }else
 			decodeYUV420SP(data);
 
-//			if (myPixels == null)
-//				return;
+			// if (myPixels == null)
+			// return;
 
 			if ((parent.millis() - lastProcessedFrame) < (1000 / cameraFPS))
 				return;
 
-			lastProcessedFrame = parent.millis();			
-			
+			lastProcessedFrame = parent.millis();
+
 			if (onPreviewEventMethod != null && myPixels != null)
 				try {
 					onPreviewEventMethod.invoke(callbackdelegate);
@@ -765,12 +797,10 @@ public class KetaiCamera extends PImage {
 					onPreviewEventMethodPImage = null;
 				}
 			}
-			
-			for(Method m: listeners)
-			{
+
+			for (Method m : listeners) {
 				try {
-					m.invoke(callbackdelegate,
-							new Object[] { (PImage) self });
+					m.invoke(callbackdelegate, new Object[] { (PImage) self });
 				} catch (Exception e) {
 					PApplet.println("Disabling onCameraPreviewEvent(KetaiCamera) because of an error:"
 							+ e.getMessage());
@@ -911,7 +941,7 @@ public class KetaiCamera extends PImage {
 	}
 
 	/**
-	 * Decode yu v420 sp.
+	 * Decode yuv420 sp.
 	 * 
 	 * @param yuv420sp
 	 *            the yuv420sp
@@ -1110,12 +1140,11 @@ public class KetaiCamera extends PImage {
 		PApplet.print(".");
 	}
 
-	public void register(Object o)
-	{
+	public void register(Object o) {
 		callbackdelegate = o;
 		determineObjectIntentions(o);
 	}
-	
+
 	// public void onFaceDetection(Face[] _faces, Camera _camera) {
 	// KetaiFace[] faces = new KetaiFace[_faces.length];
 	//

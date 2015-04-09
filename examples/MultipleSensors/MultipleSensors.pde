@@ -99,5 +99,10 @@ public void mousePressed() {
  * void onRotationVectorEvent(float x, float y, float z):x,y,z rotation vector values
  * void onAmibentTemperatureEvent(float t): same as temp above (newer API)
  * void onRelativeHumidityEvent(float h): h ambient humidity in percentage
- 
+  * void onSignificantMotionEvent(): trigger for when significant motion has occurred
+ * void onStepDetectorEvent(): called on every step detected
+ * void onStepCounterEvent(float s): s is the step count since device reboot, is called on new step
+ * void onGeomagneticRotationVectorEvent(float x, float y, float z):
+ * void onGameRotationEvent(float x, float y, float z): 
+ * void onHeartRateEvent(float r): returns current heart rate in bpm 
 */
