@@ -87,6 +87,8 @@ public class KetaiCamera extends PImage {
 
 	public Object callbackdelegate;
 
+	public boolean requestedPortraitImage = false;
+
 	// private ketaiFaceDetectionListener facelistener;
 
 	/**
@@ -104,6 +106,7 @@ public class KetaiCamera extends PImage {
 	public KetaiCamera(PApplet pParent, int _width, int _height,
 			int _framesPerSecond) {
 		super(_width, _height, PImage.ARGB);
+
 		bitmap = Bitmap.createBitmap(pixels, width, height, Config.ARGB_8888);
 		parent = pParent;
 		frameWidth = _width;
@@ -428,14 +431,14 @@ public class KetaiCamera extends PImage {
 	public void setCameraID(int _id) {
 		if (_id < Camera.getNumberOfCameras())
 			cameraID = _id;
-		
-		if(cameraID == 1)
-		{
+
+		if (cameraID == 1) {
 			int _temp = width;
 			width = height;
 			height = _temp;
 			resize(width, height);
-			bitmap = Bitmap.createBitmap(pixels, width, height, Config.ARGB_8888);
+			bitmap = Bitmap.createBitmap(pixels, width, height,
+					Config.ARGB_8888);
 		}
 	}
 
@@ -508,59 +511,54 @@ public class KetaiCamera extends PImage {
 			} else
 				PApplet.println("No flash support.");
 
+			android.hardware.Camera.CameraInfo info = new android.hardware.Camera.CameraInfo();
+
+			android.hardware.Camera.getCameraInfo(cameraID, info);
 			int rotation = parent.getWindowManager().getDefaultDisplay()
 					.getRotation();
-			
-			PApplet.println("Window reported rotation: " + rotation);
 			int degrees = 0;
-			
-			if (cameraID == 0) {
-				switch (rotation) {
-				case Surface.ROTATION_0:
-					degrees = 0;
-					break;
-				case Surface.ROTATION_90:
-					degrees = 90;
-					break;
-				case Surface.ROTATION_180:
-					degrees = 180;
-					break;
-				case Surface.ROTATION_270:
-					degrees = 270;
-					break;
-				}
-			}else
-			{
-				switch (rotation) {
-				case Surface.ROTATION_0:
-					degrees = 0;
-					break;
-				case Surface.ROTATION_90:
-					degrees = 90;
-					break;
-				case Surface.ROTATION_180:
-					degrees = 180;
-					break;
-				case Surface.ROTATION_270:
-					degrees = 270;
-					break;
-				}
+			switch (rotation) {
+			case Surface.ROTATION_0:
+				degrees = 0;
+				break;
+			case Surface.ROTATION_90:
+				degrees = 90;
+				break;
+			case Surface.ROTATION_180:
+				degrees = 180;
+				break;
+			case Surface.ROTATION_270:
+				degrees = 270;
+				break;
 			}
-			Camera.CameraInfo info = new CameraInfo();
-			Camera.getCameraInfo(cameraID, info);
+
+			int cameraRotationOffset = 0;
+			switch (info.orientation) {
+			case Surface.ROTATION_0:
+				cameraRotationOffset = 0;
+				break;
+			case Surface.ROTATION_90:
+				cameraRotationOffset = 90;
+				break;
+			case Surface.ROTATION_180:
+				cameraRotationOffset = 180;
+				break;
+			case Surface.ROTATION_270:
+				cameraRotationOffset = 270;
+				break;
+			}
 
 			int result;
-			PApplet.println("Default Display Rotation: " + degrees);
-			PApplet.println("info orientation: " + info.orientation);
 			if (info.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
-				PApplet.println("Front facing camera detected...");
-				 result = (info.orientation + degrees) % 360;
-				 result = (180 - result) % 360; // compensate the mirror
-				result = 0;
+				requestedPortraitImage = true;
+				result = (cameraRotationOffset + degrees) % 360;
+				result = (360 - result) % 360; // compensate the mirror
+
 			} else { // back-facing
-				PApplet.println("Rear Facing Camera Detected...");
-				result = (info.orientation - degrees + 360) % 360;
+				result = (cameraRotationOffset - degrees + 360) % 360;
 			}
+			camera.setDisplayOrientation(result);
+			PApplet.println("Rotation reported: " + degrees);
 			PApplet.println("camera: setting display orientation to: " + result
 					+ " degrees");
 			camera.setDisplayOrientation(result);
