@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="" android:versionCode="1" android:versionName="1.0">
+  <uses-sdk android:minSdkVersion="7"/>
+  <application android:label="" android:icon="@drawable/icon" android:debuggable="true">
+    <activity android:name="">
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN"/>
+        <category android:name="android.intent.category.LAUNCHER"/>
+      </intent-filter>
+      <receiver android:name=".KetaiLocationReceiver">
+        <intent-filter>
+          <action android:name="edu.uic.ketai.inputService.KetaiLocationReceiver.LOCATION_READY"/>
+          <category android:name="android.intent.category.DEFAULT"/>
+        </intent-filter>
+      </receiver>
+    </activity>
+  </application>
+  <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+  <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+  <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"/>
+  <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION"/>
+  <uses-permission android:name="android.permission.INTERNET"/>
+</manifest>
