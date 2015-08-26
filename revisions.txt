@@ -1,3 +1,12 @@
+v12 update
+------------
+Test Platforms: Android 4.4.2, Android 5.1.1
+Test Hardware: Nexus 7, Galaxy 3s, Nexus 6
+- updated for version 3 of processing
+- NOTE: Currently NFC feature does not function due to a changes in PApplet(extending Fragment instead of Activity)
+     
+
+
 v11 updates
 ------------
 Test Platforms: Android 4.4.2, Android 5.1,
