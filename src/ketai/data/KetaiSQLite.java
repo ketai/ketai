@@ -55,8 +55,9 @@ public class KetaiSQLite {
 	 *
 	 * @param context the context/PApplet/Activity using this class
 	 */
-	public KetaiSQLite(Context context) {
-		this.context = context;
+	public KetaiSQLite(PApplet p) {
+		
+		this.context = p.getActivity().getApplicationContext();
 		DATABASE_NAME = context.getPackageName();
 		DATA_ROOT_DIRECTORY = context.getPackageName();
 		PApplet.println("data path"
@@ -73,8 +74,8 @@ public class KetaiSQLite {
 	 * @param context the context
 	 * @param dbname the database name
 	 */
-	public KetaiSQLite(Context context, String dbname) {
-		this.context = context;
+	public KetaiSQLite(PApplet p, String dbname) {
+		this.context = p.getActivity().getApplicationContext();
 		DATABASE_NAME = dbname;
 		OpenHelper openHelper = new OpenHelper(this.context, dbname);
 		this.db = openHelper.getWritableDatabase();
@@ -90,17 +91,17 @@ public class KetaiSQLite {
 	 * @param dbname the dbname
 	 * @return true, if successful
 	 */
-	static public boolean load(Context _context, String filename, String dbname) {
+	static public boolean load(PApplet _context, String filename, String dbname) {
 
 		InputStream myInput;
 
 		try {
-			AssetManager assets = _context.getAssets();
+			AssetManager assets = _context.getActivity().getApplicationContext().getAssets();
 			myInput = assets.open(filename);
 			if (myInput == null)
 				return false;
 
-			String outFileName = _context.getDatabasePath(dbname)
+			String outFileName = _context.getActivity().getApplicationContext().getDatabasePath(dbname)
 					.getAbsolutePath();
 			OutputStream myOutput = new FileOutputStream(outFileName);
 

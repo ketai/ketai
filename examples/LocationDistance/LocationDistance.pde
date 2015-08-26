@@ -13,6 +13,7 @@
  */
 
 import ketai.sensors.*; 
+import android.location.Location.*;
 
 double longitude, latitude, altitude, accuracy;
 KetaiLocation location;
@@ -58,4 +59,3 @@ void onLocationEvent(Location _location)
   altitude = _location.getAltitude();
   accuracy = _location.getAccuracy();
 }
-

@@ -25,10 +25,12 @@ void setup() {
   orientation(LANDSCAPE);
   textAlign(CENTER, CENTER);
   textSize(36);
-  location = new KetaiLocation(this);
 }
 
 void draw() {
+  if(location == null)
+    location = new KetaiLocation(this);
+
   background(78, 93, 75);
   if (location.getProvider() == "none")
     text("Location data is unavailable. \n" +
@@ -49,4 +51,3 @@ void onLocationEvent(double _latitude, double _longitude, double _altitude)
   altitude = _altitude;
   println("lat/lon/alt: " + latitude + "/" + longitude + "/" + altitude);
 }
-

@@ -56,9 +56,9 @@ public class KetaiGesture implements OnGestureListener, OnDoubleTapListener {
 		parent = _parent;
 		me = this; // self reference for UI-thread constructor hackiness
 
-		parent.runOnUiThread(new Runnable() {
+		parent.getActivity().runOnUiThread(new Runnable() {
 			public void run() {
-				gestures = new GestureDetector(parent, me);
+				gestures = new GestureDetector(parent.getActivity(), me);
 			}
 		});
 		// this stuff is still not working in b7
@@ -189,7 +189,7 @@ public class KetaiGesture implements OnGestureListener, OnDoubleTapListener {
 			}
 		}
 		analyse();
-		parent.onTouchEvent(event);
+		parent.getActivity().onTouchEvent(event);
 		return gestures.onTouchEvent(event);
 	}
 

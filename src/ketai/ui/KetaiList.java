@@ -56,9 +56,9 @@ public class KetaiList extends ListView {
 	 * @param data the data
 	 */
 	public KetaiList(PApplet _parent, ArrayList<String> data) {
-		super(_parent.getApplicationContext());
+		super(_parent.getActivity().getApplicationContext());
 		parent = _parent;
-		adapter = new ArrayAdapter<String>(parent,
+		adapter = new ArrayAdapter<String>(parent.getActivity(),
 				android.R.layout.simple_list_item_1, data);
 		init();
 
@@ -71,10 +71,10 @@ public class KetaiList extends ListView {
 	 * @param data the data
 	 */
 	public KetaiList(PApplet _parent, String[] data) {
-		super(_parent.getApplicationContext());
+		super(_parent.getActivity().getApplicationContext());
 
 		parent = _parent;
-		adapter = new ArrayAdapter<String>(parent,
+		adapter = new ArrayAdapter<String>(parent.getActivity(),
 				android.R.layout.simple_list_item_1, data);
 		init();
 	}
@@ -87,11 +87,11 @@ public class KetaiList extends ListView {
 	 * @param data the data
 	 */
 	public KetaiList(PApplet _parent, String _title, String[] data) {
-		super(_parent.getApplicationContext());
+		super(_parent.getActivity().getApplicationContext());
 
 		parent = _parent;
 		title = _title;
-		adapter = new ArrayAdapter<String>(parent,
+		adapter = new ArrayAdapter<String>(parent.getActivity(),
 				android.R.layout.simple_list_item_1, data);
 		init();
 	}
@@ -104,10 +104,10 @@ public class KetaiList extends ListView {
 	 * @param data the data
 	 */
 	public KetaiList(PApplet _parent, String _title, ArrayList<String> data) {
-		super(_parent.getApplicationContext());
+		super(_parent.getActivity().getApplicationContext());
 		parent = _parent;
 		title = _title;
-		adapter = new ArrayAdapter<String>(parent,
+		adapter = new ArrayAdapter<String>(parent.getActivity(),
 				android.R.layout.simple_list_item_1, data);
 		init();
 
@@ -119,7 +119,7 @@ public class KetaiList extends ListView {
 	public void refresh() {
 		if (adapter == null)
 			return;
-		parent.runOnUiThread(new Runnable() {
+		parent.getActivity().runOnUiThread(new Runnable() {
 			public void run() {
 				adapter.notifyDataSetChanged();
 			}
@@ -144,16 +144,16 @@ public class KetaiList extends ListView {
 		self = this;
 		final TextView cancel;
 
-		layout = new RelativeLayout(parent);
+		layout = new RelativeLayout(parent.getActivity());
 
 		if (title != "") {
-			TextView tv = new TextView(parent);
+			TextView tv = new TextView(parent.getActivity());
 			tv.setText(title);
 			setHeaderDividersEnabled(true);
 			addHeaderView(tv);
 		}
 
-		cancel = new TextView(parent);
+		cancel = new TextView(parent.getActivity());
 		cancel.setText("<CANCEL SELECTION>");
 
 		cancel.setOnClickListener(new OnClickListener() {
@@ -162,7 +162,7 @@ public class KetaiList extends ListView {
 
 				self.setVisibility(View.GONE);
 				((ViewManager) self.getParent()).removeView(self);
-				parent.runOnUiThread(new Runnable() {
+				parent.getActivity().runOnUiThread(new Runnable() {
 					public void run() {
 						layout.removeAllViews();
 						try {
@@ -201,7 +201,7 @@ public class KetaiList extends ListView {
 
 				self.setVisibility(View.GONE);
 				((ViewManager) self.getParent()).removeView(self);
-				parent.runOnUiThread(new Runnable() {
+				parent.getActivity().runOnUiThread(new Runnable() {
 					public void run() {
 						layout.removeAllViews();
 						layout.setVisibility(View.GONE);
@@ -212,9 +212,9 @@ public class KetaiList extends ListView {
 
 		// add to the main view...
 
-		parent.runOnUiThread(new Runnable() {
+		parent.getActivity().runOnUiThread(new Runnable() {
 			public void run() {
-				parent.addContentView(self, new ViewGroup.LayoutParams(
+				parent.getActivity().addContentView(self, new ViewGroup.LayoutParams(
 						ViewGroup.LayoutParams.FILL_PARENT,
 						ViewGroup.LayoutParams.FILL_PARENT));
 			}

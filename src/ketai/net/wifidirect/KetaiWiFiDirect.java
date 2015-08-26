@@ -73,11 +73,11 @@ public class KetaiWiFiDirect extends BroadcastReceiver implements
 		intentFilter
 				.addAction(WifiP2pManager.WIFI_P2P_THIS_DEVICE_CHANGED_ACTION);
 
-		manager = (WifiP2pManager) parent
+		manager = (WifiP2pManager) parent.getActivity()
 				.getSystemService(Context.WIFI_P2P_SERVICE);
 
-		channel = manager.initialize(parent, parent.getMainLooper(), this);
-		parent.registerReceiver(this, intentFilter);
+		channel = manager.initialize(parent.getActivity(), parent.getActivity().getMainLooper(), this);
+		parent.getActivity().registerReceiver(this, intentFilter);
 		parent.registerMethod("resume", this);
 		parent.registerMethod("pause", this);
 	}
@@ -95,14 +95,14 @@ public class KetaiWiFiDirect extends BroadcastReceiver implements
 	 * Resume. (used by android activity administration)
 	 */
 	public void resume() {
-		parent.registerReceiver(this, intentFilter);
+		parent.getActivity().registerReceiver(this, intentFilter);
 	}
 
 	/**
 	 * Pause.(used by android activity administration)
 	 */
 	public void pause() {
-		parent.unregisterReceiver(this);
+		parent.getActivity().unregisterReceiver(this);
 	}
 
 	/**
@@ -149,7 +149,7 @@ public class KetaiWiFiDirect extends BroadcastReceiver implements
 		if (manager != null && !retryChannel) {
 			PApplet.println("Channel lost. Trying again");
 			retryChannel = true;
-			manager.initialize(parent, parent.getMainLooper(), this);
+			manager.initialize(parent.getActivity(), parent.getActivity().getMainLooper(), this);
 		} else {
 			PApplet.println("Severe! Channel is probably lost premanently. Try Disable/Re-Enable P2P.");
 		}
@@ -330,7 +330,7 @@ public class KetaiWiFiDirect extends BroadcastReceiver implements
 
 		// WifiP2pDevice w = new WifiP2pDevice();
 		// PApplet.println("Device :" + w.toString());
-		WifiManager wm = (WifiManager) parent
+		WifiManager wm = (WifiManager) parent.getActivity()
 				.getSystemService(Context.WIFI_SERVICE);
 		String mac = wm.getConnectionInfo().getMacAddress();
 		return mac;

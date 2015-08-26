@@ -88,15 +88,15 @@ public class KetaiNFC implements CreateNdefMessageCallback,
 		Log.d("KetaiNFC", "KetaiNFC instantiated...");
 		findParentIntentions();
 
-		mAdapter = NfcAdapter.getDefaultAdapter(parent);
+		mAdapter = NfcAdapter.getDefaultAdapter(parent.getActivity());
 
 		if (mAdapter == null)
 			Log.i("KetaiNFC", "Failed to get NFC adapter...");
 		else
-			mAdapter.setNdefPushMessageCallback(this, parent);
+			mAdapter.setNdefPushMessageCallback(this, parent.getActivity());
 
-		p = PendingIntent.getActivity(parent, 0,
-				new Intent(parent, parent.getClass())
+		p = PendingIntent.getActivity(parent.getActivity(), 0,
+				new Intent(parent.getActivity(), parent.getClass())
 						.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
 
 		// Setup an intent filter for all MIME based dispatches
@@ -129,24 +129,24 @@ public class KetaiNFC implements CreateNdefMessageCallback,
 	public void resume() {
 		Log.i("KetaiNFC", "resuming...");
 		if (mAdapter != null) {
-			mAdapter.enableForegroundDispatch(parent, p, mFilters, mTechLists);
-			Intent intent = parent.getIntent();
+			mAdapter.enableForegroundDispatch(parent.getActivity(), p, mFilters, mTechLists);
+			Intent intent = parent.getActivity().getIntent();
 			Log.i("KetaiNFC", "resuming...intent: " + intent.getAction());
-			mAdapter.setNdefPushMessageCallback(this, parent);
+			mAdapter.setNdefPushMessageCallback(this, parent.getActivity());
 			handleIntent(intent);
 		} else {
 			PApplet.println("mAdapter was null in onResume()");
-			mAdapter = NfcAdapter.getDefaultAdapter(parent);
+			mAdapter = NfcAdapter.getDefaultAdapter(parent.getActivity());
 			;
 		}
 
-		if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(parent.getIntent()
+		if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(parent.getActivity().getIntent()
 				.getAction())
-				|| NfcAdapter.ACTION_TAG_DISCOVERED.equals(parent.getIntent()
+				|| NfcAdapter.ACTION_TAG_DISCOVERED.equals(parent.getActivity().getIntent()
 						.getAction())
-				|| NfcAdapter.ACTION_TECH_DISCOVERED.equals(parent.getIntent()
+				|| NfcAdapter.ACTION_TECH_DISCOVERED.equals(parent.getActivity().getIntent()
 						.getAction()))
-			handleIntent(parent.getIntent());
+			handleIntent(parent.getActivity().getIntent());
 	}
 
 	/**
@@ -155,10 +155,10 @@ public class KetaiNFC implements CreateNdefMessageCallback,
 	 * @param p the pending intent (used by the android platform for management)
 	 */
 	public void start(PendingIntent p) {
-		p = PendingIntent.getActivity(parent, 0,
-				new Intent(parent, parent.getClass())
+		p = PendingIntent.getActivity(parent.getActivity(), 0,
+				new Intent(parent.getActivity(), parent.getActivity().getClass())
 						.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
-		mAdapter.enableForegroundDispatch(parent, p, mFilters, mTechLists);
+		mAdapter.enableForegroundDispatch(parent.getActivity(), p, mFilters, mTechLists);
 
 	}
 
@@ -169,7 +169,7 @@ public class KetaiNFC implements CreateNdefMessageCallback,
 		Log.i("KetaiNFC", "pausing...");
 
 		if (mAdapter != null)
-			mAdapter.disableForegroundDispatch(parent);
+			mAdapter.disableForegroundDispatch(parent.getActivity());
 	}
 
 	/**
@@ -408,7 +408,7 @@ public class KetaiNFC implements CreateNdefMessageCallback,
 		}
 
 		if (tag != null && messageToWrite != null) {
-			parent.runOnUiThread(new Runnable() {
+			parent.getActivity().runOnUiThread(new Runnable() {
 				public void run() {
 					try {
 						tag.connect();
@@ -445,7 +445,7 @@ public class KetaiNFC implements CreateNdefMessageCallback,
 				}
 			});
 		} else if (ndefTag != null) {
-			parent.runOnUiThread(new Runnable() {
+			parent.getActivity().runOnUiThread(new Runnable() {
 				public void run() {
 
 					try {

@@ -3,6 +3,7 @@
  */
 package ketai.ui;
 
+import processing.core.PApplet;
 import android.app.Activity;
 import android.content.Context;
 import android.view.inputmethod.InputMethodManager;
@@ -17,9 +18,9 @@ public class KetaiKeyboard {
 	 *
 	 * @param parent the PApplet/sketch 
 	 */
-	static public void toggle(Activity parent) {
+	static public void toggle(PApplet parent) {
 
-		InputMethodManager imm = (InputMethodManager) parent
+		InputMethodManager imm = (InputMethodManager) parent.getActivity()
 				.getSystemService(Context.INPUT_METHOD_SERVICE);
 
 		imm.toggleSoftInput(0, 0);
@@ -30,10 +31,10 @@ public class KetaiKeyboard {
 	 *
 	 * @param parent the PApplet/sketch 
 	 */
-	static public void show(Activity parent) {
-		InputMethodManager imm = (InputMethodManager) parent
+	static public void show(PApplet parent) {
+		InputMethodManager imm = (InputMethodManager) parent.getActivity()
 				.getSystemService(Context.INPUT_METHOD_SERVICE);
-		imm.showSoftInput(parent.getCurrentFocus(), 0);
+		imm.showSoftInput(parent.getActivity().getCurrentFocus(), 0);
 	}
 
 	/**
@@ -41,10 +42,10 @@ public class KetaiKeyboard {
 	 *
 	 * @param parent the PApplet/sketch 
 	 */
-	static public void hide(Activity parent) {
-		InputMethodManager imm = (InputMethodManager) parent
+	static public void hide(PApplet parent) {
+		InputMethodManager imm = (InputMethodManager) parent.getActivity()
 				.getSystemService(Context.INPUT_METHOD_SERVICE);
-		imm.hideSoftInputFromWindow(parent.getCurrentFocus().getWindowToken(),
+		imm.hideSoftInputFromWindow(parent.getActivity().getCurrentFocus().getWindowToken(),
 				0);
 
 	}

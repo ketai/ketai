@@ -25,7 +25,7 @@ public class KetaiVibrate {
 	 */
 	public KetaiVibrate(PApplet _parent) {
 		parent = _parent;
-		vibe = (Vibrator) parent.getSystemService(Context.VIBRATOR_SERVICE);
+		vibe = (Vibrator) parent.getActivity().getSystemService(Context.VIBRATOR_SERVICE);
 	}
 
 	/**

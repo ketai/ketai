@@ -209,8 +209,8 @@ public class KetaiBluetooth {
 		isStarted = true;
 		findParentIntention();
 		IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
-		parent.registerReceiver(mReceiver, filter);
-		parent.registerReceiver(mReceiver, new IntentFilter(
+		parent.getActivity().registerReceiver(mReceiver, filter);
+		parent.getActivity().registerReceiver(mReceiver, new IntentFilter(
 				BluetoothAdapter.ACTION_DISCOVERY_FINISHED));
 		return isStarted;
 

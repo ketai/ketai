@@ -70,7 +70,7 @@ public class KetaiLocation implements LocationListener {
 	public KetaiLocation(PApplet pParent) {
 		parent = pParent;
 		me = this;
-		locationManager = (LocationManager) parent.getApplicationContext()
+		locationManager = (LocationManager) parent.getActivity().getApplicationContext()
 				.getSystemService(Context.LOCATION_SERVICE);
 		PApplet.println("KetaiLocationManager instantiated:"
 				+ locationManager.toString());
@@ -297,7 +297,7 @@ public class KetaiLocation implements LocationListener {
 			return false;
 		PApplet.println("Requesting location updates from: " + provider);
 
-		parent.runOnUiThread(new Runnable() {
+		parent.getActivity().runOnUiThread(new Runnable() {
 			public void run() {
 				locationManager.requestLocationUpdates(provider, minTime,
 						minDistance, me);

@@ -127,10 +127,10 @@ public class KetaiCamera extends PImage {
 		determineObjectIntentions(pParent);
 
 		// we'll store our photos in a folder named after our application!
-		PackageManager pm = parent.getApplicationContext().getPackageManager();
+		PackageManager pm = parent.getActivity().getApplicationContext().getPackageManager();
 		ApplicationInfo ai;
 		try {
-			ai = pm.getApplicationInfo(parent.getApplicationContext()
+			ai = pm.getApplicationInfo(parent.getActivity().getApplicationContext()
 					.getPackageName(), 0);
 		} catch (final NameNotFoundException e) {
 			ai = null;
@@ -514,7 +514,7 @@ public class KetaiCamera extends PImage {
 			android.hardware.Camera.CameraInfo info = new android.hardware.Camera.CameraInfo();
 
 			android.hardware.Camera.getCameraInfo(cameraID, info);
-			int rotation = parent.getWindowManager().getDefaultDisplay()
+			int rotation = parent.getActivity().getWindowManager().getDefaultDisplay()
 					.getRotation();
 			int degrees = 0;
 			switch (rotation) {
@@ -570,7 +570,7 @@ public class KetaiCamera extends PImage {
 			determineCameraParameters();
 
 			try {
-				parent.runOnUiThread(new Runnable() {
+				parent.getActivity().runOnUiThread(new Runnable() {
 					public void run() {
 
 						int[] textures = new int[1];
@@ -897,7 +897,7 @@ public class KetaiCamera extends PImage {
 
 		// String[] paths = { mediaFile.getAbsolutePath() };
 		String[] paths = { _file };
-		MediaScannerConnection.scanFile(parent.getApplicationContext(), paths,
+		MediaScannerConnection.scanFile(parent.getActivity().getApplicationContext(), paths,
 				null, myScannerCallback);
 
 	}
