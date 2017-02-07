@@ -11,6 +11,8 @@ import android.location.Criteria;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 
 /**
  * The KetaiLocation class provides android location services data to a sketch.
@@ -70,7 +72,7 @@ public class KetaiLocation implements LocationListener {
 	public KetaiLocation(PApplet pParent) {
 		parent = pParent;
 		me = this;
-		locationManager = (LocationManager) parent.getActivity().getApplicationContext()
+		locationManager = (LocationManager) parent.getSurface().getContext()
 				.getSystemService(Context.LOCATION_SERVICE);
 		PApplet.println("KetaiLocationManager instantiated:"
 				+ locationManager.toString());
@@ -297,12 +299,19 @@ public class KetaiLocation implements LocationListener {
 			return false;
 		PApplet.println("Requesting location updates from: " + provider);
 
-		parent.getActivity().runOnUiThread(new Runnable() {
-			public void run() {
-				locationManager.requestLocationUpdates(provider, minTime,
-						minDistance, me);
-			}
-		});
+		Runnable r = new Runnable() {
+      public void run() {
+        locationManager.requestLocationUpdates(provider, minTime,
+            minDistance, me);
+      }
+    };
+		new Handler(Looper.getMainLooper()).post(r);		
+//		parent.getActivity().runOnUiThread(new Runnable() {
+//			public void run() {
+//				locationManager.requestLocationUpdates(provider, minTime,
+//						minDistance, me);
+//			}
+//		});
 
 		return true;
 	}
