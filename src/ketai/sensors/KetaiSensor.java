@@ -130,7 +130,7 @@ public class KetaiSensor implements SensorEventListener {
 		parent = pParent;
 		findParentIntentions();
 		useSimulator = false;
-		sensorManager = (SensorManager) parent.getActivity().getApplicationContext()
+		sensorManager = (SensorManager) parent.getSurface().getContext()
 				.getSystemService(Context.SENSOR_SERVICE);
 		delayInterval = timeOfLastUpdate = 0;
 	}
