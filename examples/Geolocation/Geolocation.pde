@@ -22,6 +22,7 @@ double longitude, latitude, altitude;
 KetaiLocation location;
 
 void setup() {
+  fullScreen();
   orientation(LANDSCAPE);
   textAlign(CENTER, CENTER);
   textSize(36);

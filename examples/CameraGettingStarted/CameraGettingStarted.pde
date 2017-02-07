@@ -14,6 +14,7 @@ import ketai.camera.*;
 KetaiCamera cam;
 
 void setup() {
+  fullScreen();
   orientation(LANDSCAPE);
   imageMode(CENTER);
   textSize(45);

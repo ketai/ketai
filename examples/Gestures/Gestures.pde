@@ -10,6 +10,7 @@ ArrayList<Thing> things = new ArrayList<Thing>();
 
 void setup()
 {
+  fullScreen();
   orientation(LANDSCAPE);
   gesture = new KetaiGesture(this);
   img = loadImage("toci.jpg");
@@ -89,4 +90,3 @@ public boolean surfaceTouchEvent(MotionEvent event) {
   //forward event to class for processing
   return gesture.surfaceTouchEvent(event);
 }
-

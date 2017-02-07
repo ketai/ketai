@@ -6,6 +6,7 @@ short[] data;
 
 void setup()
 {
+  fullScreen();
   orientation(LANDSCAPE);
   mic = new KetaiAudioInput(this);
   fill(255,0,0);
@@ -45,4 +46,3 @@ void mousePressed()
   else
     mic.start();
 }
-

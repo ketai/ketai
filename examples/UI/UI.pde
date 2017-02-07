@@ -7,6 +7,7 @@ color backgroundcolor = color(0, 0, 0);
 
 void setup()
 {
+  fullScreen();
   orientation(LANDSCAPE);
   textSize(28);
   textAlign(CENTER);
@@ -89,6 +90,3 @@ public void keyPressed() {
     else
       println(key);
 }
-
-
-

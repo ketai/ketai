@@ -5,8 +5,9 @@
  in a more elegant manner for now cut'n'paste will suffice.  
  */
 //====================================================================
-public void onCreate(Bundle savedInstanceState) { 
-  super.onCreate(savedInstanceState);
+//public void onCreate(Bundle savedInstanceState) { 
+//  super.onCreate(savedInstanceState);
+public void resume() {
   ketaiNFC = new KetaiNFC(this);
 }
 
@@ -16,4 +17,3 @@ public void onNewIntent(Intent intent) {
 }
 
 //====================================================================
-

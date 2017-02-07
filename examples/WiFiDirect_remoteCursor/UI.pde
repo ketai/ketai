@@ -75,4 +75,3 @@ void onKetaiListSelection(KetaiList klist)
   //dispose of list for now  
   connectionList = null;
 }
-

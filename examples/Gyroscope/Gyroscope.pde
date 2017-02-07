@@ -17,9 +17,10 @@ float rotationX, rotationY, rotationZ;
 
 void setup()
 {
+ fullScreen();
   sensor = new KetaiSensor(this);
   sensor.start();
-  orientation(PORTRAIT);
+  //orientation(PORTRAIT);
   textAlign(CENTER, CENTER);
   textSize(36);
 }

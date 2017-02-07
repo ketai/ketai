@@ -37,6 +37,7 @@ KetaiNFC ketaiNFC;
 
 void setup()
 {   
+  fullScreen(); 
   orientation(LANDSCAPE);
   textAlign(CENTER, CENTER);
   textSize(36);
@@ -77,4 +78,3 @@ void keyPressed()
 {
   ketaiNFC.cancelWrite();
 }
-

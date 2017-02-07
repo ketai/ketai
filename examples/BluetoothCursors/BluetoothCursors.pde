@@ -33,9 +33,11 @@ String UIText;
 //********************************************************************
 // The following code is required to enable bluetooth at startup.
 //********************************************************************
-void onCreate(Bundle savedInstanceState) {
-  super.onCreate(savedInstanceState);
+//void onCreate(Bundle savedInstanceState) {
+void resume() {
+  //super.onCreate(savedInstanceState);
   bt = new KetaiBluetooth(this);
+  println("Creating KetaiBluetooth");
 }
 
 void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -46,6 +48,7 @@ void onActivityResult(int requestCode, int resultCode, Intent data) {
 
 void setup()
 {   
+  fullScreen();
   orientation(PORTRAIT);
   background(78, 93, 75);
   stroke(255);
@@ -146,4 +149,3 @@ String getBluetoothInformation()
 
   return btInfo;
 }
-

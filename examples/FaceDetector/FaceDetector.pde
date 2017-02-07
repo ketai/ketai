@@ -17,12 +17,13 @@ KetaiSimpleFace[] faces = new KetaiSimpleFace[MAX_FACES];
 
 void setup()
 {
+  fullScreen();
   orientation(PORTRAIT);
   stroke(0, 255, 0);
   strokeWeight(2);
   noFill();
   rectMode(CENTER);
-  noLoop();
+  //noLoop();
   
   myImage = loadImage("faces.jpg");
 }
@@ -39,4 +40,3 @@ void draw()
     rect(faces[i].location.x, faces[i].location.y, 2.5*faces[i].distance, 3*faces[i].distance);
   }
 }
-

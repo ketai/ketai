@@ -18,12 +18,13 @@ float light, proximity;
 
 void setup()
 {
+  fullScreen();
   sensor = new KetaiSensor(this);
   sensor.start();
   sensor.list();
   accelerometer = new PVector();
   magneticField = new PVector();
-  orientation(LANDSCAPE);
+  //orientation(LANDSCAPE);
   textAlign(CENTER, CENTER);
   textSize(28);
 }

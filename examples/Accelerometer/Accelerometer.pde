@@ -17,9 +17,10 @@ float accelerometerX, accelerometerY, accelerometerZ;
 
 void setup()
 {
+  fullScreen();  
   sensor = new KetaiSensor(this);
   sensor.start();
-  orientation(LANDSCAPE);
+  //orientation(LANDSCAPE);
   textAlign(CENTER, CENTER);
   textSize(36);
 }

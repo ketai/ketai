@@ -8,6 +8,7 @@ String tag="";
 
 void setup()
 {
+  fullScreen();
   orientation(PORTRAIT);
   textAlign(CENTER);
   textSize(28);
@@ -39,4 +40,3 @@ void mousePressed()
 {
   tag = "";
 }
-

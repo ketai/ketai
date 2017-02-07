@@ -6,6 +6,7 @@ String CREATE_DB_SQL = "CREATE TABLE data ( _id INTEGER PRIMARY KEY AUTOINCREMEN
 
 void setup()
 {
+  fullScreen();
   db = new KetaiSQLite( this);  // open database file
 
   if ( db.connect() )
@@ -38,4 +39,3 @@ void setup()
     }
   }
 }
-

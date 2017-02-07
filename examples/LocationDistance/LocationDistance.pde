@@ -21,6 +21,7 @@ Location uic;
 
 void setup() {
   //creates a location object that refers to UIC
+  fullScreen();
   uic = new Location("uic"); // Example location: the University of Illinois at Chicago
   uic.setLatitude(41.874698);
   uic.setLongitude(-87.658777);
@@ -44,10 +45,9 @@ void draw() {
       "Provider: " + location.getProvider(), 20, 0, width, height);
 }
 
-void onResume()
+void resume() 
 {
   location = new KetaiLocation(this);
-  super.onResume();
 }
 
 void onLocationEvent(Location _location)

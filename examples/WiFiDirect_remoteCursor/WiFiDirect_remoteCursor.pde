@@ -21,6 +21,8 @@ import netP5.*;
 
 KetaiWiFiDirect net;
 
+// BROKEN: assumes PApplet is a descendant of Activity
+
 String info = "";
 ArrayList<String> devices = new ArrayList();
 boolean isConfiguring = true;
@@ -32,6 +34,7 @@ PVector remoteCursor = new PVector();
 
 void setup()
 {   
+  fullScreen();
   orientation(PORTRAIT);
   background(78, 93, 75);
   stroke(255);
@@ -154,4 +157,3 @@ void oscEvent(OscMessage m) {
     }
   }
 }
-

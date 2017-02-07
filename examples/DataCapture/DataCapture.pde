@@ -21,6 +21,7 @@ String CREATE_DB_SQL = "CREATE TABLE data ( time INTEGER PRIMARY KEY, x FLOAT NO
 
 void setup()
 {
+  fullScreen(); 
   db = new KetaiSQLite(this);
   sensor = new KetaiSensor(this);
   frameRate(5);
@@ -106,4 +107,3 @@ long maplong(long value, long istart, long istop, long ostart, long ostop) {
   long divisor = istop - istart;
   return (ostart + (ostop - ostart) * (value - istart) / divisor);
 }
-
