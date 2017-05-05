@@ -5,9 +5,8 @@
  in a more elegant manner for now cut'n'paste will suffice.  
  */
 //====================================================================
-//public void onCreate(Bundle savedInstanceState) { 
-//  ketaiNFC = new KetaiNFC(this);
-public void resume() {
+public void onCreate(Bundle savedInstanceState) { 
+  ketaiNFC = new KetaiNFC(this);
   super.onCreate(savedInstanceState);
 }
 

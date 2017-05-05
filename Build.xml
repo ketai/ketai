@@ -14,7 +14,7 @@
 		<fileset dir="${lib.dir}">
 			<include name="**/*.jar" />
 		</fileset>
-		<fileset dir="${env.ANDROID_SDK}/platforms/android-23" includes="**/*.jar" />
+		<fileset dir="${env.ANDROID_SDK}/platforms/android-25" includes="**/*.jar" />
 	</path>
 
 	<target name="clean">

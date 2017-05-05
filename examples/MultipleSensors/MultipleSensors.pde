@@ -24,9 +24,9 @@ void setup()
   sensor.list();
   accelerometer = new PVector();
   magneticField = new PVector();
-  //orientation(LANDSCAPE);
+  orientation(LANDSCAPE);
   textAlign(CENTER, CENTER);
-  textSize(28);
+  textSize(displayDensity * 28);
 }
 
 void draw()

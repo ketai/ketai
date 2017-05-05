@@ -38,7 +38,7 @@ void setup()
   orientation(PORTRAIT);
   background(78, 93, 75);
   stroke(255);
-  textSize(24);
+  textSize(displayDensity * 24);
 
   UIText =  "d - discover devices\n" +
     "c - connect to device\n     from peer list.\n" +

@@ -20,9 +20,9 @@ void setup()
  fullScreen();
   sensor = new KetaiSensor(this);
   sensor.start();
-  //orientation(PORTRAIT);
+  orientation(PORTRAIT);
   textAlign(CENTER, CENTER);
-  textSize(36);
+  textSize(displayDensity * 24);
 }
 
 void draw()

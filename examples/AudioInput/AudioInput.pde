@@ -9,8 +9,9 @@ void setup()
   fullScreen();
   orientation(LANDSCAPE);
   mic = new KetaiAudioInput(this);
+  requestPermission("android.permission.RECORD_AUDIO");
   fill(255,0,0);
-  textSize(48);
+  textSize(displayDensity * 24);
 }
 
 

@@ -22,17 +22,19 @@ Location uic;
 void setup() {
   //creates a location object that refers to UIC
   fullScreen();
+  requestPermission("android.permission.ACCESS_FINE_LOCATION", "onPermissionResult");
+  
   uic = new Location("uic"); // Example location: the University of Illinois at Chicago
   uic.setLatitude(41.874698);
   uic.setLongitude(-87.658777);
   orientation(LANDSCAPE);
   textAlign(CENTER, CENTER);
-  textSize(36);
+  textSize(displayDensity * 24);
 }
 
 void draw() {
   background(78, 93, 75);
-  if (location.getProvider() == "none")
+  if (location == null || location.getProvider() == "none")
     text("Location data is unavailable. \n" +
       "Please check your location settings.", 0, 0, width, height);
   else
@@ -45,9 +47,10 @@ void draw() {
       "Provider: " + location.getProvider(), 20, 0, width, height);
 }
 
-void resume() 
-{
-  location = new KetaiLocation(this);
+void onPermissionResult(boolean granted) {
+  if (granted) {
+    location = new KetaiLocation(this);
+  }
 }
 
 void onLocationEvent(Location _location)

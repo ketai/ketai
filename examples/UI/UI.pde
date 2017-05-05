@@ -9,7 +9,7 @@ void setup()
 {
   fullScreen();
   orientation(LANDSCAPE);
-  textSize(28);
+  textSize(displayDensity * 24);
   textAlign(CENTER);
   vibe = new KetaiVibrate(this);
   colorlist.add("Black");

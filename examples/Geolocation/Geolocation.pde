@@ -24,16 +24,15 @@ KetaiLocation location;
 void setup() {
   fullScreen();
   orientation(LANDSCAPE);
+  requestPermission("android.permission.ACCESS_FINE_LOCATION", "onPermissionResult");
+  
   textAlign(CENTER, CENTER);
-  textSize(36);
+  textSize(displayDensity * 36);
 }
 
 void draw() {
-  if(location == null)
-    location = new KetaiLocation(this);
-
   background(78, 93, 75);
-  if (location.getProvider() == "none")
+  if (location == null || location.getProvider() == "none")
     text("Location data is unavailable. \n" +
       "Please check your location settings.",  0, 0, width, height);
   else
@@ -51,4 +50,10 @@ void onLocationEvent(double _latitude, double _longitude, double _altitude)
   latitude = _latitude;
   altitude = _altitude;
   println("lat/lon/alt: " + latitude + "/" + longitude + "/" + altitude);
+}
+
+void onPermissionResult(boolean granted) {
+  if (granted) {
+    location = new KetaiLocation(this);
+  }
 }

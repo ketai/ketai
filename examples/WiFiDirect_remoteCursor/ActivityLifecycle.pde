@@ -1,8 +1,5 @@
-//void onCreate(Bundle savedInstanceState)
-void resume()
-{
-  //super.onCreate(savedInstanceState);
-
+void onCreate(Bundle savedInstanceState) {
+  super.onCreate(savedInstanceState);
   if(net == null)
     net = new KetaiWiFiDirect(this);    
 }

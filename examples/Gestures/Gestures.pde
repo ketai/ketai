@@ -14,7 +14,7 @@ void setup()
   orientation(LANDSCAPE);
   gesture = new KetaiGesture(this);
   img = loadImage("toci.jpg");
-  textSize(32);
+  textSize(displayDensity * 24);
   textAlign(CENTER);
   imageMode(CENTER);
 }

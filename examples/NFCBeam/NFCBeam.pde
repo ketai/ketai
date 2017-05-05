@@ -11,7 +11,7 @@ void setup()
   fullScreen();
   orientation(PORTRAIT);
   textAlign(CENTER);
-  textSize(28);
+  textSize(displayDensity * 20);
   String d = month()+"/"+day()+"/"+year()+" "+hour()+":"+minute()+":"+second();
   ketaiNFC.beam(d);
 }

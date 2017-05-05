@@ -16,8 +16,9 @@ KetaiCamera cam;
 void setup() {
   fullScreen();
   orientation(LANDSCAPE);
+  requestPermission("android.permission.CAMERA");
   imageMode(CENTER);
-  textSize(45);
+  textSize(displayDensity * 25);
 }
 
 void draw() {

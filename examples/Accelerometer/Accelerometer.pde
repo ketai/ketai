@@ -22,13 +22,13 @@ void setup()
   sensor.start();
   //orientation(LANDSCAPE);
   textAlign(CENTER, CENTER);
-  textSize(36);
+  textSize(displayDensity * 36);
 }
 
 void draw()
 {
   background(78, 93, 75);
-  text("Accelerometer: \n" + 
+  text("Accelerometer: \n" +
     "x: " + nfp(accelerometerX, 1, 3) + "\n" +
     "y: " + nfp(accelerometerY, 1, 3) + "\n" +
     "z: " + nfp(accelerometerZ, 1, 3), 0, 0, width, height);
@@ -42,8 +42,8 @@ void onAccelerometerEvent(float x, float y, float z)
 }
 
 /*
-	available sensors/methods 
-	
+	available sensors/methods
+
  * void onSensorEvent(SensorEvent e) - raw android sensor event <br />
  * void onAccelerometerEvent(float x, float y, float z, long a, int b): x,y,z force in m/s^2, a=timestamp(nanos), b=accuracy
  * void onAccelerometerEvent(float x, float y, float z):  x,y,z force in m/s2
@@ -73,6 +73,6 @@ void onAccelerometerEvent(float x, float y, float z)
  * void onStepDetectorEvent(): called on every step detected
  * void onStepCounterEvent(float s): s is the step count since device reboot, is called on new step
  * void onGeomagneticRotationVectorEvent(float x, float y, float z):
- * void onGameRotationEvent(float x, float y, float z): 
- * void onHeartRateEvent(float r): returns current heart rate in bpm 
+ * void onGameRotationEvent(float x, float y, float z):
+ * void onHeartRateEvent(float r): returns current heart rate in bpm
 */
