@@ -93,6 +93,9 @@ public class KetaiAudioInput implements Runnable {
 
 	public void register(Object o) {
 		callbackdelegate = o;
+		if (callbackdelegate instanceof PApplet) {
+			((PApplet)callbackdelegate).requestPermission("android.permission.RECORD_AUDIO", "onPermissionResult", this);		
+		}
 
 		try {
 			callbackMethod = o.getClass().getMethod("onAudioEvent",
@@ -103,6 +106,13 @@ public class KetaiAudioInput implements Runnable {
 			PApplet.println("Failed to find onAudioEvent callback method...");
 		}
 	}
+	
+	
+	public void onPermissionResult(boolean granted) {
+		if (!granted) {
+			PApplet.println("User did not allow to record audio.  Audio recording is disabled.");
+		}
+	}	
 
 	protected void finalize() throws Throwable {
 		super.finalize();

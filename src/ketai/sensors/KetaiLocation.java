@@ -43,7 +43,7 @@ public class KetaiLocation implements LocationListener {
 			onLocationEventMethod3arg, onLocationEventMethod4arg;
 
 	/** The provider. */
-	private String provider;
+	private String provider = "none";
 
 	/** The location. */
 	private Location location;
@@ -77,7 +77,8 @@ public class KetaiLocation implements LocationListener {
 		PApplet.println("KetaiLocationManager instantiated:"
 				+ locationManager.toString());
 		findObjectIntentions(parent);
-		start();
+		
+		parent.requestPermission("android.permission.ACCESS_FINE_LOCATION", "onPermissionResult", this);		
 	}
 
 	/*
@@ -165,6 +166,18 @@ public class KetaiLocation implements LocationListener {
 	 */
 	public boolean isStarted() {
 		return (onLocationEventMethod4arg != null);
+	}
+
+	/**
+	 * Handle permission request result
+	 */
+    public void onPermissionResult(boolean granted) {
+		if (granted) {
+			start();
+		} else {
+			PApplet.println("User did not grant location permission.  Location is disabled.");
+			provider = "none";
+		}
 	}
 
 	/**

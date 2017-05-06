@@ -106,9 +106,10 @@ public class KetaiCamera extends PImage {
 	public KetaiCamera(PApplet pParent, int _width, int _height,
 			int _framesPerSecond) {
 		super(_width, _height, PImage.ARGB);
+		parent = pParent;
+		parent.requestPermission("android.permission.CAMERA", "onPermissionResult", this);
 
 		bitmap = Bitmap.createBitmap(pixels, width, height, Config.ARGB_8888);
-		parent = pParent;
 		frameWidth = _width;
 		frameHeight = _height;
 		photoWidth = frameWidth;
@@ -143,6 +144,12 @@ public class KetaiCamera extends PImage {
 		parent.registerMethod("pause", this);
 		parent.registerMethod("dispose", this);
 		read();
+	}
+	
+	public void onPermissionResult(boolean granted) {
+		if (!granted) {
+			PApplet.println("User did not grant camera permission.  Camera is disabled.");		
+		}
 	}
 
 	private void determineObjectIntentions(Object o) {
