@@ -1,3 +1,8 @@
+v13 update
+---------- 
+Fixes getOrientation()
+
+ 
 v13 update beta 2
 -----------------
 Request permission in AudioInput, Camera, and Location
