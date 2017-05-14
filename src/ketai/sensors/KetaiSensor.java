@@ -1678,7 +1678,7 @@ public class KetaiSensor implements SensorEventListener {
 
 		if (SensorManager.getRotationMatrix(R, I, accelerometerData,
 				magnetometerData))
-			values = SensorManager.getOrientation(null, values);
+			values = SensorManager.getOrientation(R, values);
 
 		return values;
 	}
