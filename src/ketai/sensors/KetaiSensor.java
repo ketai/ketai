@@ -120,6 +120,14 @@ public class KetaiSensor implements SensorEventListener {
 	/** The Constant SERVICE_DESCRIPTION. */
 	final static String SERVICE_DESCRIPTION = "Android Sensors.";
 
+
+  /** Utility arrays used in the getOrientation() method. */
+	private float[] rotationMat;
+	private float[] inclinationMat;
+	private float[] orientationVec;	
+	private float[] zeroes = {0, 0, 0};
+
+
 	/**
 	 * Instantiates a new ketai sensor.
 	 * 
@@ -808,10 +816,11 @@ public class KetaiSensor implements SensorEventListener {
 
 		if (arg0.sensor.getType() == Sensor.TYPE_ACCELEROMETER
 				&& accelerometerSensorEnabled) {
+			// holding accel data for orientation, even if the event handler method is not 
+			// defined, because it could be used by the getOrientation method
+			accelerometerData = arg0.values.clone();				
 			if (onAccelerometerEventMethod != null) {
-				try {
-					// holding accel data for orientation
-					accelerometerData = arg0.values.clone();
+				try {					
 					onAccelerometerEventMethod.invoke(callbackdelegate,
 							new Object[] { arg0.values[0], arg0.values[1],
 									arg0.values[2], arg0.timestamp,
@@ -827,8 +836,6 @@ public class KetaiSensor implements SensorEventListener {
 
 			if (onAccelerometerEventMethodSimple != null) {
 				try {
-					// holding accel data for orientation calc
-					accelerometerData = arg0.values.clone();
 					onAccelerometerEventMethodSimple.invoke(callbackdelegate,
 							new Object[] { arg0.values[0], arg0.values[1],
 									arg0.values[2] });
@@ -906,9 +913,9 @@ public class KetaiSensor implements SensorEventListener {
 
 		if (arg0.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD
 				&& magneticFieldSensorEnabled) {
+			magnetometerData = arg0.values.clone();				
 			if (onMagneticFieldSensorEventMethod != null) {
 				try {
-					magnetometerData = arg0.values.clone();
 					onMagneticFieldSensorEventMethod.invoke(callbackdelegate,
 							new Object[] { arg0.values[0], arg0.values[1],
 									arg0.values[2], arg0.timestamp,
@@ -923,7 +930,6 @@ public class KetaiSensor implements SensorEventListener {
 			}
 			if (onMagneticFieldSensorEventMethodSimple != null) {
 				try {
-					magnetometerData = arg0.values.clone();
 					onMagneticFieldSensorEventMethodSimple.invoke(
 							callbackdelegate, new Object[] { arg0.values[0],
 									arg0.values[1], arg0.values[2] });
@@ -1665,22 +1671,61 @@ public class KetaiSensor implements SensorEventListener {
 	 * @return the orientation
 	 */
 	public float[] getOrientation() {
-		float[] values = new float[3];
-		float[] R = new float[16];
-		float[] I = new float[9];
-
 		if (!isStarted() || !(this.accelerometerSensorEnabled && this.magneticFieldSensorEnabled)) {
 			PApplet.println("Cannot compute orientation until sensor service is started and accelerometer and magnetometer must also be enabled.");
-			values = new float[3];
-			return values;
+			return zeroes.clone();
+		}
+    
+		if (accelerometerData != null && magnetometerData != null) {
+		  if (rotationMat == null) rotationMat = new float[16];
+		  if (inclinationMat == null) inclinationMat = new float[9];
+		  if (orientationVec == null) orientationVec = new float[3];
+		
+			if (SensorManager.getRotationMatrix(rotationMat, inclinationMat, 
+																					accelerometerData, magnetometerData)) {
+				SensorManager.getOrientation(rotationMat, orientationVec);
+				return orientationVec.clone();
+			} else {
+				return zeroes.clone();
+			}  		
+		} else {
+			return zeroes.clone();
+		}
+	}
+	
+
+	/**
+	 * Gets the orientation.
+	 * 
+	 * @param v
+	 *            the vector to hold the orientation values
+	 * @return the orientation vector
+	 */
+	public float[] getOrientation(float[] v) {
+		if (v == null) v = new float[3];
+		  
+		if (!isStarted() || !(this.accelerometerSensorEnabled && this.magneticFieldSensorEnabled)) {
+			PApplet.println("Cannot compute orientation until sensor service is started and accelerometer and magnetometer must also be enabled.");
+			PApplet.arrayCopy(zeroes, v);
 		}
 
-		if (SensorManager.getRotationMatrix(R, I, accelerometerData,
-				magnetometerData))
-			values = SensorManager.getOrientation(R, values);
-
-		return values;
+		if (accelerometerData != null && magnetometerData != null) {
+		  if (rotationMat == null) rotationMat = new float[16];
+		  if (inclinationMat == null) inclinationMat = new float[9];
+		
+			if (SensorManager.getRotationMatrix(rotationMat, inclinationMat, 
+																					accelerometerData, magnetometerData)) {
+				SensorManager.getOrientation(rotationMat, v);
+			} else {
+				PApplet.arrayCopy(zeroes, v);
+			}  		
+		} else {
+			PApplet.arrayCopy(zeroes, v);
+		}
+		
+    return v;
 	}
+		
 
 	public void register(Object delegate) {
 		PApplet.println("KetaiSensor delegating Events to class: "
