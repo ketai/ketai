@@ -1669,8 +1669,7 @@ public class KetaiSensor implements SensorEventListener {
 		float[] R = new float[16];
 		float[] I = new float[9];
 
-		if (!isStarted() && !this.accelerometerSensorEnabled
-				&& !this.magneticFieldSensorEnabled) {
+		if (!isStarted() || !(this.accelerometerSensorEnabled && this.magneticFieldSensorEnabled)) {
 			PApplet.println("Cannot compute orientation until sensor service is started and accelerometer and magnetometer must also be enabled.");
 			values = new float[3];
 			return values;
