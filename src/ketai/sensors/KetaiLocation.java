@@ -48,6 +48,8 @@ public class KetaiLocation implements LocationListener {
 	/** The location. */
 	private Location location;
 
+	private SensorQueue locationQueue;
+
 	/** The me. */
 	KetaiLocation me;
 
@@ -74,12 +76,14 @@ public class KetaiLocation implements LocationListener {
 		me = this;
 		locationManager = (LocationManager) parent.getSurface().getContext()
 				.getSystemService(Context.LOCATION_SERVICE);
+		locationQueue = new SensorQueue();
 		PApplet.println("KetaiLocationManager instantiated:"
 				+ locationManager.toString());
 		findObjectIntentions(parent);
 		
 		parent.requestPermission("android.permission.ACCESS_FINE_LOCATION", "onPermissionResult", this);		
 		parent.registerMethod("dispose", this);
+		parent.registerMethod("post", this);
 	}
 
 	/*
@@ -91,8 +95,31 @@ public class KetaiLocation implements LocationListener {
 	 */
 	public void onLocationChanged(Location _location) {
 		PApplet.println("LocationChanged:" + _location.toString());
-		location = _location;
+        locationQueue.add(new Location(_location));
+	}
 
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * Safely de-queue all locations after drawing.
+	 */
+	public void post() {
+		dequeueLocations();
+	}
+	
+	
+	private void dequeueLocations() {
+		PApplet.println("dequeueLocations:" + locationQueue.available());	
+		while (locationQueue.available()) {
+			Location loc = (Location)locationQueue.remove();
+			handleLocationEvent(loc);		
+		}
+	}
+	
+	
+	private void handleLocationEvent(Location _location) {
+		location = _location;
 		if (onLocationEventMethod1arg != null)
 			try {
 				onLocationEventMethod1arg.invoke(callbackdelegate,
@@ -148,8 +175,9 @@ public class KetaiLocation implements LocationListener {
 						+ e.getMessage());
 				e.printStackTrace();
 				onLocationEventMethod4arg = null;
-			}
+			}	
 	}
+	
 
 	/**
 	 * Gets the last location.
