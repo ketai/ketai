@@ -96,6 +96,22 @@ public class KetaiLocation implements LocationListener {
 	public void onLocationChanged(Location _location) {
 		PApplet.println("LocationChanged:" + _location.toString());
         locationQueue.add(new Location(_location));
+        
+        // Calling the 1 argument handling method on the thread the listener
+        // is being run from, the rest on the Processing's animation thread.
+        // If user want the raw location object, she or he should know what to do :-)
+		if (onLocationEventMethod1arg != null)
+			try {
+				onLocationEventMethod1arg.invoke(callbackdelegate,
+						new Object[] { _location });
+
+				return;
+			} catch (Exception e) {
+				PApplet.println("Disabling onLocationEvent() because of an error:"
+						+ e.getMessage());
+				e.printStackTrace();
+				onLocationEventMethod1arg = null;
+			}        
 	}
 
 
@@ -110,7 +126,6 @@ public class KetaiLocation implements LocationListener {
 	
 	
 	private void dequeueLocations() {
-		PApplet.println("dequeueLocations:" + locationQueue.available());	
 		while (locationQueue.available()) {
 			Location loc = (Location)locationQueue.remove();
 			handleLocationEvent(loc);		
@@ -120,18 +135,7 @@ public class KetaiLocation implements LocationListener {
 	
 	private void handleLocationEvent(Location _location) {
 		location = _location;
-		if (onLocationEventMethod1arg != null)
-			try {
-				onLocationEventMethod1arg.invoke(callbackdelegate,
-						new Object[] { location });
 
-				return;
-			} catch (Exception e) {
-				PApplet.println("Disabling onLocationEvent() because of an error:"
-						+ e.getMessage());
-				e.printStackTrace();
-				onLocationEventMethod1arg = null;
-			}
 
 		if (onLocationEventMethod2arg != null)
 			try {
