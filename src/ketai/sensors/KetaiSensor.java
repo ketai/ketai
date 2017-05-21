@@ -141,6 +141,7 @@ public class KetaiSensor implements SensorEventListener {
 		sensorManager = (SensorManager) parent.getContext()
 				.getSystemService(Context.SENSOR_SERVICE);
 		delayInterval = timeOfLastUpdate = 0;
+		parent.registerMethod("dispose", this);
 	}
 
 	public static boolean remapCoordinateSystem(float[] inR, int X, int Y,
@@ -780,6 +781,15 @@ public class KetaiSensor implements SensorEventListener {
 		PApplet.println("KetaiSensor: Stop()....");
 		sensorManager.unregisterListener(this);
 		isRegistered = false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * Dispose. - will be called by the parent sketch when shutting down
+	 */    
+	public void dispose() {
+		stop();
 	}
 
 	/*
@@ -1682,7 +1692,7 @@ public class KetaiSensor implements SensorEventListener {
 		  if (orientationVec == null) orientationVec = new float[3];
 		
 			if (SensorManager.getRotationMatrix(rotationMat, inclinationMat, 
-																					accelerometerData, magnetometerData)) {
+				accelerometerData, magnetometerData)) {
 				SensorManager.getOrientation(rotationMat, orientationVec);
 				return orientationVec.clone();
 			} else {
@@ -1714,7 +1724,7 @@ public class KetaiSensor implements SensorEventListener {
 		  if (inclinationMat == null) inclinationMat = new float[9];
 		
 			if (SensorManager.getRotationMatrix(rotationMat, inclinationMat, 
-																					accelerometerData, magnetometerData)) {
+				accelerometerData, magnetometerData)) {
 				SensorManager.getOrientation(rotationMat, v);
 			} else {
 				PApplet.arrayCopy(zeroes, v);

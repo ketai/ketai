@@ -79,6 +79,7 @@ public class KetaiLocation implements LocationListener {
 		findObjectIntentions(parent);
 		
 		parent.requestPermission("android.permission.ACCESS_FINE_LOCATION", "onPermissionResult", this);		
+		parent.registerMethod("dispose", this);
 	}
 
 	/*
@@ -228,6 +229,17 @@ public class KetaiLocation implements LocationListener {
 		PApplet.println("KetaiLocationManager: Stop()....");
 		locationManager.removeUpdates(this);
 	}
+
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * Dispose. - will be called by the parent sketch when shutting down
+	 */    
+	public void dispose() {
+		stop();
+	}
+
 
 	/*
 	 * (non-Javadoc)
