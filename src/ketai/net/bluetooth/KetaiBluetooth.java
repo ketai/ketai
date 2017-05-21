@@ -103,6 +103,7 @@ public class KetaiBluetooth {
 		discoveredDevices = new HashMap<String, String>();
 		currentConnections = new HashMap<String, KBluetoothConnection>();
 		findParentIntention();
+		parent.registerMethod("dispose", this);
 	}
 
 	/**
@@ -519,6 +520,15 @@ public class KetaiBluetooth {
 		btListener = null;
 		mConnectThread = null;
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * Dispose. - will be called by the parent sketch when shutting down
+	 */    
+	public void dispose() {
+		stop();
+	}		
 
 	/**
 	 * The Class ConnectThread.
