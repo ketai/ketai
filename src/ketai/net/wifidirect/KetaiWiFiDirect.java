@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import processing.core.PApplet;
+import android.os.Bundle;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -66,6 +67,18 @@ public class KetaiWiFiDirect extends BroadcastReceiver implements
 	 */
 	public KetaiWiFiDirect(PApplet _parent) {
 		parent = _parent;
+		
+		initIntentFilter();
+		
+		parent.registerMethod("resume", this);
+		parent.registerMethod("pause", this);
+	}
+	
+	/**
+	 * Initializes the intent filter
+	 *
+	 */	
+	private void initIntentFilter() {
 		intentFilter.addAction(WifiP2pManager.WIFI_P2P_STATE_CHANGED_ACTION);
 		intentFilter.addAction(WifiP2pManager.WIFI_P2P_PEERS_CHANGED_ACTION);
 		intentFilter
@@ -77,9 +90,7 @@ public class KetaiWiFiDirect extends BroadcastReceiver implements
 				.getSystemService(Context.WIFI_P2P_SERVICE);
 
 		channel = manager.initialize(parent.getActivity(), parent.getActivity().getMainLooper(), this);
-		parent.getActivity().registerReceiver(this, intentFilter);
-		parent.registerMethod("resume", this);
-		parent.registerMethod("pause", this);
+		parent.getActivity().registerReceiver(this, intentFilter);	
 	}
 
 	/**

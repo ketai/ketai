@@ -12,6 +12,7 @@ import java.util.Locale;
 
 import ketai.net.nfc.record.ParsedNdefRecord;
 import processing.core.PApplet;
+import android.os.Bundle;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -88,16 +89,7 @@ public class KetaiNFC implements CreateNdefMessageCallback,
 		Log.d("KetaiNFC", "KetaiNFC instantiated...");
 		findParentIntentions();
 
-		mAdapter = NfcAdapter.getDefaultAdapter(parent.getActivity());
-
-		if (mAdapter == null)
-			Log.i("KetaiNFC", "Failed to get NFC adapter...");
-		else
-			mAdapter.setNdefPushMessageCallback(this, parent.getActivity());
-
-		p = PendingIntent.getActivity(parent.getActivity(), 0,
-				new Intent(parent.getActivity(), parent.getClass())
-						.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
+        initAdapter();
 
 		// Setup an intent filter for all MIME based dispatches
 		// For now we'll just pretend to handle all types, but should
@@ -119,8 +111,10 @@ public class KetaiNFC implements CreateNdefMessageCallback,
 				new String[] { MifareUltralight.class.getName() },
 				new String[] { NfcF.class.getName() },
 				new String[] { NdefFormatable.class.getName() } };
+
 		parent.registerMethod("resume", this);
 		parent.registerMethod("pause", this);
+		parent.registerMethod("onNewIntent", this);		
 	}
 
 	/**
@@ -171,6 +165,17 @@ public class KetaiNFC implements CreateNdefMessageCallback,
 		if (mAdapter != null)
 			mAdapter.disableForegroundDispatch(parent.getActivity());
 	}
+
+	/**
+	 * Called with a new intent event is triggered.
+	 *
+	 * @param intent the intent	 
+	 */
+    public void onNewIntent(Intent intent) { 
+      parent.println("----------------------> KetaiNFC.onNewIntent()");    
+       handleIntent(intent);
+    }
+
 
 	/**
 	 * Handle intent.(used by the android platform for management)
@@ -492,6 +497,24 @@ public class KetaiNFC implements CreateNdefMessageCallback,
 			});
 		}
 	}
+	
+	
+	/**
+	 * Init the NFC adapter and the p.
+	 */	
+	private void initAdapter() {
+		mAdapter = NfcAdapter.getDefaultAdapter(parent.getActivity());
+
+		if (mAdapter == null)
+			Log.i("KetaiNFC", "Failed to get NFC adapter...");
+		else
+			mAdapter.setNdefPushMessageCallback(this, parent.getActivity());
+
+		p = PendingIntent.getActivity(parent.getActivity(), 0,
+				new Intent(parent.getActivity(), parent.getClass())
+						.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);	
+	}
+	
 
 	/**
 	 * Find parent intentions.

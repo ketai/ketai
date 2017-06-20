@@ -1,11 +1,9 @@
+// public void onCreate(Bundle savedInstanceState) { 
+//   super.onCreate(savedInstanceState);
+//   ketaiNFC = new KetaiNFC(this);
+// }
 
-public void onCreate(Bundle savedInstanceState) { 
-  super.onCreate(savedInstanceState);
+
+void create() {
   ketaiNFC = new KetaiNFC(this);
-}
-
-// This is not available...
-public void onNewIntent(Intent intent) { 
-  if (ketaiNFC != null)
-    ketaiNFC.handleIntent(intent);
 }
