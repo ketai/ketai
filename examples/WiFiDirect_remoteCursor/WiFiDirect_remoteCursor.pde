@@ -8,10 +8,10 @@
  * <li>Enables Discovery</li>
  * <li>Allows writing data to device</li>
  * </ul>
- * <p>Updated: 2012-05-18 Daniel Sauter/j.duran</p>
+ * <p>Updated: 2017-04-13 Daniel Sauter/j.duran</p>
  */
 import android.os.Bundle;
- 
+
 import ketai.net.wifidirect.*;
 
 import ketai.net.*;
@@ -32,7 +32,9 @@ PVector remoteCursor = new PVector();
 
 void setup()
 {   
+  fullScreen();
   orientation(PORTRAIT);
+
   background(78, 93, 75);
   stroke(255);
   textSize(24);
@@ -66,16 +68,14 @@ void draw()
       {
         info += "["+i+"] "+devices.get(i).toString() + "\t\t"+devices.size()+"\n";
       }
-    }
-    else if (key == 'p')
+    } else if (key == 'p')
     {
       info += "Peers: \n";
-      for (String s:net.getPeerNameList())
+      for (String s : net.getPeerNameList())
         info+= "\t" + s + "\n";
     }
     text(UIText + "\n\n" + info, 5, 90);
-  }
-  else
+  } else
   {
     pushStyle();
     noStroke();
@@ -96,8 +96,7 @@ void mousePressed()
   else if (mouseY <= 50 && mouseX > width/3 && mouseX < 2*(width/3)) //config button
   {
     isConfiguring=true;
-  }
-  else if (mouseY <= 50 && mouseX >  2*(width/3) && mouseX < width) // draw button
+  } else if (mouseY <= 50 && mouseX >  2*(width/3) && mouseX < width) // draw button
   {
     if (isConfiguring)
     {
@@ -154,4 +153,3 @@ void oscEvent(OscMessage m) {
     }
   }
 }
-

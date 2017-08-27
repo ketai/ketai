@@ -8,7 +8,9 @@ String tag="";
 
 void setup()
 {
+  fullScreen();
   orientation(PORTRAIT);
+
   textAlign(CENTER);
   textSize(28);
   String d = month()+"/"+day()+"/"+year()+" "+hour()+":"+minute()+":"+second();
@@ -19,7 +21,7 @@ void draw()
 {
   background(128);
   text("Android Beam Example\nTouch two NFC-enabled devices and beam!\nLast Message Read:" + tag, width/2, height/2);
-  
+
   //update beam string everys second'ish...
   if (frameCount % (int)frameRate == 0)
   {
@@ -39,4 +41,3 @@ void mousePressed()
 {
   tag = "";
 }
-

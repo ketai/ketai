@@ -24,7 +24,9 @@ void setup()
   db = new KetaiSQLite(this);
   sensor = new KetaiSensor(this);
   frameRate(5);
+  fullScreen();
   orientation(LANDSCAPE);
+
   textAlign(CENTER, CENTER);
   textSize(36);
 
@@ -60,7 +62,7 @@ void mousePressed()
 }
 /*
       collect accelerometer data and save it to the database
-*/
+ */
 void onAccelerometerEvent(float x, float y, float z, long time, int accuracy)
 {
   if (db.connect() && isCapturing)
@@ -88,7 +90,7 @@ void plotData()
       float z = db.getFloat("z");
       long  t = db.getLong("time");
       int plotx = (int)maplong(t, mymin, mymax, 0, width);
-      
+
       fill(255, 0, 0);
       ellipse(plotx, map(x, -30, 30, 0, height), 5, 5);
       fill(0, 255, 0);
@@ -106,4 +108,3 @@ long maplong(long value, long istart, long istop, long ostart, long ostop) {
   long divisor = istop - istart;
   return (ostart + (ostop - ostart) * (value - istart) / divisor);
 }
-

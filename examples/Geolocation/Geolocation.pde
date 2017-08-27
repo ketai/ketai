@@ -22,24 +22,26 @@ double longitude, latitude, altitude;
 KetaiLocation location;
 
 void setup() {
+  fullScreen();
   orientation(LANDSCAPE);
+
   textAlign(CENTER, CENTER);
   textSize(36);
 }
 
 void draw() {
-  if(location == null)
+  if (location == null)
     location = new KetaiLocation(this);
 
   background(78, 93, 75);
   if (location.getProvider() == "none")
     text("Location data is unavailable. \n" +
-      "Please check your location settings.",  0, 0, width, height);
+      "Please check your location settings.", 0, 0, width, height);
   else
     text("Latitude: " + latitude + "\n" + 
       "Longitude: " + longitude + "\n" + 
       "Altitude: " + altitude + "\n" + 
-      "Provider: " + location.getProvider(),  0, 0, width, height);  
+      "Provider: " + location.getProvider(), 0, 0, width, height);  
   // getProvider() returns "gps" if GPS is available
   // otherwise "network" (cell network) or "passive" (WiFi MACID)
 }

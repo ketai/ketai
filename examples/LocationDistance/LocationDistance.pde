@@ -20,11 +20,13 @@ KetaiLocation location;
 Location uic;
 
 void setup() {
+  fullScreen();
   //creates a location object that refers to UIC
   uic = new Location("uic"); // Example location: the University of Illinois at Chicago
   uic.setLatitude(41.874698);
   uic.setLongitude(-87.658777);
   orientation(LANDSCAPE);
+
   textAlign(CENTER, CENTER);
   textSize(36);
 }

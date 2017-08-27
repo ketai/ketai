@@ -10,7 +10,9 @@ ArrayList<Thing> things = new ArrayList<Thing>();
 
 void setup()
 {
+  fullScreen();
   orientation(LANDSCAPE);
+
   gesture = new KetaiGesture(this);
   img = loadImage("toci.jpg");
   textSize(32);
@@ -26,7 +28,7 @@ void draw()
   rotate(Angle);
   image(img, 0, 0, Size, Size);
   popMatrix();
-  
+
   //if we have things lets reverse through them 
   //  so we can delete dead ones and draw live ones
   if (things.size() > 0)
@@ -78,7 +80,8 @@ void mouseDragged()
 }
 
 void mousePressed()
-{}
+{
+}
 
 
 public boolean surfaceTouchEvent(MotionEvent event) {
@@ -89,4 +92,3 @@ public boolean surfaceTouchEvent(MotionEvent event) {
   //forward event to class for processing
   return gesture.surfaceTouchEvent(event);
 }
-

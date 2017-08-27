@@ -7,7 +7,9 @@ color backgroundcolor = color(0, 0, 0);
 
 void setup()
 {
+  fullScreen();
   orientation(LANDSCAPE);
+
   textSize(28);
   textAlign(CENTER);
   vibe = new KetaiVibrate(this);
@@ -18,9 +20,9 @@ void setup()
   colorlist.add("Gray");
   for (int i = 0; i < 20; i++)
     colorlist.add("Stub Entry " + i);
-    
+
   //register for key events(keyPressed currently Broken)
-  //registerMethod("keyEvent", this);  
+  //registerMethod("keyEvent", this);
 }
 
 void draw()
@@ -42,8 +44,7 @@ void mousePressed()
       KetaiAlertDialog.popup(this, "Pop Up!", "this is a popup message box");
     else
       vibe.vibrate(1000);
-  }
-  else
+  } else
     selectionlist = new KetaiList(this, colorlist);
 }
 
@@ -84,11 +85,8 @@ void drawUI()
 //use event framework temporarily
 public void keyPressed() {
 
-    if (key == ' ')
-      KetaiAlertDialog.popup(this, "SPACE pressed", "You pressed the <SPACE> key!");
-    else
-      println(key);
+  if (key == ' ')
+    KetaiAlertDialog.popup(this, "SPACE pressed", "You pressed the <SPACE> key!");
+  else
+    println(key);
 }
-
-
-

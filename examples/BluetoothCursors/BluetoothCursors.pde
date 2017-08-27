@@ -46,7 +46,9 @@ void onActivityResult(int requestCode, int resultCode, Intent data) {
 
 void setup()
 {   
+  fullScreen();
   orientation(PORTRAIT);
+
   background(78, 93, 75);
   stroke(255);
   textSize(24);
@@ -78,8 +80,7 @@ void draw()
       {
         info = "Paired Devices:\n";
         names = bt.getPairedDeviceNames();
-      }
-      else
+      } else
       {
         info = "Discovered Devices:\n";
         names = bt.getDiscoveredDeviceNames();
@@ -91,8 +92,7 @@ void draw()
       }
     }
     text(UIText + "\n\n" + info, 5, 90);
-  }
-  else
+  } else
   {
     background(78, 93, 75);
     pushStyle();
@@ -139,11 +139,10 @@ String getBluetoothInformation()
   btInfo += "\nConnected Devices: \n";
 
   ArrayList<String> devices = bt.getConnectedDeviceNames();
-  for (String device: devices)
+  for (String device : devices)
   {
     btInfo+= device+"\n";
   }
 
   return btInfo;
 }
-

@@ -7,7 +7,7 @@
  * <li>Includes Accelerometer, Magnetometer, Gyroscope, GPS, Light, Proximity</li>
  * <li>Use KetaiNFC for Near Field Communication</li>
  * </ul>
- * <p>Updated: 2012-03-10 Daniel Sauter/j.duran</p>
+ * <p>Updated: 2017-04-13 Daniel Sauter/j.duran</p>
  */
 
 import ketai.sensors.*;
@@ -18,12 +18,14 @@ float light, proximity;
 
 void setup()
 {
+  fullScreen();
   sensor = new KetaiSensor(this);
   sensor.start();
   sensor.list();
   accelerometer = new PVector();
   magneticField = new PVector();
   orientation(LANDSCAPE);
+
   textAlign(CENTER, CENTER);
   textSize(28);
 }
@@ -73,7 +75,7 @@ public void mousePressed() {
 }
 /*
 	available sensors/methods 
-	
+ 	
  * void onSensorEvent(SensorEvent e) - raw android sensor event 
  * void onAccelerometerEvent(float x, float y, float z, long a, int b): x,y,z force in m/s^2, a=timestamp(nanos), b=accuracy
  * void onAccelerometerEvent(float x, float y, float z):  x,y,z force in m/s2
@@ -99,10 +101,10 @@ public void mousePressed() {
  * void onRotationVectorEvent(float x, float y, float z):x,y,z rotation vector values
  * void onAmibentTemperatureEvent(float t): same as temp above (newer API)
  * void onRelativeHumidityEvent(float h): h ambient humidity in percentage
-  * void onSignificantMotionEvent(): trigger for when significant motion has occurred
+ * void onSignificantMotionEvent(): trigger for when significant motion has occurred
  * void onStepDetectorEvent(): called on every step detected
  * void onStepCounterEvent(float s): s is the step count since device reboot, is called on new step
  * void onGeomagneticRotationVectorEvent(float x, float y, float z):
  * void onGameRotationEvent(float x, float y, float z): 
  * void onHeartRateEvent(float r): returns current heart rate in bpm 
-*/
+ */

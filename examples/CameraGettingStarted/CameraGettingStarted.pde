@@ -6,7 +6,7 @@
  * <li>Interface for built-in camera</li>
  * <li>TODO: fix HACK of camera registration that currently exceptions in setup() at the moment.</li>
  * </ul>
- * <p>Updated: 2012-10-21 Daniel Sauter/j.duran</p>
+ * <p>Updated: 2017-04-13 Daniel Sauter/j.duran</p>
  */
 
 import ketai.camera.*;
@@ -14,20 +14,22 @@ import ketai.camera.*;
 KetaiCamera cam;
 
 void setup() {
+  fullScreen();
   orientation(LANDSCAPE);
+
   imageMode(CENTER);
   textSize(45);
 }
 
 void draw() {
-  
-  if(cam != null && cam.isStarted())
+
+  if (cam != null && cam.isStarted())
     image(cam, width/2, height/2, width, height);
   else
-    {
-      background(128);
-      text("Waiting for camera....touch to activate", 100, height/2);
-    }
+  {
+    background(128);
+    text("Waiting for camera....touch to activate", 100, height/2);
+  }
 }
 
 void onCameraPreviewEvent()
@@ -39,20 +41,19 @@ void onCameraPreviewEvent()
 void mousePressed()
 {
   //HACK: Instantiate camera once we are in the sketch itself
-  if(cam == null)
-      cam = new KetaiCamera(this, 640, 480, 24);
-      
+  if (cam == null)
+    cam = new KetaiCamera(this, 640, 480, 24);
+
   if (cam.isStarted())
   {
     cam.stop();
-  }
-  else
+  } else
     cam.start();
 }
 void keyPressed() {
-  if(cam == null)
+  if (cam == null)
     return;
-    
+
   if (key == CODED) {
     if (keyCode == MENU) {
       if (cam.isFlashEnabled())

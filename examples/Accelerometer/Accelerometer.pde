@@ -7,7 +7,7 @@
  * <li>Includes Accelerometer, Magnetometer, Gyroscope, GPS, Light, Proximity</li>
  * <li>Use KetaiNFC for Near Field Communication</li>
  * </ul>
- * <p>Updated: 2012-03-10 Daniel Sauter/j.duran</p>
+ * <p>Updated: 2017-04-13 Daniel Sauter/j.duran</p>
  */
 
 import ketai.sensors.*;
@@ -17,9 +17,10 @@ float accelerometerX, accelerometerY, accelerometerZ;
 
 void setup()
 {
+  fullScreen();
+  orientation(LANDSCAPE);
   sensor = new KetaiSensor(this);
   sensor.start();
-  orientation(LANDSCAPE);
   textAlign(CENTER, CENTER);
   textSize(36);
 }

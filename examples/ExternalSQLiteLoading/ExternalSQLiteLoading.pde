@@ -15,6 +15,7 @@ KetaiSQLite db2;
 
 void setup()
 {
+  fullScreen();
     //KetaiSQLite.load(context, filename, dbname) 
   if (KetaiSQLite.load(this, "large.sqlite", "large")) //loads an sql db file from the data folder
     println("loaded 1st db file!");

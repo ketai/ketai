@@ -6,9 +6,11 @@ short[] data;
 
 void setup()
 {
+  fullScreen();
   orientation(LANDSCAPE);
+
   mic = new KetaiAudioInput(this);
-  fill(255,0,0);
+  fill(255, 0, 0);
   textSize(48);
 }
 
@@ -20,16 +22,15 @@ void draw()
   {  
     for (int i = 0; i < data.length; i++)
     {
-      if(i != data.length-1)
-        line(i, map(data[i], -32768, 32767,height,0), i+1, map(data[i+1], -32768, 32767,height,0));
+      if (i != data.length-1)
+        line(i, map(data[i], -32768, 32767, height, 0), i+1, map(data[i+1], -32768, 32767, height, 0));
     }
   }
-  
-  if(mic.isActive())
+
+  if (mic.isActive())
     text("READING MIC", width/2, height/2);
   else
     text("NOT READING MIC", width/2, height/2);
-  
 }
 
 
@@ -45,4 +46,3 @@ void mousePressed()
   else
     mic.start();
 }
-
