@@ -117,7 +117,7 @@ public class KBluetoothConnection extends Thread {
 				// mHandler.obtainMessage(BluetoothChat.MESSAGE_READ, bytes, -1,
 				// buffer).sendToTarget();
 				try {
-					Thread.sleep(100);
+					Thread.sleep(5);
 				} catch (InterruptedException e) {
 
 				}
