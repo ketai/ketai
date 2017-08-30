@@ -1,5 +1,5 @@
-v13 update
----------- 
+v13 update beta 3
+-----------------
 Fixes getOrientation()
 
  
