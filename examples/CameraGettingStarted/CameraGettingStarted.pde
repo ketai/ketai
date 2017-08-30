@@ -18,7 +18,7 @@ void setup() {
   orientation(LANDSCAPE);
 
   imageMode(CENTER);
-  textSize(45);
+  textSize(displayDensity * 25);
 }
 
 void draw() {

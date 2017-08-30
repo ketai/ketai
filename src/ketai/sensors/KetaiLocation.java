@@ -11,6 +11,8 @@ import android.location.Criteria;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 
 /**
  * The KetaiLocation class provides android location services data to a sketch.
@@ -41,10 +43,12 @@ public class KetaiLocation implements LocationListener {
 			onLocationEventMethod3arg, onLocationEventMethod4arg;
 
 	/** The provider. */
-	private String provider;
+	private String provider = "none";
 
 	/** The location. */
 	private Location location;
+
+	private SensorQueue locationQueue;
 
 	/** The me. */
 	KetaiLocation me;
@@ -70,12 +74,16 @@ public class KetaiLocation implements LocationListener {
 	public KetaiLocation(PApplet pParent) {
 		parent = pParent;
 		me = this;
-		locationManager = (LocationManager) parent.getActivity().getApplicationContext()
+		locationManager = (LocationManager) parent.getSurface().getContext()
 				.getSystemService(Context.LOCATION_SERVICE);
+		locationQueue = new SensorQueue();
 		PApplet.println("KetaiLocationManager instantiated:"
 				+ locationManager.toString());
 		findObjectIntentions(parent);
-		start();
+		
+		parent.requestPermission("android.permission.ACCESS_FINE_LOCATION", "onPermissionResult", this);		
+		parent.registerMethod("dispose", this);
+		parent.registerMethod("post", this);
 	}
 
 	/*
@@ -87,12 +95,15 @@ public class KetaiLocation implements LocationListener {
 	 */
 	public void onLocationChanged(Location _location) {
 		PApplet.println("LocationChanged:" + _location.toString());
-		location = _location;
-
+        locationQueue.add(new Location(_location));
+        
+        // Calling the 1 argument handling method on the thread the listener
+        // is being run from, the rest on the Processing's animation thread.
+        // If user want the raw location object, she or he should know what to do :-)
 		if (onLocationEventMethod1arg != null)
 			try {
 				onLocationEventMethod1arg.invoke(callbackdelegate,
-						new Object[] { location });
+						new Object[] { _location });
 
 				return;
 			} catch (Exception e) {
@@ -100,7 +111,31 @@ public class KetaiLocation implements LocationListener {
 						+ e.getMessage());
 				e.printStackTrace();
 				onLocationEventMethod1arg = null;
-			}
+			}        
+	}
+
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * Safely de-queue all locations after drawing.
+	 */
+	public void post() {
+		dequeueLocations();
+	}
+	
+	
+	private void dequeueLocations() {
+		while (locationQueue.available()) {
+			Location loc = (Location)locationQueue.remove();
+			handleLocationEvent(loc);		
+		}
+	}
+	
+	
+	private void handleLocationEvent(Location _location) {
+		location = _location;
+
 
 		if (onLocationEventMethod2arg != null)
 			try {
@@ -144,8 +179,9 @@ public class KetaiLocation implements LocationListener {
 						+ e.getMessage());
 				e.printStackTrace();
 				onLocationEventMethod4arg = null;
-			}
+			}	
 	}
+	
 
 	/**
 	 * Gets the last location.
@@ -163,6 +199,18 @@ public class KetaiLocation implements LocationListener {
 	 */
 	public boolean isStarted() {
 		return (onLocationEventMethod4arg != null);
+	}
+
+	/**
+	 * Handle permission request result
+	 */
+    public void onPermissionResult(boolean granted) {
+		if (granted) {
+			start();
+		} else {
+			PApplet.println("User did not grant location permission.  Location is disabled.");
+			provider = "none";
+		}
 	}
 
 	/**
@@ -213,6 +261,17 @@ public class KetaiLocation implements LocationListener {
 		PApplet.println("KetaiLocationManager: Stop()....");
 		locationManager.removeUpdates(this);
 	}
+
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * Dispose. - will be called by the parent sketch when shutting down
+	 */    
+	public void dispose() {
+		stop();
+	}
+
 
 	/*
 	 * (non-Javadoc)
@@ -297,12 +356,19 @@ public class KetaiLocation implements LocationListener {
 			return false;
 		PApplet.println("Requesting location updates from: " + provider);
 
-		parent.getActivity().runOnUiThread(new Runnable() {
-			public void run() {
-				locationManager.requestLocationUpdates(provider, minTime,
-						minDistance, me);
-			}
-		});
+		Runnable r = new Runnable() {
+      public void run() {
+        locationManager.requestLocationUpdates(provider, minTime,
+            minDistance, me);
+      }
+    };
+		new Handler(Looper.getMainLooper()).post(r);		
+//		parent.getActivity().runOnUiThread(new Runnable() {
+//			public void run() {
+//				locationManager.requestLocationUpdates(provider, minTime,
+//						minDistance, me);
+//			}
+//		});
 
 		return true;
 	}

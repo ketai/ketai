@@ -24,14 +24,13 @@ KetaiLocation location;
 void setup() {
   fullScreen();
   orientation(LANDSCAPE);
-
+  location = new KetaiLocation(this);
+  
   textAlign(CENTER, CENTER);
-  textSize(36);
+  textSize(displayDensity * 36);
 }
 
 void draw() {
-  if (location == null)
-    location = new KetaiLocation(this);
 
   background(78, 93, 75);
   if (location.getProvider() == "none")

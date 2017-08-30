@@ -27,7 +27,7 @@ void setup()
   orientation(LANDSCAPE);
 
   textAlign(CENTER, CENTER);
-  textSize(28);
+  textSize(displayDensity * 28);
 }
 
 void draw()

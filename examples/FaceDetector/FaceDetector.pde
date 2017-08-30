@@ -24,8 +24,6 @@ void setup()
   strokeWeight(2);
   noFill();
   rectMode(CENTER);
-  noLoop();
-
   myImage = loadImage("faces.jpg");
 }
 

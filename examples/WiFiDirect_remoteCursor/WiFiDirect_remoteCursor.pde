@@ -21,6 +21,8 @@ import netP5.*;
 
 KetaiWiFiDirect net;
 
+// BROKEN: assumes PApplet is a descendant of Activity
+
 String info = "";
 ArrayList<String> devices = new ArrayList();
 boolean isConfiguring = true;
@@ -37,7 +39,7 @@ void setup()
 
   background(78, 93, 75);
   stroke(255);
-  textSize(24);
+  textSize(displayDensity * 24);
 
   UIText =  "d - discover devices\n" +
     "c - connect to device\n     from peer list.\n" +

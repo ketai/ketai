@@ -37,11 +37,12 @@ KetaiNFC ketaiNFC;
 
 void setup()
 {   
-  fullScreen();
+
+  fullScreen(); 
   orientation(LANDSCAPE);
 
   textAlign(CENTER, CENTER);
-  textSize(36);
+  textSize(displayDensity * 24);
   String d = "Ketai writing tag at: " + month()+"/"+day()+"/"+year()+" "+hour()+":"+minute()+":"+second();
   ketaiNFC.write(d);
 }

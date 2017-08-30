@@ -36,6 +36,7 @@ String UIText;
 void onCreate(Bundle savedInstanceState) {
   super.onCreate(savedInstanceState);
   bt = new KetaiBluetooth(this);
+  println("Creating KetaiBluetooth");
 }
 
 void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -51,7 +52,7 @@ void setup()
 
   background(78, 93, 75);
   stroke(255);
-  textSize(24);
+  textSize(displayDensity * 18);
 
   //start listening for BT connections
   bt.start();

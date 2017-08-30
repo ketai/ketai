@@ -22,13 +22,17 @@ Location uic;
 void setup() {
   fullScreen();
   //creates a location object that refers to UIC
+  fullScreen();
+  orientation(LANDSCAPE);
+  
+  location = new KetaiLocation(this);
+  
   uic = new Location("uic"); // Example location: the University of Illinois at Chicago
   uic.setLatitude(41.874698);
   uic.setLongitude(-87.658777);
-  orientation(LANDSCAPE);
 
   textAlign(CENTER, CENTER);
-  textSize(36);
+  textSize(displayDensity * 24);
 }
 
 void draw() {
@@ -44,12 +48,6 @@ void draw() {
       "Accuracy: " + accuracy + "\n" +
       "Distance to UIC: "+ location.getLocation().distanceTo(uic) + " m\n" + 
       "Provider: " + location.getProvider(), 20, 0, width, height);
-}
-
-void onResume()
-{
-  location = new KetaiLocation(this);
-  super.onResume();
 }
 
 void onLocationEvent(Location _location)

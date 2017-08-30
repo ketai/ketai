@@ -96,13 +96,14 @@ public class KetaiBluetooth {
 		if (!bluetoothAdapter.isEnabled()) {
 			Intent enableBtIntent = new Intent(
 					BluetoothAdapter.ACTION_REQUEST_ENABLE);
-			parent.startActivityForResult(enableBtIntent,
+			parent.getActivity().startActivityForResult(enableBtIntent,
 					BLUETOOTH_ENABLE_REQUEST);
 		}
 		pairedDevices = new HashMap<String, String>();
 		discoveredDevices = new HashMap<String, String>();
 		currentConnections = new HashMap<String, KBluetoothConnection>();
 		findParentIntention();
+		parent.registerMethod("dispose", this);
 	}
 
 	/**
@@ -464,7 +465,7 @@ public class KetaiBluetooth {
 					BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
 			discoverableIntent.putExtra(
 					BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
-			parent.startActivity(discoverableIntent);
+			parent.getActivity().startActivity(discoverableIntent);
 		}
 	}
 
@@ -519,6 +520,15 @@ public class KetaiBluetooth {
 		btListener = null;
 		mConnectThread = null;
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * Dispose. - will be called by the parent sketch when shutting down
+	 */    
+	public void dispose() {
+		stop();
+	}		
 
 	/**
 	 * The Class ConnectThread.

@@ -21,27 +21,22 @@ String CREATE_DB_SQL = "CREATE TABLE data ( time INTEGER PRIMARY KEY, x FLOAT NO
 
 void setup()
 {
-  db = new KetaiSQLite(this);
-  sensor = new KetaiSensor(this);
-  frameRate(5);
-  fullScreen();
+
+  fullScreen(); 
   orientation(LANDSCAPE);
-
+  requestPermission("android.permission.WRITE_EXTERNAL_STORAGE", "handleRequest");
+  
+  frameRate(5);  
   textAlign(CENTER, CENTER);
-  textSize(36);
-
-  //lets make our table if it is the first time we're running 
-  if ( db.connect() )
-  {
-    // for initial app launch there are no tables so we make one
-    if (!db.tableExists("data"))
-      db.execute(CREATE_DB_SQL);
-  }
+  textSize(displayDensity * 25);
+  
+  sensor = new KetaiSensor(this);
   sensor.start();
 }
 
 void draw() {
   background(78, 93, 75);
+  
   // Status and data count
   if (isCapturing)
     text("Recording Accellerometer Data...\n(touch screen to stop)", width/2, height/4);
@@ -50,7 +45,11 @@ void draw() {
     plotData();
     text("Visualizing last " + width + " point(s) of data.", width/2, height/4);
   } 
-  text("Current Data count: " + db.getDataCount(), width/2, height-height/4);
+  if (db != null) {
+    text("Current Data count: " + db.getDataCount(), width/2, height-height/4);
+  } else {
+    text("Cannot save data", width/2, height-height/4);
+  }
 }
 
 void mousePressed()
@@ -60,12 +59,11 @@ void mousePressed()
   else
     isCapturing = true;
 }
-/*
-      collect accelerometer data and save it to the database
- */
+
+//      collect accelerometer data and save it to the database
 void onAccelerometerEvent(float x, float y, float z, long time, int accuracy)
 {
-  if (db.connect() && isCapturing)
+  if (db != null && db.connect() && isCapturing)
   {
     if (!db.execute("INSERT into data (`time`,`x`,`y`,`z`) VALUES ('"+System.currentTimeMillis()+"', '"+x+"', '"+y+"', '"+z+"')"))
       println("Failed to record data!" );
@@ -74,7 +72,7 @@ void onAccelerometerEvent(float x, float y, float z, long time, int accuracy)
 
 void plotData()
 {
-  if (db.connect())
+  if (db != null && db.connect())
   {
     pushStyle();
     noStroke();
@@ -104,7 +102,23 @@ void plotData()
   }
 }
 
+
 long maplong(long value, long istart, long istop, long ostart, long ostop) {
   long divisor = istop - istart;
   return (ostart + (ostop - ostart) * (value - istart) / divisor);
+
+}
+
+void handleRequest(boolean granted) {
+  if (granted) {    
+    db = new KetaiSQLite(this);
+    //lets make our table if it is the first time we're running 
+    if ( db.connect() )
+    {
+      // for initial app launch there are no tables so we make one
+      if (!db.tableExists("data"))
+        db.execute(CREATE_DB_SQL);
+    }     
+  }
+
 }

@@ -9,8 +9,7 @@ void setup()
 {
   fullScreen();
   orientation(LANDSCAPE);
-
-  textSize(28);
+  textSize(displayDensity * 24);
   textAlign(CENTER);
   vibe = new KetaiVibrate(this);
   colorlist.add("Black");
@@ -61,6 +60,8 @@ void onKetaiListSelection(KetaiList klist)
     backgroundcolor = color(0, 0, 255);
   else if (selection == "Gray")
     backgroundcolor = color(128, 128, 128);
+  else 
+  println("invalid color selection or non-color selected");
 }
 
 

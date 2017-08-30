@@ -37,12 +37,12 @@ String textRead = "";
 KetaiNFC ketaiNFC;
 
 void setup()
-{   
+{
   fullScreen();
   orientation(LANDSCAPE);
 
   textAlign(CENTER, CENTER);
-  textSize(36);
+  textSize(displayDensity * 24);
 }
 
 void draw()

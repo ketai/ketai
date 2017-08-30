@@ -17,13 +17,14 @@ float rotationX, rotationY, rotationZ;
 
 void setup()
 {
+ fullScreen();
   sensor = new KetaiSensor(this);
   sensor.start();
   fullScreen();
   orientation(PORTRAIT);
 
   textAlign(CENTER, CENTER);
-  textSize(36);
+  textSize(displayDensity * 24);
 }
 
 void draw()

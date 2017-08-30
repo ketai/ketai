@@ -68,6 +68,15 @@ public class KetaiAudioInput implements Runnable {
 			}
 		}
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * Dispose. - will be called by the parent sketch when shutting down
+	 */    
+	public void dispose() {
+		stop();
+	}	
 
 	public boolean isActive() {
 		return (audioRecorder != null) ? (audioRecorder.getRecordingState() == AudioRecord.RECORDSTATE_RECORDING)
@@ -93,6 +102,11 @@ public class KetaiAudioInput implements Runnable {
 
 	public void register(Object o) {
 		callbackdelegate = o;
+		if (callbackdelegate instanceof PApplet) {
+			PApplet parent = (PApplet)callbackdelegate;		
+			parent.requestPermission("android.permission.RECORD_AUDIO", "onPermissionResult", this);		
+			parent.registerMethod("dispose", this);
+		}
 
 		try {
 			callbackMethod = o.getClass().getMethod("onAudioEvent",
@@ -103,6 +117,13 @@ public class KetaiAudioInput implements Runnable {
 			PApplet.println("Failed to find onAudioEvent callback method...");
 		}
 	}
+	
+	
+	public void onPermissionResult(boolean granted) {
+		if (!granted) {
+			PApplet.println("User did not allow to record audio.  Audio recording is disabled.");
+		}
+	}	
 
 	protected void finalize() throws Throwable {
 		super.finalize();

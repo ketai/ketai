@@ -10,8 +10,8 @@ void setup()
   orientation(LANDSCAPE);
 
   mic = new KetaiAudioInput(this);
-  fill(255, 0, 0);
-  textSize(48);
+  fill(255,0,0);
+  textSize(displayDensity * 24);
 }
 
 
