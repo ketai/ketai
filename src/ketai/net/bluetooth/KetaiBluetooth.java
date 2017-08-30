@@ -22,11 +22,13 @@ import android.content.Intent;
 import android.content.IntentFilter;
 
 /**
- * The Class KetaiBluetooth manages the bluetooth connections and service on the android device.
- * This class has been tested and can manage multiple simultaneous bluetooth connections.  The maximum
- *  number of connections varied by device limitations but 3 simultaneous connections were typical.
+ * The Class KetaiBluetooth manages the bluetooth connections and service on the
+ * android device. This class has been tested and can manage multiple
+ * simultaneous bluetooth connections. The maximum number of connections varied
+ * by device limitations but 3 simultaneous connections were typical.
  * 
- * To receive data from bluetooth connections a sketch should define the following method:<br />
+ * To receive data from bluetooth connections a sketch should define the
+ * following method:<br />
  * 
  * void onBluetoothDataEvent(String who, byte[] data)<br />
  * 
@@ -34,28 +36,28 @@ import android.content.IntentFilter;
  * data - byte array of the data received<br />
  */
 public class KetaiBluetooth {
-	
+
 	/** The parent. */
 	protected PApplet parent;
-	
+
 	/** The bluetooth adapter. */
 	protected BluetoothAdapter bluetoothAdapter;
-	
+
 	/** The paired devices. */
 	private HashMap<String, String> pairedDevices;
-	
+
 	/** The discovered devices. */
 	private HashMap<String, String> discoveredDevices;
-	
+
 	/** The current connections. */
 	private HashMap<String, KBluetoothConnection> currentConnections;
-	
+
 	/** The bt listener. */
 	private KBluetoothListener btListener;
-	
+
 	/** The m connect thread. */
 	private ConnectThread mConnectThread;
-	
+
 	/** The is started. */
 	private boolean isStarted = false;
 	// private boolean SLIPMode = false;
@@ -64,16 +66,14 @@ public class KetaiBluetooth {
 
 	// user the well-known ssp UUID: 00001101-0000-1000-8000-00805F9B34FB
 	/** The my uuid secure. */
-	protected UUID MY_UUID_SECURE = UUID
-			.fromString("00001101-0000-1000-8000-00805F9B34FB");
-	
+	protected UUID MY_UUID_SECURE = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
+
 	/** The my uuid insecure. */
-	protected UUID MY_UUID_INSECURE = UUID
-			.fromString("00001101-0000-1000-8000-00805F9B34FB");
+	protected UUID MY_UUID_INSECURE = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
 
 	/** The name secure. */
 	protected String NAME_SECURE = "BluetoothSecure";
-	
+
 	/** The name insecure. */
 	protected String NAME_INSECURE = "BluetoothInsecure";
 
@@ -83,7 +83,8 @@ public class KetaiBluetooth {
 	/**
 	 * Instantiates a new ketai bluetooth instance
 	 *
-	 * @param _parent the calling sketch/activity
+	 * @param _parent
+	 *            the calling sketch/activity
 	 */
 	public KetaiBluetooth(PApplet _parent) {
 		parent = _parent;
@@ -98,6 +99,7 @@ public class KetaiBluetooth {
 					BluetoothAdapter.ACTION_REQUEST_ENABLE);
 			parent.getActivity().startActivityForResult(enableBtIntent,
 					BLUETOOTH_ENABLE_REQUEST);
+
 		}
 		pairedDevices = new HashMap<String, String>();
 		discoveredDevices = new HashMap<String, String>();
@@ -109,7 +111,8 @@ public class KetaiBluetooth {
 	/**
 	 * Sets the sLIP mode(experimental).
 	 *
-	 * @param _flag the new sLIP mode
+	 * @param _flag
+	 *            the new sLIP mode
 	 */
 	public void setSLIPMode(boolean _flag) {
 		// SLIPMode = _flag;
@@ -142,7 +145,9 @@ public class KetaiBluetooth {
 		return bluetoothAdapter.isDiscovering();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	public String toString() {
@@ -168,9 +173,12 @@ public class KetaiBluetooth {
 	/**
 	 * On activity result.
 	 *
-	 * @param requestCode the request code
-	 * @param resultCode the result code
-	 * @param data the data from the activty result
+	 * @param requestCode
+	 *            the request code
+	 * @param resultCode
+	 *            the result code
+	 * @param data
+	 *            the data from the activty result
 	 */
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch (requestCode) {
@@ -211,8 +219,7 @@ public class KetaiBluetooth {
 		findParentIntention();
 		IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
 		parent.getActivity().registerReceiver(mReceiver, filter);
-		parent.getActivity().registerReceiver(mReceiver, new IntentFilter(
-				BluetoothAdapter.ACTION_DISCOVERY_FINISHED));
+		parent.getActivity().registerReceiver(mReceiver, new IntentFilter(BluetoothAdapter.ACTION_DISCOVERY_FINISHED));
 		return isStarted;
 
 	}
@@ -232,7 +239,7 @@ public class KetaiBluetooth {
 	/**
 	 * Gets the discovered device names.
 	 *
-	 * @return  discovered device names
+	 * @return discovered device names
 	 */
 	public ArrayList<String> getDiscoveredDeviceNames() {
 		ArrayList<String> devices = new ArrayList<String>();
@@ -248,14 +255,13 @@ public class KetaiBluetooth {
 	/**
 	 * Gets the paired device names.
 	 *
-	 * @return  paired device names
+	 * @return paired device names
 	 */
 	public ArrayList<String> getPairedDeviceNames() {
 		ArrayList<String> devices = new ArrayList<String>();
 
 		pairedDevices.clear();
-		Set<BluetoothDevice> bondedDevices = bluetoothAdapter
-				.getBondedDevices();
+		Set<BluetoothDevice> bondedDevices = bluetoothAdapter.getBondedDevices();
 		if (bondedDevices.size() > 0) {
 			for (BluetoothDevice device : bondedDevices) {
 				pairedDevices.put(device.getName(), device.getAddress());
@@ -277,16 +283,85 @@ public class KetaiBluetooth {
 		if (connectedDevices.size() > 0) {
 			for (String device : connectedDevices) {
 				KBluetoothConnection c = currentConnections.get(device);
+				devices.add(c.getDeviceName());
+			}
+		}
+		return devices;
+	}
+	
+	/**
+	 * Gets the connected device composite label.
+	 *
+	 * @return the connected device names
+	 */
+	public ArrayList<String> getConnectedDeviceLabel() {
+		ArrayList<String> devices = new ArrayList<String>();
+		Set<String> connectedDevices = currentConnections.keySet();
+
+		if (connectedDevices.size() > 0) {
+			for (String device : connectedDevices) {
+				KBluetoothConnection c = currentConnections.get(device);
 				devices.add(c.getDeviceName() + "(" + device + ")");
 			}
 		}
 		return devices;
 	}
 
+	
+	/**
+	 * Gets the connected hardware addresses.
+	 *
+	 * @return the connected device addresses
+	 */
+	public ArrayList<String> getConnectedDeviceAddresses() {
+		ArrayList<String> devices = new ArrayList<String>();
+		Set<String> connectedDevices = currentConnections.keySet();
+
+		if (connectedDevices.size() > 0) {
+			for (String device : connectedDevices) {
+				KBluetoothConnection c = currentConnections.get(device);
+				devices.add(c.getAddress());
+			}
+		}
+		return devices;
+	}
+	
+	
+
+	/**
+	 * Disconnects device.
+	 *
+	 * @return True if connection was found and closed
+	 */
+	public boolean disconnectDevice(String device) {
+
+		ArrayList<String> devices = new ArrayList<String>();
+		Set<String> connectedDevices = currentConnections.keySet();
+		PApplet.println("Disconnecting device: " + device);
+		if (connectedDevices.size() > 0) {
+			for (String connection : connectedDevices) {
+				PApplet.println("Comparing " + connection + " to target " + device);
+				KBluetoothConnection c = currentConnections.get(connection);
+				if (device.equals(connection) || connection.equals(c.getAddress())) {
+					PApplet.println("Disconnecting device (" + device + ").");
+					c.disconnect();
+					PApplet.println("Removing current connection for " + c.getDeviceName());
+
+					currentConnections.remove(c);
+					connectedDevices.remove(connection);
+					return true;
+				}
+			}
+			PApplet.println("Did not find device (" + device + ")in connected list.");
+		}
+		return false;
+	}
+
 	/**
 	 * Connect to device by name.
 	 *
-	 * @param _name the _name
+	 * @param _name
+	 *            the _name
 	 * @return true, if successful
 	 */
 	public boolean connectToDeviceByName(String _name) {
@@ -304,10 +379,11 @@ public class KetaiBluetooth {
 	}
 
 	/**
-	 * Connect device by hardware address (more reliable since HW addresses
-	 * 	are supposed to be unique.
+	 * Connect device by hardware address (more reliable since HW addresses are
+	 * supposed to be unique.
 	 *
-	 * @param _hwAddress the _hw address
+	 * @param _hwAddress
+	 *            the _hw address
 	 * @return true, if successful
 	 */
 	public boolean connectDevice(String _hwAddress) {
@@ -333,7 +409,8 @@ public class KetaiBluetooth {
 	/**
 	 * Connect device using slip.
 	 *
-	 * @param _hwAddress the _hw address
+	 * @param _hwAddress
+	 *            the _hw address
 	 * @return true, if successful
 	 */
 	public boolean connectDeviceUsingSLIP(String _hwAddress) {
@@ -343,7 +420,8 @@ public class KetaiBluetooth {
 	/**
 	 * Connect device.
 	 *
-	 * @param _socket the _socket
+	 * @param _socket
+	 *            the _socket
 	 * @return true, if successful
 	 */
 	public boolean connectDevice(BluetoothSocket _socket) {
@@ -353,17 +431,14 @@ public class KetaiBluetooth {
 		if (tmp.isConnected())
 			tmp.start();
 		else {
-			PApplet.println("Error trying to connect to "
-					+ _socket.getRemoteDevice().getName() + " ("
+			PApplet.println("Error trying to connect to " + _socket.getRemoteDevice().getName() + " ("
 					+ _socket.getRemoteDevice().getAddress() + ")");
 			mConnectThread = null;
 			return false;
 		}
 		if (tmp != null)
-			if (!currentConnections.containsKey(_socket.getRemoteDevice()
-					.getAddress()))
-				currentConnections.put(_socket.getRemoteDevice().getAddress(),
-						tmp);
+			if (!currentConnections.containsKey(_socket.getRemoteDevice().getAddress()))
+				currentConnections.put(_socket.getRemoteDevice().getAddress(), tmp);
 		if (mConnectThread != null) {
 			mConnectThread.cancel();
 			mConnectThread = null;
@@ -386,7 +461,8 @@ public class KetaiBluetooth {
 	/**
 	 * Lookup address by name.
 	 *
-	 * @param _name the _name
+	 * @param _name
+	 *            the _name
 	 * @return the string
 	 */
 	public String lookupAddressByName(String _name) {
@@ -401,23 +477,26 @@ public class KetaiBluetooth {
 	/**
 	 * Write to device name.
 	 *
-	 * @param _name the _name of the device/connection
-	 * @param data the data
+	 * @param _name
+	 *            the _name of the device/connection
+	 * @param data
+	 *            the data
 	 */
 	public void writeToDeviceName(String _name, byte[] data) {
 		String address = lookupAddressByName(_name);
 		if (address.length() > 0)
 			write(address, data);
 		else
-			PApplet.println("Error writing to " + _name
-					+ ".  HW Address was not found.");
+			PApplet.println("Error writing to " + _name + ".  HW Address was not found.");
 	}
 
 	/**
 	 * Write data to a device through their hardware address
 	 *
-	 * @param _deviceAddress the _device hardware address
-	 * @param data the data
+	 * @param _deviceAddress
+	 *            the _device hardware address
+	 * @param data
+	 *            the data
 	 */
 	public void write(String _deviceAddress, byte[] data) {
 		bluetoothAdapter.cancelDiscovery();
@@ -432,13 +511,13 @@ public class KetaiBluetooth {
 	}
 
 	/**
-	 * Send data to all conencted devices.
+	 * Send data to all connected devices.
 	 *
-	 * @param data the data
+	 * @param data
+	 *            the data
 	 */
 	public void broadcast(byte[] data) {
-		for (Map.Entry<String, KBluetoothConnection> device : currentConnections
-				.entrySet()) {
+		for (Map.Entry<String, KBluetoothConnection> device : currentConnections.entrySet()) {
 			device.getValue().write(data);
 		}
 	}
@@ -446,7 +525,8 @@ public class KetaiBluetooth {
 	/**
 	 * Removes the connection.
 	 *
-	 * @param c the connection reference
+	 * @param c
+	 *            the connection reference
 	 */
 	protected void removeConnection(KBluetoothConnection c) {
 		PApplet.println("KBTM removing connection for " + c.getAddress());
@@ -474,13 +554,10 @@ public class KetaiBluetooth {
 		public void onReceive(Context context, Intent intent) {
 			String action = intent.getAction();
 			if (BluetoothDevice.ACTION_FOUND.equals(action)) {
-				BluetoothDevice device = intent
-						.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+				BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
 				if (device != null) {
-					discoveredDevices
-							.put(device.getName(), device.getAddress());
-					PApplet.println("New Device Discovered: "
-							+ device.getName());
+					discoveredDevices.put(device.getName(), device.getAddress());
+					PApplet.println("New Device Discovered: " + device.getName());
 				}
 			}
 		}
@@ -491,8 +568,7 @@ public class KetaiBluetooth {
 	 */
 	private void findParentIntention() {
 		try {
-			onBluetoothDataEventMethod = parent.getClass().getMethod(
-					"onBluetoothDataEvent",
+			onBluetoothDataEventMethod = parent.getClass().getMethod("onBluetoothDataEvent",
 					new Class[] { String.class, byte[].class });
 			PApplet.println("Found onBluetoothDataEvent method.");
 		} catch (NoSuchMethodException e) {
@@ -534,21 +610,23 @@ public class KetaiBluetooth {
 	 * The Class ConnectThread.
 	 */
 	private class ConnectThread extends Thread {
-		
+
 		/** The mm socket. */
 		private final BluetoothSocket mmSocket;
-		
+
 		/** The mm device. */
 		protected final BluetoothDevice mmDevice;
-		
+
 		/** The m socket type. */
 		private String mSocketType;
 
 		/**
 		 * Instantiates a new connect thread.
 		 *
-		 * @param device the device
-		 * @param secure the secure
+		 * @param device
+		 *            the device
+		 * @param secure
+		 *            the secure
 		 */
 		public ConnectThread(BluetoothDevice device, boolean secure) {
 			mmDevice = device;
@@ -559,20 +637,19 @@ public class KetaiBluetooth {
 			// given BluetoothDevice
 			try {
 				if (secure) {
-					tmp = device
-							.createRfcommSocketToServiceRecord(MY_UUID_SECURE);
+					tmp = device.createRfcommSocketToServiceRecord(MY_UUID_SECURE);
 				} else {
-					tmp = device
-							.createInsecureRfcommSocketToServiceRecord(MY_UUID_INSECURE);
+					tmp = device.createInsecureRfcommSocketToServiceRecord(MY_UUID_INSECURE);
 				}
 			} catch (IOException e) {
-				PApplet.println("Socket Type: " + mSocketType
-						+ "create() failed" + e);
+				PApplet.println("Socket Type: " + mSocketType + "create() failed" + e);
 			}
 			mmSocket = tmp;
 		}
 
-		/* (non-Javadoc)
+		/*
+		 * (non-Javadoc)
+		 * 
 		 * @see java.lang.Thread#run()
 		 */
 		public void run() {
@@ -583,8 +660,8 @@ public class KetaiBluetooth {
 					e1.printStackTrace();
 				}
 
-			PApplet.println("BEGIN mConnectThread SocketType:" + mSocketType
-					+ ":" + mmSocket.getRemoteDevice().getName());
+			PApplet.println(
+					"BEGIN mConnectThread SocketType:" + mSocketType + ":" + mmSocket.getRemoteDevice().getName());
 
 			// Always cancel discovery because it will slow down a connection
 			bluetoothAdapter.cancelDiscovery();
@@ -601,8 +678,7 @@ public class KetaiBluetooth {
 				try {
 					mmSocket.close();
 				} catch (IOException e2) {
-					PApplet.println("unable to close() " + mSocketType
-							+ " socket during connection failure" + e2);
+					PApplet.println("unable to close() " + mSocketType + " socket during connection failure" + e2);
 				}
 				mConnectThread = null;
 				return;

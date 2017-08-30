@@ -26,10 +26,6 @@
  * </p> 
  * <p>Updated: 2012-10-20 Daniel Sauter/j.duran</p>
  */
-//The following are required for setup
-import android.content.Intent;
-import android.os.Bundle;
-
 
 import ketai.net.nfc.*;
 
@@ -42,7 +38,7 @@ void setup()
   orientation(LANDSCAPE);
 
   textAlign(CENTER, CENTER);
-  textSize(displayDensity * 24);
+  textSize(24*displayDensity);
 }
 
 void draw()
@@ -55,18 +51,4 @@ void draw()
 void onNFCEvent(String txt)
 {
   textRead = txt;
-}
-
-
-//set our write string....
-void mousePressed()
-{
-  ketaiNFC.write("" + millis());
-}
-
-
-//Press any key to cancel write
-void keyPressed()
-{
-  ketaiNFC.cancelWrite();
 }

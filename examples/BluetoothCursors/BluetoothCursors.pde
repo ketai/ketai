@@ -8,7 +8,7 @@
  * <li>Enables Discovery</li>
  * <li>Allows writing data to device</li>
  * </ul>
- * <p>Updated: 2012-05-18 Daniel Sauter/j.duran</p>
+ * <p>Updated: 2017-08-29 Daniel Sauter/j.duran</p>
  */
 
 //required for BT enabling on startup
@@ -52,7 +52,8 @@ void setup()
 
   background(78, 93, 75);
   stroke(255);
-  textSize(displayDensity * 18);
+
+  textSize(16*displayDensity);
 
   //start listening for BT connections
   bt.start();
@@ -61,6 +62,7 @@ void setup()
     "b - make this device discoverable\n" +
     "c - connect to device\n     from discovered list.\n" +
     "p - list paired devices\n" +
+    "x - disconnect connected device\n" + 
     "i - Bluetooth info";
 }
 
@@ -92,7 +94,7 @@ void draw()
         info += "["+i+"] "+names.get(i).toString() + "\n";
       }
     }
-    text(UIText + "\n\n" + info, 5, 90);
+    text(UIText + "\n\n" + info, 5, 90*displayDensity);
   } else
   {
     background(78, 93, 75);

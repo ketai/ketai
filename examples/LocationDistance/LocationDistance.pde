@@ -9,7 +9,8 @@
  * </ul>
  * More information:
  * http://developer.android.com/reference/android/location/Location.html</p>
- * <p>Updated: 2012-03-10 Daniel Sauter/j.duran</p>
+ *
+ * <p>Updated: 2017-08-29 Daniel Sauter/j.duran</p>
  */
 
 import ketai.sensors.*; 
@@ -32,12 +33,13 @@ void setup() {
   uic.setLongitude(-87.658777);
 
   textAlign(CENTER, CENTER);
-  textSize(displayDensity * 24);
-}
 
+  textSize(36*displayDensity);
+
+}
 void draw() {
   background(78, 93, 75);
-  if (location.getProvider() == "none")
+  if (location == null || location.getProvider() == "none")
     text("Location data is unavailable. \n" +
       "Please check your location settings.", 0, 0, width, height);
   else

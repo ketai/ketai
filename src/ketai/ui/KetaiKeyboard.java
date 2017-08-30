@@ -4,7 +4,6 @@
 package ketai.ui;
 
 import processing.core.PApplet;
-import android.app.Activity;
 import android.content.Context;
 import android.view.inputmethod.InputMethodManager;
 

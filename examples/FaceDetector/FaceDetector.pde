@@ -6,7 +6,7 @@
  * <li>Wraps android face detection</li>
  * <li>Makes it available to any PImage</li>
  * </ul>
- * <p>Updated: 2012-05-18 Daniel Sauter/j.duran</p>
+ * <p>Updated: 2017-08-29 Daniel Sauter/j.duran</p>
  */
 
 import ketai.cv.facedetector.*;
@@ -24,14 +24,11 @@ void setup()
   strokeWeight(2);
   noFill();
   rectMode(CENTER);
-  myImage = loadImage("faces.jpg");
-}
 
-void draw()
-{
-  faces = KetaiFaceDetector.findFaces(myImage, MAX_FACES); 
+  myImage = loadImage("faces.jpg");
 
   image(myImage, 0, 0);
+  faces = KetaiFaceDetector.findFaces(myImage, MAX_FACES); 
 
   for (int i=0; i < faces.length; i++)
   {

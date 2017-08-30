@@ -18,48 +18,51 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 /**
- * The KetaiList class provides an android UI scroll list.  To receive the selection
- * 	data a sketch should define the following method:<br /><br />
+ * The KetaiList class provides an android UI scroll list. To receive the
+ * selection data a sketch should define the following method:<br />
+ * <br />
  * 
- * void onKetaiListSelection(String selection) - selection is the string selected from the list<br />
+ * void onKetaiListSelection(String selection) - selection is the string
+ * selected from the list<br />
  */
 public class KetaiList extends ListView {
-	
+
 	/** The parent. */
 	private PApplet parent;
-	
+
 	/** The adapter. */
 	private ArrayAdapter<String> adapter;
-	
+
 	/** The name. */
 	String name = "KetaiList";
-	
+
 	/** The selection. */
 	String selection = "";
-	
+
 	/** The self. */
 	ListView self;
-	
+
 	/** The layout. */
 	RelativeLayout layout;
-	
+
 	/** The parent callback. */
 	private Method parentCallback;
-	
+
 	/** The title. */
 	String title = "";
 
 	/**
 	 * Instantiates a new ketai list.
 	 *
-	 * @param _parent the _parent
-	 * @param data the data
+	 * @param _parent
+	 *            the _parent
+	 * @param data
+	 *            the data
 	 */
 	public KetaiList(PApplet _parent, ArrayList<String> data) {
 		super(_parent.getActivity().getApplicationContext());
 		parent = _parent;
-		adapter = new ArrayAdapter<String>(parent.getActivity(),
-				android.R.layout.simple_list_item_1, data);
+		adapter = new ArrayAdapter<String>(parent.getActivity(), android.R.layout.simple_list_item_1, data);
 		init();
 
 	}
@@ -67,48 +70,53 @@ public class KetaiList extends ListView {
 	/**
 	 * Instantiates a new ketai list.
 	 *
-	 * @param _parent the _parent
-	 * @param data the data
+	 * @param _parent
+	 *            the _parent
+	 * @param data
+	 *            the data
 	 */
 	public KetaiList(PApplet _parent, String[] data) {
 		super(_parent.getActivity().getApplicationContext());
 
 		parent = _parent;
-		adapter = new ArrayAdapter<String>(parent.getActivity(),
-				android.R.layout.simple_list_item_1, data);
+		adapter = new ArrayAdapter<String>(parent.getActivity(), android.R.layout.simple_list_item_1, data);
 		init();
 	}
 
 	/**
 	 * Instantiates a new ketai list.
 	 *
-	 * @param _parent the _parent
-	 * @param _title the _title
-	 * @param data the data
+	 * @param _parent
+	 *            the _parent
+	 * @param _title
+	 *            the _title
+	 * @param data
+	 *            the data
 	 */
 	public KetaiList(PApplet _parent, String _title, String[] data) {
 		super(_parent.getActivity().getApplicationContext());
 
 		parent = _parent;
 		title = _title;
-		adapter = new ArrayAdapter<String>(parent.getActivity(),
-				android.R.layout.simple_list_item_1, data);
+		adapter = new ArrayAdapter<String>(parent.getActivity(), android.R.layout.simple_list_item_1, data);
 		init();
 	}
 
 	/**
 	 * Instantiates a new ketai list.
 	 *
-	 * @param _parent the _parent
-	 * @param _title the _title
-	 * @param data the data
+	 * @param _parent
+	 *            the _parent
+	 * @param _title
+	 *            the _title
+	 * @param data
+	 *            the data
 	 */
 	public KetaiList(PApplet _parent, String _title, ArrayList<String> data) {
 		super(_parent.getActivity().getApplicationContext());
 		parent = _parent;
 		title = _title;
-		adapter = new ArrayAdapter<String>(parent.getActivity(),
-				android.R.layout.simple_list_item_1, data);
+		adapter = new ArrayAdapter<String>(parent.getActivity(), android.R.layout.simple_list_item_1, data);
 		init();
 
 	}
@@ -139,7 +147,7 @@ public class KetaiList extends ListView {
 	 * Inits the.
 	 */
 	private void init() {
-		setBackgroundColor(Color.BLACK);
+		setBackgroundColor(Color.LTGRAY);
 		setAlpha(1);
 		self = this;
 		final TextView cancel;
@@ -153,34 +161,8 @@ public class KetaiList extends ListView {
 			addHeaderView(tv);
 		}
 
-		cancel = new TextView(parent.getActivity());
-		cancel.setText("<CANCEL SELECTION>");
-
-		cancel.setOnClickListener(new OnClickListener() {
-			public void onClick(View arg0) {
-				layout.removeAllViewsInLayout();
-
-				self.setVisibility(View.GONE);
-				((ViewManager) self.getParent()).removeView(self);
-				parent.getActivity().runOnUiThread(new Runnable() {
-					public void run() {
-						layout.removeAllViews();
-						try {
-							parentCallback
-									.invoke(parent, new Object[] { self });
-						} catch (Exception ex) {
-						}
-						layout.setVisibility(View.GONE);
-					}
-				});
-			}
-		});
-
-		setFooterDividersEnabled(true);
-		addFooterView(cancel);
 		try {
-			parentCallback = parent.getClass().getMethod(
-					"onKetaiListSelection", new Class[] { KetaiList.class });
+			parentCallback = parent.getClass().getMethod("onKetaiListSelection", new Class[] { KetaiList.class });
 			PApplet.println("Found onKetaiListSelection...");
 		} catch (NoSuchMethodException e) {
 		}
@@ -188,8 +170,7 @@ public class KetaiList extends ListView {
 		setAdapter(adapter);
 
 		setOnItemClickListener(new OnItemClickListener() {
-			public void onItemClick(AdapterView<?> p, View view, int position,
-					long id) {
+			public void onItemClick(AdapterView<?> p, View view, int position, long id) {
 
 				selection = adapter.getItem(position).toString();
 
@@ -214,8 +195,7 @@ public class KetaiList extends ListView {
 
 		parent.getActivity().runOnUiThread(new Runnable() {
 			public void run() {
-				parent.getActivity().addContentView(self, new ViewGroup.LayoutParams(
-						ViewGroup.LayoutParams.FILL_PARENT,
+				parent.getActivity().addContentView(self, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT,
 						ViewGroup.LayoutParams.FILL_PARENT));
 			}
 		});

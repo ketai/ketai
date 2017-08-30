@@ -1,4 +1,15 @@
-
+/**
+ * <p>Ketai Library for Android: http://KetaiProject.org</p>
+ *
+ * <p>SQLite wraps the Android SQLite Database Features:
+ * <ul>
+ * <li>Create Table</li>
+ * <li>Populate data</li>
+ * <li>Access data</li>
+ * </ul>
+ * <p>Updated: 2017-08-29 Daniel Sauter/j.duran</p>
+ */
+ 
 import ketai.data.*;
 
 KetaiSQLite db;

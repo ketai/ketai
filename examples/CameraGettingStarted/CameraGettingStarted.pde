@@ -6,7 +6,7 @@
  * <li>Interface for built-in camera</li>
  * <li>TODO: fix HACK of camera registration that currently exceptions in setup() at the moment.</li>
  * </ul>
- * <p>Updated: 2017-04-13 Daniel Sauter/j.duran</p>
+ * <p>Updated: 2017-08-29 Daniel Sauter/j.duran</p>
  */
 
 import ketai.camera.*;

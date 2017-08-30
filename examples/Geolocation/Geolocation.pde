@@ -13,7 +13,7 @@
  * <li>onLocationEvent(latitude, longitude)</li>
  * <li>onLocationEvent(latitude, longitude, altitude)</li>
  * </p>
- * <p>Updated: 2012-10-21 Daniel Sauter/j.duran</p>
+ * <p>Updated: 2017-07-27 Daniel Sauter/j.duran</p>
  */
 
 import ketai.sensors.*; 
@@ -25,15 +25,14 @@ void setup() {
   fullScreen();
   orientation(LANDSCAPE);
   location = new KetaiLocation(this);
-  
+
   textAlign(CENTER, CENTER);
   textSize(displayDensity * 36);
 }
 
 void draw() {
-
   background(78, 93, 75);
-  if (location.getProvider() == "none")
+  if (location == null  || location.getProvider() == "none")
     text("Location data is unavailable. \n" +
       "Please check your location settings.", 0, 0, width, height);
   else

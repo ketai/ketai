@@ -1,12 +1,22 @@
+<<<<<<< Updated upstream
 <?xml version="1.0" encoding="UTF-8"?>
+=======
+>>>>>>> Stashed changes
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package=""
     android:versionCode="1"
     android:versionName="1.0" >
 
     <uses-sdk
+<<<<<<< Updated upstream
         android:minSdkVersion="16"
         android:targetSdkVersion="25" />
+=======
+        android:minSdkVersion="15"
+        android:targetSdkVersion="19" />
+
+    <uses-permission android:name="android.permission.NFC" />
+>>>>>>> Stashed changes
 
     <application
         android:icon="@drawable/icon"
@@ -19,9 +29,26 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+<<<<<<< Updated upstream
         </activity>
     </application>
 
     <uses-permission android:name="android.permission.NFC" />
 
+=======
+            <intent-filter>
+                <action android:name="android.nfc.action.TAG_DISCOVERED" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.nfc.action.TECH_DISCOVERED" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.nfc.action.NDEF_DISCOVERED" />
+            </intent-filter>
+        </activity>
+    </application>
+
+>>>>>>> Stashed changes
 </manifest>

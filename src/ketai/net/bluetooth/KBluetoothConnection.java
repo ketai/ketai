@@ -18,32 +18,33 @@ import android.bluetooth.BluetoothSocket;
 public class KBluetoothConnection extends Thread {
 
 	/** The mm socket. */
-	private final BluetoothSocket mmSocket;
-	
+	private BluetoothSocket mmSocket;
+
 	/** The mm in stream. */
-	private final InputStream mmInStream;
-	
+	private InputStream mmInStream;
+
 	/** The mm out stream. */
-	private final OutputStream mmOutStream;
-	
+	private OutputStream mmOutStream;
+
 	/** The is connected. */
 	private boolean isConnected = false;
-	
+
 	/** The address. */
 	private String address = "";
-	
+
 	/** The btm. */
 	private KetaiBluetooth btm;
 
 	/**
 	 * Instantiates a new bluetooth connection.
 	 *
-	 * @param _btm the Bluetooth managing class
-	 * @param socket the socket reference for the connection
+	 * @param _btm
+	 *            the Bluetooth managing class
+	 * @param socket
+	 *            the socket reference for the connection
 	 */
 	public KBluetoothConnection(KetaiBluetooth _btm, BluetoothSocket socket) {
-		PApplet.println("create Connection thread to "
-				+ socket.getRemoteDevice().getName());
+		PApplet.println("create Connection thread to " + socket.getRemoteDevice().getName());
 		btm = _btm;
 		mmSocket = socket;
 		InputStream tmpIn = null;
@@ -83,7 +84,41 @@ public class KBluetoothConnection extends Thread {
 		return mmSocket.getRemoteDevice().getName();
 	}
 
-	/* (non-Javadoc)
+	public void disconnect() {
+		PApplet.println("Disconnecting device : " + address);
+		if (mmInStream != null) {
+			try {
+				PApplet.println("Closing input stream for " + address);
+				mmInStream.close();
+			} catch (IOException e) {
+				PApplet.println("Error closing input stream for " + address + " : " + e.getMessage());
+			}
+			mmInStream = null;
+		}
+		if (mmOutStream != null) {
+			try {
+				PApplet.println("Closing output stream for " + address);
+				mmOutStream.close();
+			} catch (IOException e) {
+				PApplet.println("Error closing output stream for " + address + " : " + e.getMessage());
+			}
+			mmOutStream = null;
+		}
+		if (mmSocket != null) {
+			try {
+				PApplet.println("Closing socket for " + address);
+
+				mmSocket.close();
+			} catch (IOException e) {
+				PApplet.println("Error closing Socket for " + address + " : " + e.getMessage());
+			}
+			mmSocket = null;
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Thread#run()
 	 */
 	public void run() {
@@ -103,14 +138,11 @@ public class KBluetoothConnection extends Thread {
 
 				if (btm.onBluetoothDataEventMethod != null) {
 					try {
-						btm.onBluetoothDataEventMethod.invoke(btm.parent,
-								new Object[] { this.address, data });
+						btm.onBluetoothDataEventMethod.invoke(btm.parent, new Object[] { this.address, data });
 					} catch (IllegalAccessException e) {
-						PApplet.println("Error in reading connection data.:"
-								+ e.getMessage());
+						PApplet.println("Error in reading connection data.:" + e.getMessage());
 					} catch (InvocationTargetException e) {
-						PApplet.println("Error in reading connection data.:"
-								+ e.getMessage());
+						PApplet.println("Error in reading connection data.:" + e.getMessage());
 					}
 				}
 				// // Send the obtained bytes to the UI Activity
@@ -144,7 +176,8 @@ public class KBluetoothConnection extends Thread {
 	/**
 	 * Write data to the connection
 	 *
-	 * @param buffer the buffer
+	 * @param buffer
+	 *            the buffer
 	 */
 	public void write(byte[] buffer) {
 		try {
@@ -153,8 +186,7 @@ public class KBluetoothConnection extends Thread {
 
 			mmOutStream.write(buffer);
 		} catch (IOException e) {
-			PApplet.println(getAddress() + ": Exception during write"
-					+ e.getMessage());
+			PApplet.println(getAddress() + ": Exception during write" + e.getMessage());
 			btm.removeConnection(this);
 		}
 	}

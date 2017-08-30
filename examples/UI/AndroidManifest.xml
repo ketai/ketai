@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="">
-    <uses-sdk android:minSdkVersion="16" android:targetSdkVersion="25"/>
+    <uses-sdk android:minSdkVersion="15" android:targetSdkVersion="25"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
     <application android:icon="@drawable/icon" android:label="">
         <activity android:name=".MainActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen">
             <intent-filter>
@@ -9,5 +10,4 @@
             </intent-filter>
         </activity>
     </application>
-    <uses-permission android:name="android.permission.VIBRATE"/>
 </manifest>

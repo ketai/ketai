@@ -1,4 +1,19 @@
-import android.view.MotionEvent;
+/**
+ * <p>Ketai Library for Android: http://KetaiProject.org</p>
+ *
+ * <p>Gestures exposes some Android Gesture Features:
+ * <ul>
+ * <li>Pinch</li>
+ * <li>Spread</li>
+ * <li>Double Tap</li>
+ * <li>Flick</li>
+ * <li>Rotate</li>
+ * <li>Long Press</li>
+ * </ul>
+ * <p>Updated: 2017-08-29 Daniel Sauter/j.duran</p>
+ */
+ 
+ import android.view.MotionEvent;
 
 import ketai.ui.*;
 

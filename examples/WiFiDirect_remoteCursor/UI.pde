@@ -5,7 +5,7 @@ void drawUI()
   pushStyle();
   fill(0);
   stroke(255);
-  rect(0, 0, width/3, 50);
+  rect(0, 0, width/3, 50*displayDensity);
 
   if (isConfiguring)
   {
@@ -15,7 +15,7 @@ void drawUI()
   else
     fill(0);
 
-  rect(width/3, 0, width/3, 50);
+  rect(width/3, 0, width/3, 50*displayDensity);
 
   if (!isConfiguring)
   {  
@@ -27,12 +27,12 @@ void drawUI()
     fill(0);
     stroke(255);
   }
-  rect((width/3)*2, 0, width/3, 50);
+  rect((width/3)*2, 0, width/3, 50*displayDensity);
 
   fill(255);
-  text("Keyboard", 5, 30); 
-  text("WiFi Direct", width/3+5, 30); 
-  text("Interact", width/3*2+5, 30); 
+  text("Keyboard", 5, 30*displayDensity); 
+  text("WiFi Direct", width/3+5, 30*displayDensity); 
+  text("Interact", width/3*2+5, 30*displayDensity); 
 
   popStyle();
 }

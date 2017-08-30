@@ -1,12 +1,14 @@
 /*
   This example illustrates how to load a pre-built database file so that it may be used in an android
- sketch.  
- 
- Datasets come from : 
- (large)  - http://chinookdatabase.codeplex.com/
- (small)  - http://www.gaia-gis.it/spatialite-2.3.1/resources.html
- 
- */
+    sketch.  
+    
+    Datasets come from : 
+    (large)  - http://chinookdatabase.codeplex.com/
+    (small)  - http://www.gaia-gis.it/spatialite-2.3.1/resources.html
+
+ * <p>Updated: 2017-08-29 Daniel Sauter/j.duran</p>
+
+*/
 
 import ketai.data.*;
 

@@ -6,7 +6,6 @@ package ketai.cv.facedetector;
 import java.util.ArrayList;
 
 import ketai.camera.KetaiCamera;
-import processing.core.PApplet;
 import processing.core.PImage;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;

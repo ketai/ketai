@@ -8,7 +8,7 @@
  * <li>Enables Discovery</li>
  * <li>Allows writing data to device</li>
  * </ul>
- * <p>Updated: 2017-04-13 Daniel Sauter/j.duran</p>
+ * <p>Updated: 2017-08-29 Daniel Sauter/j.duran</p>
  */
 import android.os.Bundle;
 
@@ -76,7 +76,7 @@ void draw()
       for (String s : net.getPeerNameList())
         info+= "\t" + s + "\n";
     }
-    text(UIText + "\n\n" + info, 5, 90);
+    text(UIText + "\n\n" + info, 5, 90*displayDensity);
   } else
   {
     pushStyle();
@@ -93,12 +93,12 @@ void draw()
 void mousePressed()
 {
   //keyboard button -- toggle virtual keyboard
-  if (mouseY <= 50 && mouseX > 0 && mouseX < width/3)
+  if (mouseY <= 50*displayDensity && mouseX > 0 && mouseX < width/3)
     KetaiKeyboard.toggle(this);
-  else if (mouseY <= 50 && mouseX > width/3 && mouseX < 2*(width/3)) //config button
+  else if (mouseY <= 50*displayDensity && mouseX > width/3 && mouseX < 2*(width/3)) //config button
   {
     isConfiguring=true;
-  } else if (mouseY <= 50 && mouseX >  2*(width/3) && mouseX < width) // draw button
+  } else if (mouseY <= 50*displayDensity && mouseX >  2*(width/3) && mouseX < width) // draw button
   {
     if (isConfiguring)
     {

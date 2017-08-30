@@ -1,3 +1,15 @@
+/**
+ * <p>Ketai Library for Android: http://KetaiProject.org</p>
+ *
+ * <p>UI wraps some Android UI Functionality:
+ * <ul>
+ * <li>Toggle virtual keyboard</li>
+ * <li>Android Lists</li>
+ * <li>Vibration Motor Access</li>
+ * </ul>
+ * <p>Updated: 2017-08-29 Daniel Sauter/j.duran</p>
+ */
+
 import ketai.ui.*;
 
 KetaiList selectionlist;
@@ -9,7 +21,7 @@ void setup()
 {
   fullScreen();
   orientation(LANDSCAPE);
-  textSize(displayDensity * 24);
+  textSize(24*displayDensity);
   textAlign(CENTER);
   vibe = new KetaiVibrate(this);
   colorlist.add("Black");
@@ -19,7 +31,7 @@ void setup()
   colorlist.add("Gray");
   for (int i = 0; i < 20; i++)
     colorlist.add("Stub Entry " + i);
-
+  colorlist.add("Cancel");
   //register for key events(keyPressed currently Broken)
   //registerMethod("keyEvent", this);
 }
