@@ -1,12 +1,12 @@
 /**
- * <p>Ketai Sensor Library for Android: http://Ketai.org</p>
+ * <p>Ketai Sensor Library for Android: http://ketai.org</p>
  *
  * <p>Ketai Camera Features:
  * <ul>
  * <li>Interface for built-in camera</li>
  * <li>Access camera flash</li>
  * </ul>
- * <p>Updated: 2017-08-29 Daniel Sauter/j.duran</p>
+ * <p>Updated: 2017-09-01 Daniel Sauter/j.duran</p>
  */
 
 import ketai.camera.*;
@@ -18,6 +18,7 @@ void setup() {
   orientation(LANDSCAPE);
 
   imageMode(CENTER);
+  textAlign(CENTER, CENTER);
   textSize(displayDensity * 25);
   cam = new KetaiCamera(this, 640, 480, 24);
 }
@@ -29,7 +30,7 @@ void draw() {
   else
   {
     background(128);
-    text("Camera is currently off.", 100, height/2);
+    text("Camera is currently off.", width/2, height/2);
   }
   drawUI();
 }
@@ -50,7 +51,7 @@ void mousePressed()
     } else
       cam.start();
   }
-  
+
   //Toggle Camera Flash
   if (mouseX > 2*width/3 && mouseY < 100)
   {
