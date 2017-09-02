@@ -1005,7 +1005,7 @@ public class KetaiCamera extends PImage {
 	/**
 	 * List available cameras.
 	 * 
-	 * @return the collection<? extends string>
+	 * @return the collection<string>
 	 */
 	public Collection<? extends String> list() {
 		Vector<String> list = new Vector<String>();

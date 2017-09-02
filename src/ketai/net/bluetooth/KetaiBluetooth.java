@@ -28,12 +28,12 @@ import android.content.IntentFilter;
  * by device limitations but 3 simultaneous connections were typical.
  * 
  * To receive data from bluetooth connections a sketch should define the
- * following method:<br />
+ * following method:<br>
  * 
- * void onBluetoothDataEvent(String who, byte[] data)<br />
+ * void onBluetoothDataEvent(String who, byte[] data)<br>
  * 
- * who - the name of the device sending the data<br />
- * data - byte array of the data received<br />
+ * who - the name of the device sending the data<br>
+ * data - byte array of the data received<br>
  */
 public class KetaiBluetooth {
 

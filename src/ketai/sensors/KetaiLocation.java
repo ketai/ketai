@@ -17,17 +17,17 @@ import android.os.Looper;
 /**
  * The KetaiLocation class provides android location services data to a sketch.
  * 
- * To receive location data a sketch can define the following method:<br />
- * <br />
+ * To receive location data a sketch can define the following method:<br>
+ * <br>
  * 
- * void onLocationEvent(Location l) : l is the raw android Location class<br />
+ * void onLocationEvent(Location l) : l is the raw android Location class<br>
  * void onLocationEvent(double lat, double lon) : lat, lon are the latitude &
  * longitude in degrees<br />
  * void onLocationEvent(double lat, double lon, double alt) : lat, lon are the
- * latitude & longitude in degrees, alt is altitude in meters<br />
+ * latitude & longitude in degrees, alt is altitude in meters<br>
  * void onLocationEvent(double lat, double lon, double alt. float acc) : lat,
  * lon are the latitude & longitude in degrees, alt is altitude in meters, acc
- * is the accuracy in meters<br />
+ * is the accuracy in meters<br>
  * 
  */
 public class KetaiLocation implements LocationListener {

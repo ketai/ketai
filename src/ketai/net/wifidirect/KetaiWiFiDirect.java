@@ -247,7 +247,6 @@ public class KetaiWiFiDirect extends BroadcastReceiver implements
 	/**
 	 * Gets the connection information.
 	 *
-	 * @return the connection info
 	 */
 	public void getConnectionInfo() {
 		manager.requestConnectionInfo(channel, this);
