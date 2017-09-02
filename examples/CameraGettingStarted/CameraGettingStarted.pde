@@ -1,12 +1,11 @@
 /**
- * <p>Ketai Sensor Library for Android: http://KetaiProject.org</p>
+ * <p>Ketai Sensor Library for Android: http://ketai.org</p>
  *
  * <p>Ketai Camera Features:
  * <ul>
  * <li>Interface for built-in camera</li>
- * <li>TODO: fix HACK of camera registration that currently exceptions in setup() at the moment.</li>
  * </ul>
- * <p>Updated: 2017-04-13 Daniel Sauter/j.duran</p>
+ * <p>Updated: 2017-09-01 Daniel Sauter/j.duran</p>
  */
 
 import ketai.camera.*;
@@ -18,6 +17,7 @@ void setup() {
   orientation(LANDSCAPE);
 
   imageMode(CENTER);
+  textAlign(CENTER, CENTER);
   textSize(displayDensity * 25);
 }
 
@@ -28,7 +28,7 @@ void draw() {
   else
   {
     background(128);
-    text("Waiting for camera....touch to activate", 100, height/2);
+    text("Tap to start camera...", width/2, height/2);
   }
 }
 
