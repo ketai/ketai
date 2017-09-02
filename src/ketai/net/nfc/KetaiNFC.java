@@ -12,7 +12,6 @@ import java.util.Locale;
 
 import ketai.net.nfc.record.ParsedNdefRecord;
 import processing.core.PApplet;
-import android.os.Bundle;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -172,7 +171,7 @@ public class KetaiNFC implements CreateNdefMessageCallback,
 	 * @param intent the intent	 
 	 */
     public void onNewIntent(Intent intent) { 
-      parent.println("----------------------> KetaiNFC.onNewIntent()");    
+      PApplet.println("----------------------> KetaiNFC.onNewIntent()");    
        handleIntent(intent);
     }
 

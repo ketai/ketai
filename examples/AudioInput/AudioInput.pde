@@ -1,5 +1,5 @@
 /**
- * <p>Ketai Sensor Library for Android: http://KetaiProject.org</p>
+ * <p>Ketai Sensor Library for Android: http://Ketai.org</p>
  *
  * <p>Ketai Audio Input(mic) Features:
  * <ul>

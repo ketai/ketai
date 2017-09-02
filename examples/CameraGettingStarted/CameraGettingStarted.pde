@@ -1,10 +1,10 @@
 /**
- * <p>Ketai Sensor Library for Android: http://KetaiProject.org</p>
+ * <p>Ketai Sensor Library for Android: http://Ketai.org</p>
  *
  * <p>Ketai Camera Features:
  * <ul>
  * <li>Interface for built-in camera</li>
- * <li>TODO: fix HACK of camera registration that currently exceptions in setup() at the moment.</li>
+ * <li>Access camera flash</li>
  * </ul>
  * <p>Updated: 2017-08-29 Daniel Sauter/j.duran</p>
  */
@@ -19,6 +19,7 @@ void setup() {
 
   imageMode(CENTER);
   textSize(displayDensity * 25);
+  cam = new KetaiCamera(this, 640, 480, 24);
 }
 
 void draw() {
@@ -28,8 +29,9 @@ void draw() {
   else
   {
     background(128);
-    text("Waiting for camera....touch to activate", 100, height/2);
+    text("Camera is currently off.", 100, height/2);
   }
+  drawUI();
 }
 
 void onCameraPreviewEvent()
@@ -37,29 +39,49 @@ void onCameraPreviewEvent()
   cam.read();
 }
 
-// start/stop camera preview by tapping the screen
 void mousePressed()
 {
-  //HACK: Instantiate camera once we are in the sketch itself
-  if (cam == null)
-    cam = new KetaiCamera(this, 640, 480, 24);
-
-  if (cam.isStarted())
+  //Toggle Camera on/off
+  if (mouseX < width/3 && mouseY < 100)
   {
-    cam.stop();
-  } else
-    cam.start();
-}
-void keyPressed() {
-  if (cam == null)
-    return;
-
-  if (key == CODED) {
-    if (keyCode == MENU) {
-      if (cam.isFlashEnabled())
-        cam.disableFlash();
-      else
-        cam.enableFlash();
-    }
+    if (cam.isStarted())
+    {
+      cam.stop();
+    } else
+      cam.start();
   }
+  
+  //Toggle Camera Flash
+  if (mouseX > 2*width/3 && mouseY < 100)
+  {
+    if (cam.isFlashEnabled())
+      cam.disableFlash();
+    else
+      cam.enableFlash();
+  }
+}
+
+void drawUI()
+{
+  pushStyle();
+  textAlign(LEFT);
+  fill(0);
+  stroke(255);
+  rect(0, 0, width/3, 100);
+  rect(width/3, 0, width/3, 100);
+
+  rect((width/3)*2, 0, width/3, 100);
+
+  fill(255);
+  if (cam.isStarted())
+    text("Camera Off", 5, 80); 
+  else
+    text("Camera On", 5, 80); 
+
+  if (cam.isFlashEnabled())
+    text("Flash Off", width/3*2 + 5, 80); 
+  else
+    text("Flash On", width/3*2 + 5, 80); 
+
+  popStyle();
 }

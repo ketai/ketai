@@ -1029,6 +1029,7 @@ public class KetaiCamera extends PImage {
 	 * Determine camera parameters based on requested parameters. Tries to get
 	 * the closest resolution settings.
 	 */
+	@SuppressWarnings("deprecation")
 	private void determineCameraParameters() {
 		if (camera == null)
 			return;

@@ -1,5 +1,5 @@
 /**
- * <p>Ketai Sensor Library for Android: http://KetaiProject.org</p>
+ * <p>Ketai Library for Android: http://Ketai.org</p>
  *
  * <p>KetaiSQLite Features:
  * <ul>

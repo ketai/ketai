@@ -1,5 +1,5 @@
 /**
- * <p>Ketai Library for Android: http://KetaiProject.org</p>
+ * <p>Ketai Library for Android: http://Ketai.org</p>
  *
  * <p>KetaiWiFiDirect wraps the Android WiFiDirect Features:
  * <ul>

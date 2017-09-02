@@ -335,7 +335,6 @@ public class KetaiBluetooth {
 	 */
 	public boolean disconnectDevice(String device) {
 
-		ArrayList<String> devices = new ArrayList<String>();
 		Set<String> connectedDevices = currentConnections.keySet();
 		PApplet.println("Disconnecting device: " + device);
 		if (connectedDevices.size() > 0) {

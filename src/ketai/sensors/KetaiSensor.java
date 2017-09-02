@@ -66,6 +66,8 @@ public class KetaiSensor implements SensorEventListener {
 
 	/** The is registered. */
 	private boolean isRegistered = false;
+	
+	private int samplingRate = SensorManager.SENSOR_DELAY_UI;
 
 	/** The parent. */
 	private PApplet parent;
@@ -184,6 +186,18 @@ public class KetaiSensor implements SensorEventListener {
 		delayInterval = pDelayInterval;
 	}
 
+	/**
+	 * Sets the delay interval.
+	 * 
+	 * @param pSamplingInterval
+	 *            the new sampling interval.  Can be one of SENSOR_DELAY_NORMAL, 
+	 *            SENSOR_DELAY_UI, SENSOR_DELAY_GAME, SENSOR_DELAY_FASTEST 
+	 *            or the delay in microseconds.
+	 */
+	public void setSamplingRate(int pSamplingInterval) {
+		samplingRate = pSamplingInterval;
+	}	
+	
 	/**
 	 * Enable accelerometer.
 	 */
@@ -485,6 +499,7 @@ public class KetaiSensor implements SensorEventListener {
 	 * 
 	 * @return true, if is orientation available
 	 */
+	@SuppressWarnings("deprecation")
 	public boolean isOrientationAvailable() {
 		return isSensorSupported(Sensor.TYPE_ORIENTATION);
 	}
@@ -521,6 +536,7 @@ public class KetaiSensor implements SensorEventListener {
 	 * 
 	 * @return true, if is temperature available
 	 */
+	@SuppressWarnings("deprecation")
 	public boolean isTemperatureAvailable() {
 		return isSensorSupported(Sensor.TYPE_TEMPERATURE);
 	}
@@ -641,6 +657,7 @@ public class KetaiSensor implements SensorEventListener {
 	/**
 	 * Start services.
 	 */
+	@SuppressWarnings("deprecation")
 	public void start() {
 		PApplet.println("KetaiSensor: start()...");
 
@@ -649,84 +666,84 @@ public class KetaiSensor implements SensorEventListener {
 					.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 			if (s != null)
 				sensorManager.registerListener(this, s,
-						SensorManager.SENSOR_DELAY_UI);
+						samplingRate);
 		}
 		if (magneticFieldSensorEnabled) {
 			Sensor s = sensorManager
 					.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
 			if (s != null)
 				sensorManager.registerListener(this, s,
-						SensorManager.SENSOR_DELAY_UI);
+						samplingRate);
 		}
 		if (pressureSensorEnabled) {
 			Sensor s = sensorManager.getDefaultSensor(Sensor.TYPE_PRESSURE);
 			if (s != null)
 				sensorManager.registerListener(this, s,
-						SensorManager.SENSOR_DELAY_UI);
+						samplingRate);
 		}
 		if (orientationSensorEnabled) {
 			Sensor s = sensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION);
 			if (s != null)
 				sensorManager.registerListener(this, s,
-						SensorManager.SENSOR_DELAY_UI);
+						samplingRate);
 		}
 		if (proximitySensorEnabled) {
 			Sensor s = sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
 			if (s != null)
 				sensorManager.registerListener(this, s,
-						SensorManager.SENSOR_DELAY_UI);
+						samplingRate);
 		}
 		if (temperatureSensorEnabled) {
 			Sensor s = sensorManager.getDefaultSensor(Sensor.TYPE_TEMPERATURE);
 			if (s != null)
 				sensorManager.registerListener(this, s,
-						SensorManager.SENSOR_DELAY_UI);
+						samplingRate);
 		}
 		if (gyroscopeSensorEnabled) {
 			Sensor s = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
 			if (s != null)
 				sensorManager.registerListener(this, s,
-						SensorManager.SENSOR_DELAY_UI);
+						samplingRate);
 		}
 		if (rotationVectorSensorEnabled) {
 			Sensor s = sensorManager
 					.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
 			if (s != null)
 				sensorManager.registerListener(this, s,
-						SensorManager.SENSOR_DELAY_UI);
+						samplingRate);
 		}
 		if (linearAccelerationSensorEnabled) {
 			Sensor s = sensorManager
 					.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
 			if (s != null)
 				sensorManager.registerListener(this, s,
-						SensorManager.SENSOR_DELAY_UI);
+						samplingRate);
 		}
 		if (lightSensorEnabled) {
 			Sensor s = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
 			if (s != null)
 				sensorManager.registerListener(this, s,
-						SensorManager.SENSOR_DELAY_UI);
+						samplingRate);
 		}
 		if (gravitySensorEnabled) {
 			Sensor s = sensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
 			if (s != null)
 				sensorManager.registerListener(this, s,
-						SensorManager.SENSOR_DELAY_UI);
+						samplingRate);
 		}
 		if (ambientTemperatureSensorEnabled) {
 			Sensor s = sensorManager
 					.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE);
 			if (s != null)
 				sensorManager.registerListener(this, s,
-						SensorManager.SENSOR_DELAY_UI);
+						samplingRate);
 		}
 		if (relativeHumiditySensorEnabled) {
 			Sensor s = sensorManager
 					.getDefaultSensor(Sensor.TYPE_RELATIVE_HUMIDITY);
 			if (s != null)
 				sensorManager.registerListener(this, s,
-						SensorManager.SENSOR_DELAY_UI);
+						samplingRate);
 		}
 
 		if (stepDetectorSensorEnabled) {
@@ -734,14 +751,14 @@ public class KetaiSensor implements SensorEventListener {
 					.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR);
 			if (s != null)
 				sensorManager.registerListener(this, s,
-						SensorManager.SENSOR_DELAY_UI);
+						samplingRate);
 		}
 
 		if (stepCounterSensorEnabled) {
 			Sensor s = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
 			if (s != null)
 				sensorManager.registerListener(this, s,
-						SensorManager.SENSOR_DELAY_UI);
+						samplingRate);
 		}
 
 		if (significantMotionSensorEnabled) {
@@ -749,7 +766,7 @@ public class KetaiSensor implements SensorEventListener {
 					.getDefaultSensor(Sensor.TYPE_SIGNIFICANT_MOTION);
 			if (s != null)
 				sensorManager.registerListener(this, s,
-						SensorManager.SENSOR_DELAY_UI);
+						samplingRate);
 		}
 
 		// Android 5.0-specific....
@@ -758,7 +775,7 @@ public class KetaiSensor implements SensorEventListener {
 		// Sensor s = sensorManager.getDefaultSensor(Sensor.TYPE_HEART_RATE);
 		// if (s != null)
 		// sensorManager.registerListener(this, s,
-		// SensorManager.SENSOR_DELAY_UI);
+		// samplingRate);
 		// }
 
 		if (geomagneticRotationVectorSensorEnabled) {
@@ -766,7 +783,7 @@ public class KetaiSensor implements SensorEventListener {
 					.getDefaultSensor(Sensor.TYPE_GEOMAGNETIC_ROTATION_VECTOR);
 			if (s != null)
 				sensorManager.registerListener(this, s,
-						SensorManager.SENSOR_DELAY_UI);
+						samplingRate);
 		}
 
 		if (gameRotationSensorEnabled) {
@@ -774,7 +791,7 @@ public class KetaiSensor implements SensorEventListener {
 					.getDefaultSensor(Sensor.TYPE_GAME_ROTATION_VECTOR);
 			if (s != null)
 				sensorManager.registerListener(this, s,
-						SensorManager.SENSOR_DELAY_UI);
+						samplingRate);
 		}
 
 		isRegistered = true;
@@ -852,6 +869,7 @@ public class KetaiSensor implements SensorEventListener {
 	}
 	
 
+	@SuppressWarnings("deprecation")
 	private void handleSensorEvent(SensorData arg0) {
 		if (arg0.sensorType == Sensor.TYPE_ACCELEROMETER
 				&& accelerometerSensorEnabled) {

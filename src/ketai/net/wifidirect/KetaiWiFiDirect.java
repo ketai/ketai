@@ -9,7 +9,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import processing.core.PApplet;
-import android.os.Bundle;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;

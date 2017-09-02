@@ -158,6 +158,7 @@ public class KetaiGesture implements OnGestureListener, OnDoubleTapListener {
 		// public boolean touchEvent(TouchEvent event){
 
 		int code = event.getAction() & MotionEvent.ACTION_MASK;
+		@SuppressWarnings("deprecation")
 		int index = event.getAction() >> MotionEvent.ACTION_POINTER_ID_SHIFT;
 
 		float x = event.getX(index);

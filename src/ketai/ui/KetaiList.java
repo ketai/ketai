@@ -150,7 +150,6 @@ public class KetaiList extends ListView {
 		setBackgroundColor(Color.LTGRAY);
 		setAlpha(1);
 		self = this;
-		final TextView cancel;
 
 		layout = new RelativeLayout(parent.getActivity());
 
@@ -194,6 +193,7 @@ public class KetaiList extends ListView {
 		// add to the main view...
 
 		parent.getActivity().runOnUiThread(new Runnable() {
+			@SuppressWarnings("deprecation")
 			public void run() {
 				parent.getActivity().addContentView(self, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT,
 						ViewGroup.LayoutParams.FILL_PARENT));

@@ -5,18 +5,13 @@
     android:versionName="1.0" >
 
     <uses-sdk
-<<<<<<< Updated upstream
-        android:minSdkVersion="17"
-        android:targetSdkVersion="25" />
-
-=======
         android:minSdkVersion="15"
         android:targetSdkVersion="25" />
 
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
->>>>>>> Stashed changes
     <application
+        android:allowBackup="true"
         android:icon="@drawable/icon"
         android:label="" >
         <activity
@@ -30,9 +25,4 @@
         </activity>
     </application>
 
-<<<<<<< Updated upstream
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
-
-=======
->>>>>>> Stashed changes
 </manifest>
