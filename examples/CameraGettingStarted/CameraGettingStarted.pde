@@ -52,6 +52,14 @@ void mousePressed()
       cam.start();
   }
 
+  if (mouseX < 2*width/3 && mouseX > width/3 && mouseY < 100)
+  {
+    if (cam.getNumberOfCameras() > 1)
+    {
+      cam.setCameraID((cam.getCameraID() + 1 ) % cam.getNumberOfCameras());
+    }
+  }
+
   //Toggle Camera Flash
   if (mouseX > 2*width/3 && mouseY < 100)
   {
@@ -78,6 +86,11 @@ void drawUI()
     text("Camera Off", 5, 80); 
   else
     text("Camera On", 5, 80); 
+
+  if (cam.getNumberOfCameras() > 0)
+  {
+    text("Switch Camera", width/3 + 5, 80);
+  }
 
   if (cam.isFlashEnabled())
     text("Flash Off", width/3*2 + 5, 80); 

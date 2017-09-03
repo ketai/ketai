@@ -52,8 +52,8 @@ public class KetaiCamera extends PImage {
 	private int[] myPixels;
 
 	/** The on face detection event method. */
-	protected Method onPreviewEventMethod, onPreviewEventMethodPImage,
-			onSavePhotoEventMethod, onFaceDetectionEventMethod;
+	protected Method onPreviewEventMethod, onPreviewEventMethodPImage, onSavePhotoEventMethod,
+			onFaceDetectionEventMethod;
 
 	/** The camera id. */
 	private int frameWidth, frameHeight, cameraFPS, cameraID;
@@ -62,8 +62,7 @@ public class KetaiCamera extends PImage {
 	private int photoWidth, photoHeight;
 
 	/** The is rgb preview supported. */
-	public boolean isStarted, requestedStart, enableFlash,
-			isRGBPreviewSupported;
+	public boolean isStarted, requestedStart, enableFlash, isRGBPreviewSupported;
 
 	/** The save photo path. */
 	private String savePhotoPath = "";
@@ -103,8 +102,7 @@ public class KetaiCamera extends PImage {
 	 * @param _framesPerSecond
 	 *            the frames per second
 	 */
-	public KetaiCamera(PApplet pParent, int _width, int _height,
-			int _framesPerSecond) {
+	public KetaiCamera(PApplet pParent, int _width, int _height, int _framesPerSecond) {
 		super(_width, _height, PImage.ARGB);
 		parent = pParent;
 		parent.requestPermission("android.permission.CAMERA", "onPermissionResult", this);
@@ -131,24 +129,22 @@ public class KetaiCamera extends PImage {
 		PackageManager pm = parent.getActivity().getApplicationContext().getPackageManager();
 		ApplicationInfo ai;
 		try {
-			ai = pm.getApplicationInfo(parent.getActivity().getApplicationContext()
-					.getPackageName(), 0);
+			ai = pm.getApplicationInfo(parent.getActivity().getApplicationContext().getPackageName(), 0);
 		} catch (final NameNotFoundException e) {
 			ai = null;
 		}
 
-		SAVE_DIR = (String) (ai != null ? pm.getApplicationLabel(ai)
-				: "unknownApp");
+		SAVE_DIR = (String) (ai != null ? pm.getApplicationLabel(ai) : "unknownApp");
 
 		parent.registerMethod("resume", this);
 		parent.registerMethod("pause", this);
 		parent.registerMethod("dispose", this);
 		read();
 	}
-	
+
 	public void onPermissionResult(boolean granted) {
 		if (!granted) {
-			PApplet.println("User did not grant camera permission.  Camera is disabled.");		
+			PApplet.println("User did not grant camera permission.  Camera is disabled.");
 		}
 	}
 
@@ -157,8 +153,7 @@ public class KetaiCamera extends PImage {
 			// the following uses reflection to see if the parent
 			// exposes the callback method. The first argument is the method
 			// name followed by what should match the method argument(s)
-			onPreviewEventMethod = o.getClass().getMethod(
-					"onCameraPreviewEvent");
+			onPreviewEventMethod = o.getClass().getMethod("onCameraPreviewEvent");
 			PApplet.println("Found onCameraPreviewEvent ");
 		} catch (NoSuchMethodException e) {
 			// no such method, or an error.. which is fine, just ignore
@@ -166,23 +161,22 @@ public class KetaiCamera extends PImage {
 		}
 
 		try {
-			onPreviewEventMethodPImage = o.getClass().getMethod(
-					"onCameraPreviewEvent", new Class[] { KetaiCamera.class });
+			onPreviewEventMethodPImage = o.getClass().getMethod("onCameraPreviewEvent",
+					new Class[] { KetaiCamera.class });
 		} catch (NoSuchMethodException e) {
 			// no such method, or an error.. which is fine, just ignore
 			onPreviewEventMethodPImage = null;
 		}
 		try {
-			onFaceDetectionEventMethod = o.getClass().getMethod(
-					"onFaceDetectionEvent", new Class[] { KetaiFace[].class });
+			onFaceDetectionEventMethod = o.getClass().getMethod("onFaceDetectionEvent",
+					new Class[] { KetaiFace[].class });
 		} catch (NoSuchMethodException e) {
 			// no such method, or an error.. which is fine, just ignore
 			onFaceDetectionEventMethod = null;
 		}
 
 		try {
-			onSavePhotoEventMethod = o.getClass().getMethod("onSavePhotoEvent",
-					new Class[] { String.class });
+			onSavePhotoEventMethod = o.getClass().getMethod("onSavePhotoEvent", new Class[] { String.class });
 		} catch (NoSuchMethodException e) {
 			// no such method, or an error.. which is fine, just ignore
 			onSavePhotoEventMethod = null;
@@ -225,8 +219,7 @@ public class KetaiCamera extends PImage {
 		try {
 			camera.setParameters(cameraParameters);
 		} catch (RuntimeException x) {
-			PApplet.println("Failed to set parameters to manual."
-					+ x.getMessage());
+			PApplet.println("Failed to set parameters to manual." + x.getMessage());
 		}
 		// PApplet.println("KetaiCamera manualSettings: "
 		// + camera.getParameters().flatten());
@@ -298,8 +291,7 @@ public class KetaiCamera extends PImage {
 		for (String s : fModes) {
 			// PApplet.println("FocusMode: " + s);
 			if (s.equalsIgnoreCase(Parameters.FOCUS_MODE_CONTINUOUS_PICTURE))
-				cameraParameters
-						.setFocusMode(Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
+				cameraParameters.setFocusMode(Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
 		}
 
 		camera.setParameters(cameraParameters);
@@ -323,8 +315,7 @@ public class KetaiCamera extends PImage {
 
 		result += "White Balance: " + p.getWhiteBalance() + "\n";
 		if (p.isAutoWhiteBalanceLockSupported())
-			result += "\t Lock supported, state: "
-					+ p.getAutoWhiteBalanceLock() + "\n";
+			result += "\t Lock supported, state: " + p.getAutoWhiteBalanceLock() + "\n";
 		else
 			result += "\t Lock NOT supported\n";
 		float[] f = new float[3];
@@ -340,12 +331,10 @@ public class KetaiCamera extends PImage {
 
 		result += "Exposure: " + p.getExposureCompensation() + "\n";
 		if (p.isAutoExposureLockSupported())
-			result += "\t Lock supported, state: " + p.getAutoExposureLock()
-					+ "\n";
+			result += "\t Lock supported, state: " + p.getAutoExposureLock() + "\n";
 		else
 			result += "\t Lock NOT supported\n";
-		result += "Native camera face detection support: "
-				+ supportsFaceDetection;
+		result += "Native camera face detection support: " + supportsFaceDetection;
 
 		return result;
 	}
@@ -410,7 +399,7 @@ public class KetaiCamera extends PImage {
 		try {
 			camera.setParameters(cameraParameters);
 		} catch (RuntimeException x) {
-		}// doesnt support flash...its ok...
+		} // doesnt support flash...its ok...
 	}
 
 	/**
@@ -436,17 +425,22 @@ public class KetaiCamera extends PImage {
 	 *            the new camera id
 	 */
 	public void setCameraID(int _id) {
-		if (_id < Camera.getNumberOfCameras())
-			cameraID = _id;
+		boolean isActive = isStarted;
 
-		if (cameraID == 1) {
-			int _temp = width;
-			width = height;
-			height = _temp;
-			resize(width, height);
-			bitmap = Bitmap.createBitmap(pixels, width, height,
-					Config.ARGB_8888);
+		if (_id < Camera.getNumberOfCameras() && cameraID != _id) {
+			if (isActive)
+				this.stop();
+			cameraID = _id;
 		}
+//		if (cameraID == 1) {
+//			int _temp = width;
+//			width = height;
+//			height = _temp;
+//			resize(width, height);
+//			bitmap = Bitmap.createBitmap(pixels, width, height, Config.ARGB_8888);
+//		}
+		if (isActive)
+			start();
 	}
 
 	/**
@@ -480,8 +474,7 @@ public class KetaiCamera extends PImage {
 					// "KetaiCamera",
 					// "Failed to connect to Camera.\n"
 					// + x.getMessage());
-					PApplet.println("Failed to open camera for camera ID: "
-							+ cameraID + ":" + x.getMessage());
+					PApplet.println("Failed to open camera for camera ID: " + cameraID + ":" + x.getMessage());
 					return false;
 				}
 			Parameters cameraParameters = camera.getParameters();
@@ -491,7 +484,8 @@ public class KetaiCamera extends PImage {
 			for (Integer i : list) {
 
 				if (i == ImageFormat.RGB_565) {
-					// PApplet.println("RGB Image preview supported!!!!(try better resolutions/fps combos)");
+					// PApplet.println("RGB Image preview supported!!!!(try
+					// better resolutions/fps combos)");
 					isRGBPreviewSupported = true;
 				}
 
@@ -503,9 +497,9 @@ public class KetaiCamera extends PImage {
 			// else if (isNV21Supported)
 			// cameraParameters.setPreviewFormat(ImageFormat.NV21);
 			// else
-			// PApplet.println("Camera does not appear to provide data in a format we can convert. Sorry.");
-			PApplet.println("default imageformat:"
-					+ cameraParameters.getPreviewFormat());
+			// PApplet.println("Camera does not appear to provide data in a
+			// format we can convert. Sorry.");
+			PApplet.println("default imageformat:" + cameraParameters.getPreviewFormat());
 
 			List<String> flashmodes = cameraParameters.getSupportedFlashModes();
 			if (flashmodes != null && flashmodes.size() > 0) {
@@ -521,8 +515,7 @@ public class KetaiCamera extends PImage {
 			android.hardware.Camera.CameraInfo info = new android.hardware.Camera.CameraInfo();
 
 			android.hardware.Camera.getCameraInfo(cameraID, info);
-			int rotation = parent.getActivity().getWindowManager().getDefaultDisplay()
-					.getRotation();
+			int rotation = parent.getActivity().getWindowManager().getDefaultDisplay().getRotation();
 			int degrees = 0;
 			switch (rotation) {
 			case Surface.ROTATION_0:
@@ -566,8 +559,7 @@ public class KetaiCamera extends PImage {
 			}
 			camera.setDisplayOrientation(result);
 			PApplet.println("Rotation reported: " + degrees);
-			PApplet.println("camera: setting display orientation to: " + result
-					+ " degrees");
+			PApplet.println("camera: setting display orientation to: " + result + " degrees");
 			camera.setDisplayOrientation(result);
 
 			camera.setParameters(cameraParameters);
@@ -592,16 +584,16 @@ public class KetaiCamera extends PImage {
 						try {
 							camera.setPreviewTexture(mTexture);
 						} catch (IOException iox) {
-							PApplet.println("Something bad happened trying set the texture when trying to open the preview: "
-									+ iox.getMessage());
+							PApplet.println(
+									"Something bad happened trying set the texture when trying to open the preview: "
+											+ iox.getMessage());
 						}
 					}
 				});
 				camera.startPreview();
 			} catch (NoClassDefFoundError x) {
 				camera.startPreview();
-				PApplet.println("Something bad happened trying to open the preview: "
-						+ x.getMessage());
+				PApplet.println("Something bad happened trying to open the preview: " + x.getMessage());
 			}
 			isStarted = true;
 
@@ -610,11 +602,9 @@ public class KetaiCamera extends PImage {
 			// camera.startFaceDetection();
 			// }
 
-			PApplet.println("Using preview format: "
-					+ camera.getParameters().getPreviewFormat());
+			PApplet.println("Using preview format: " + camera.getParameters().getPreviewFormat());
 
-			PApplet.println("Preview size: " + frameWidth + "x" + frameHeight
-					+ "," + cameraFPS);
+			PApplet.println("Preview size: " + frameWidth + "x" + frameHeight + "," + cameraFPS);
 			PApplet.println("Photo size: " + photoWidth + "x" + photoHeight);
 
 			return true;
@@ -622,7 +612,8 @@ public class KetaiCamera extends PImage {
 			x.printStackTrace();
 			if (camera != null)
 				camera.release();
-			PApplet.println("Exception caught while trying to connect to camera service.  Please check your sketch permissions or that another application is not using the camera.");
+			PApplet.println(
+					"Exception caught while trying to connect to camera service.  Please check your sketch permissions or that another application is not using the camera.");
 			return false;
 		}
 	}
@@ -665,30 +656,25 @@ public class KetaiCamera extends PImage {
 		} else {
 			// construct the path using the filename specified...
 			if (_filename.equalsIgnoreCase("")) {
-				String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss")
-						.format(new Date());
+				String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
 
 				filename = "IMG_" + timeStamp + ".jpg";
 			} else
 				filename = _filename;
 
 			File mediaStorageDir = new File(
-					Environment
-							.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
-					SAVE_DIR);
+					Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), SAVE_DIR);
 
 			// Create the storage directory if it does not exist
 			if (!mediaStorageDir.exists()) {
 				if (!mediaStorageDir.mkdirs()) {
-					PApplet.println("failed to create directory to save photo: "
-							+ mediaStorageDir.getAbsolutePath());
+					PApplet.println("failed to create directory to save photo: " + mediaStorageDir.getAbsolutePath());
 					return false;
 				}
 			}
-			savePhotoPath = mediaStorageDir.getAbsolutePath() + File.separator
-					+ filename;
+			savePhotoPath = mediaStorageDir.getAbsolutePath() + File.separator + filename;
 
-		}// end creating savePath...
+		} // end creating savePath...
 
 		// test for file write, return false if error
 		// otherwise call camera to save
@@ -702,12 +688,10 @@ public class KetaiCamera extends PImage {
 			if (!f.delete())
 				PApplet.println("Failed to remove temp photoFile while testing permissions..oops");
 		} catch (FileNotFoundException x) {
-			PApplet.println("Failed to save photo to " + savePhotoPath + "\n"
-					+ x.getMessage());
+			PApplet.println("Failed to save photo to " + savePhotoPath + "\n" + x.getMessage());
 			return false;
 		} catch (IOException e) {
-			PApplet.println("Failed to save photo to " + savePhotoPath + "\n"
-					+ e.getMessage());
+			PApplet.println("Failed to save photo to " + savePhotoPath + "\n" + e.getMessage());
 			return false;
 		}
 
@@ -784,8 +768,7 @@ public class KetaiCamera extends PImage {
 				try {
 					onPreviewEventMethod.invoke(callbackdelegate);
 				} catch (Exception e) {
-					PApplet.println(" onCameraPreviewEvent() had  an error:"
-							+ e.getMessage());
+					PApplet.println(" onCameraPreviewEvent() had  an error:" + e.getMessage());
 
 					e.printStackTrace();
 
@@ -793,11 +776,10 @@ public class KetaiCamera extends PImage {
 
 			if (onPreviewEventMethodPImage != null && myPixels != null) {
 				try {
-					onPreviewEventMethodPImage.invoke(callbackdelegate,
-							new Object[] { (PImage) self });
+					onPreviewEventMethodPImage.invoke(callbackdelegate, new Object[] { (PImage) self });
 				} catch (Exception e) {
-					PApplet.println("Disabling onCameraPreviewEvent(KetaiCamera) because of an error:"
-							+ e.getMessage());
+					PApplet.println(
+							"Disabling onCameraPreviewEvent(KetaiCamera) because of an error:" + e.getMessage());
 					e.printStackTrace();
 					onPreviewEventMethodPImage = null;
 				}
@@ -807,8 +789,8 @@ public class KetaiCamera extends PImage {
 				try {
 					m.invoke(callbackdelegate, new Object[] { (PImage) self });
 				} catch (Exception e) {
-					PApplet.println("Disabling onCameraPreviewEvent(KetaiCamera) because of an error:"
-							+ e.getMessage());
+					PApplet.println(
+							"Disabling onCameraPreviewEvent(KetaiCamera) because of an error:" + e.getMessage());
 					e.printStackTrace();
 				}
 			}
@@ -822,7 +804,8 @@ public class KetaiCamera extends PImage {
 			// onFaceDetectionEventMethod.invoke(parent,
 			// new Object[] { faces });
 			// } catch (Exception e) {
-			// PApplet.println("Exception trying to forward facedetection event (KetaiCamera):"
+			// PApplet.println("Exception trying to forward facedetection event
+			// (KetaiCamera):"
 			// + e.getMessage());
 			// }
 			// }
@@ -853,11 +836,9 @@ public class KetaiCamera extends PImage {
 
 				// callback sketch with path of saved image
 				// ;
-				if (onSavePhotoEventMethod != null && myPixels != null
-						&& savePhotoPath != null)
+				if (onSavePhotoEventMethod != null && myPixels != null && savePhotoPath != null)
 					try {
-						onSavePhotoEventMethod.invoke(parent,
-								new Object[] { (String) savePhotoPath });
+						onSavePhotoEventMethod.invoke(parent, new Object[] { (String) savePhotoPath });
 					} catch (IllegalAccessException e) {
 						e.printStackTrace();
 					} catch (InvocationTargetException e) {
@@ -889,8 +870,7 @@ public class KetaiCamera extends PImage {
 	/** The my scanner callback. */
 	private OnScanCompletedListener myScannerCallback = new OnScanCompletedListener() {
 		public void onScanCompleted(String arg0, Uri arg1) {
-			PApplet.println("Media Scanner returned: " + arg1.toString()
-					+ " => " + arg0);
+			PApplet.println("Media Scanner returned: " + arg1.toString() + " => " + arg0);
 		}
 	};
 
@@ -904,8 +884,7 @@ public class KetaiCamera extends PImage {
 
 		// String[] paths = { mediaFile.getAbsolutePath() };
 		String[] paths = { _file };
-		MediaScannerConnection.scanFile(parent.getActivity().getApplicationContext(), paths,
-				null, myScannerCallback);
+		MediaScannerConnection.scanFile(parent.getActivity().getApplicationContext(), paths, null, myScannerCallback);
 
 	}
 
@@ -986,8 +965,7 @@ public class KetaiCamera extends PImage {
 					b = 262143;
 
 				// use interal buffer instead of pixels for UX reasons
-				myPixels[yp] = 0xff000000 | ((r << 6) & 0xff0000)
-						| ((g >> 2) & 0xff00) | ((b >> 10) & 0xff);
+				myPixels[yp] = 0xff000000 | ((r << 6) & 0xff0000) | ((g >> 2) & 0xff00) | ((b >> 10) & 0xff);
 			}
 		}
 
@@ -1034,8 +1012,7 @@ public class KetaiCamera extends PImage {
 		if (camera == null)
 			return;
 
-		PApplet.println("Requested camera parameters as (w,h,fps):"
-				+ frameWidth + "," + frameHeight + "," + cameraFPS);
+		PApplet.println("Requested camera parameters as (w,h,fps):" + frameWidth + "," + frameHeight + "," + cameraFPS);
 
 		Parameters cameraParameters = camera.getParameters();
 		// PApplet.println(cameraParameters.flatten());
@@ -1044,8 +1021,7 @@ public class KetaiCamera extends PImage {
 		Size nearestRequestedSize = null;
 
 		for (Size s : supportedSizes) {
-			PApplet.println("Checking supported preview size:" + s.width + ","
-					+ s.height);
+			PApplet.println("Checking supported preview size:" + s.width + "," + s.height);
 			if (nearestRequestedSize == null)
 				nearestRequestedSize = s;
 
@@ -1055,10 +1031,8 @@ public class KetaiCamera extends PImage {
 					nearestRequestedSize = s;
 					foundSupportedSize = true;
 				} else {
-					int delta = (frameWidth * frameHeight)
-							- (nearestRequestedSize.height * nearestRequestedSize.width);
-					int current = (frameWidth * frameHeight)
-							- (s.height * s.width);
+					int delta = (frameWidth * frameHeight) - (nearestRequestedSize.height * nearestRequestedSize.width);
+					int current = (frameWidth * frameHeight) - (s.height * s.width);
 					delta = Math.abs(delta);
 					current = Math.abs(current);
 					if (current < delta)
@@ -1093,8 +1067,7 @@ public class KetaiCamera extends PImage {
 		}
 		cameraParameters.setPictureSize(photoWidth, photoHeight);
 
-		List<Integer> supportedFPS = cameraParameters
-				.getSupportedPreviewFrameRates();
+		List<Integer> supportedFPS = cameraParameters.getSupportedPreviewFrameRates();
 		int nearestFPS = 0;
 
 		for (int r : supportedFPS) {
@@ -1122,8 +1095,8 @@ public class KetaiCamera extends PImage {
 		// otherwise we'll compensate here
 		if (cameraFPS == cameraParameters.getPreviewFrameRate())
 			cameraFPS = cameraParameters.getPreviewFrameRate();
-		PApplet.println("Calculated camera parameters as (w,h,fps):"
-				+ frameWidth + "," + frameHeight + "," + cameraFPS);
+		PApplet.println(
+				"Calculated camera parameters as (w,h,fps):" + frameWidth + "," + frameHeight + "," + cameraFPS);
 		// PApplet.println(cameraParameters.flatten());
 
 		if (cameraParameters.getMaxNumDetectedFaces() > 0) {
@@ -1162,7 +1135,8 @@ public class KetaiCamera extends PImage {
 	// onFaceDetectionEventMethod.invoke(parent,
 	// new Object[] { faces });
 	// } catch (Exception e) {
-	// PApplet.println("Disabling onFaceDetectionEventMethod(KetaiCamera) because of an error:"
+	// PApplet.println("Disabling onFaceDetectionEventMethod(KetaiCamera)
+	// because of an error:"
 	// + e.getMessage());
 	// e.printStackTrace();
 	// onFaceDetectionEventMethod = null;
