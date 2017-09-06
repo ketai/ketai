@@ -432,13 +432,7 @@ public class KetaiCamera extends PImage {
 				this.stop();
 			cameraID = _id;
 		}
-//		if (cameraID == 1) {
-//			int _temp = width;
-//			width = height;
-//			height = _temp;
-//			resize(width, height);
-//			bitmap = Bitmap.createBitmap(pixels, width, height, Config.ARGB_8888);
-//		}
+
 		if (isActive)
 			start();
 	}
