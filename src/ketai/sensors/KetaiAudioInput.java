@@ -8,6 +8,10 @@ import android.media.AudioRecord;
 import android.media.MediaRecorder;
 import android.util.Log;
 
+/**
+ * The KetaiAudioInput class provides audio recording functionality to a sketch.
+ * 
+ */
 public class KetaiAudioInput implements Runnable {
 
 	private AudioRecord audioRecorder = null;

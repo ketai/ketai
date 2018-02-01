@@ -8,6 +8,10 @@ package ketai.sensors;
 
 import processing.core.PApplet;
 
+/**
+ * Instantiates a queue for sensor events
+ * 
+ */
 public class SensorQueue {
   private Object[] queue = new Object[10];
   private int offset;
