@@ -8,6 +8,10 @@ package ketai.sensors;
 import processing.core.PApplet;
 import android.hardware.SensorEvent;
 
+/**
+ * Abstraction class for all sensor events
+ * 
+ */
 public class SensorData {
 	public int sensorType;
 	public int accuracy;
